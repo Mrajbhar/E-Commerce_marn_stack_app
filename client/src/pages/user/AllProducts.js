@@ -70,7 +70,7 @@ const AllProducts = () => {
   return (
     <Layout title={"All Products - Best offers"}>
       <div className="container">
-        <h1 className="text-center heading-text heading-animation">All Products</h1>
+        <h1 className="text-center heading-text heading-animation">Products</h1>
         <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
           {products.map((p) => (
             <div className="col" key={p._id}>

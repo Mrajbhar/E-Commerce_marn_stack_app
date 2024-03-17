@@ -23,7 +23,21 @@ const HomePage = () => {
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [activeCategory, setActiveCategory] = useState(null);
 
+
+
+  const handlecategoryFilter = (value, id) => {
+    let all = [...checked];
+    if (value) {
+      all.push(id);
+    } else {
+      all = all.filter((c) => c !== id);
+    }
+    setChecked(all);
+    setActiveCategory(id); // Set active category
+  };
+  
 
 
 
@@ -156,14 +170,15 @@ const HomePage = () => {
         <div className="col-md-3 filters">
           <h4 className="text-center">Filter By Category</h4>
           <div className="d-flex flex-column">
-            {categories?.map((c) => (
-              <Checkbox
-                key={c._id}
-                onChange={(e) => handleFilter(e.target.checked, c._id)}
-              >
-                {c.name}
-              </Checkbox>
-            ))}
+          {categories?.map((c) => (
+  <Checkbox
+    key={c._id}
+    onChange={(e) => handlecategoryFilter(e.target.checked, c._id)}
+    className={activeCategory === c._id ? "active-category" : ""}
+  >
+    {c.name}
+  </Checkbox>
+))}
           </div>
           {/* price filter */}
           <h4 className="text-center mt-4">Filter By Price</h4>

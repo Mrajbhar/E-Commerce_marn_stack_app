@@ -144,3 +144,38 @@
 .loadmore:hover {
   background-color: #218838;
 }
+
+
+/* Homepage.css */
+
+.filters {
+  transition: transform 0.3s ease-in-out;
+}
+
+.filters.hide {
+  transform: translateX(-100%);
+}
+
+.toggle-button {
+  position: fixed;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  z-index: 999;
+}
+
+
+.active-category {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
