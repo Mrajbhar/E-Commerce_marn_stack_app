@@ -15,7 +15,7 @@ export default function PrivateRoute() {
     if (token) {
       const authCheck = async () => {
           try {
-              const res = await axios.get("/api/v1/auth/user-auth");
+              const res = await axios.get(`${process.env.REACT_APP_API}/api/v1/auth/user-auth`);
               setOk(res.data.ok)
           } catch (error) {
               // ...handle/report error...
