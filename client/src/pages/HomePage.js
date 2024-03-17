@@ -145,6 +145,7 @@ const HomePage = () => {
             src={item.image}
             className="banner-img"
             alt={`bannerimage-${index}`}
+            onClick={() => navigate(`/allproduct`)}
             width={"100%"}
             height={"auto"}
           />

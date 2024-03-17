@@ -75,6 +75,11 @@ const Header = () => {
                 ))}
               </ul>
             </li>
+            <li className="nav-item">
+              <NavLink to="/allproduct" className="nav-link">
+                Products
+              </NavLink>
+            </li>
 
             {!auth?.user ? (
               <>

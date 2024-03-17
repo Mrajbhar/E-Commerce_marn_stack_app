@@ -1,37 +1,70 @@
+/* Homepage.css */
+
+/* Banner Image */
 .banner-img {
   margin-top: 0px;
-  
+  transition: transform 0.3s ease-in-out;
 }
 
+.banner-img:hover {
+  transform: scale(1.1);
+}
+
+/* Home Page Title */
 .home-page h1 {
   color: gray;
   font-family: "Playfair Display", serif;
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 28px;
+  text-transform: uppercase;
 }
 
+/* Home Page Container */
 .home-page {
   display: flex;
   flex-wrap: wrap;
-}
-.home-page .card {
-  background-color: rgba(128, 128, 128, 0.097);
-  width: 18rem;
-}
-.home-page .card-name-price {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
 }
 
-.Home-page .card-price {
-  color: green;
-  font-weight: bold;
+/* Product Cards */
+.home-page .card {
+  background-color: rgba(128, 128, 128, 0.097);
+  width: 300px;
+  margin: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
 }
-.home-page button {
-  border-radius: 0;
-  width: 100%;
-  border-top-left-radius: 5px;
-  border-bottom-right-radius: 5px;
-  font-size: 14px;
+
+.home-page .card:hover {
+  transform: translateY(-5px);
+}
+
+.home-page .card-img-top {
+  height: 200px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  object-fit: cover;
+}
+
+.home-page .card-body {
+  padding: 15px;
+}
+
+.home-page .card-name-price {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.home-page .card-title {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.home-page .card-price {
+  color: green;
   font-weight: bold;
 }
 
@@ -39,46 +72,75 @@
   color: rgb(90, 89, 89);
 }
 
-.home-page .card img:hover {
-  transform: scale(0.9);
+.home-page button {
+  width: 100%;
+  border-radius: 5px;
+  padding: 10px;
+  margin-top: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.home-page .card-img-top {
-  height: 300px !important;
+.home-page button:hover {
+  background-color: #0056b3;
 }
-/* ==================
-filters
-============== */
+
+/* Filters */
+.filters {
+  background-color: #f0f0f0;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
 .filters h4 {
-  margin-top: 100px;
-  color: gray !important;
-  border-bottom: 1px solid rgba(128, 128, 128, 0.337);
+  color: #333;
+  margin-bottom: 15px;
+  text-align: center;
 }
 
-.ant-checkbox-wrapper:first-of-type {
-  margin-left: 8px;
-}
-
-.ant-checkbox-wrapper {
-  margin: 2px;
-}
-.ant-radio-wrapper {
-  margin-bottom: 5px !important;
-  margin-left: 10px;
+.filters .ant-checkbox-wrapper,
+.filters .ant-radio-wrapper {
+  margin-bottom: 10px !important;
 }
 
 .filters button {
-  background-color: black;
   width: 100%;
-  border: none;
-  border-radius: 0;
-  margin-top: 20px;
-}
-
-.loadmore {
-  color: green;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 16px;
   font-weight: bold;
-  font-size: 20px !important;
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
+.filters button:hover {
+  background-color: #c82333;
+}
 
+/* Load More Button */
+.loadmore {
+  width: 100%;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.loadmore:hover {
+  background-color: #218838;
+}

@@ -24,15 +24,15 @@ import Categories from "./pages/Categories";
 import CategoryProduct from "./pages/CategoriesProduct";
 import CartPage from "./pages/CartPage";
 import AdminOrders from "./pages/Admin/AdminOrders";
-import { DarkModeProvider } from "./DarkModeContext";
+import AllProducts from "./pages/user/AllProducts";
 
 function App() {
   return (
     <>
 
-    <DarkModeProvider>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/allproduct" element={<AllProducts />} />
         <Route path="/product/:slug" element={<ProductDetails />} />
         <Route path="/categories" element={<Categories />} />
         <Route path="/cart" element={<CartPage />} />
@@ -65,7 +65,6 @@ function App() {
         <Route path="/policy" element={<Policy />} />
         <Route path="*" element={<Pagenotfound />} />
       </Routes>
-      </DarkModeProvider>
     </>
   );
 }

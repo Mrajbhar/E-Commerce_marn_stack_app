@@ -265,23 +265,27 @@ export const orderStatusController = async (req, res) => {
   }
 };
 
-//all users
 
-export const getAllUsersController = async (req,res)=>
-{
+export const getAllUsersController = async (req, res) => {
   try {
-    const data = await userModel
+    // Find all users and populate referenced fields if needed
+    const users = await userModel
       .find({})
-      .populate("users", "-photo")
       .populate("buyer", "name")
       .sort('-createdAt');
-    
+    // Sending the users data as a response
+    res.status(200).send({
+      success: true,
+      message: "All users fetched successfully",
+      users: users
+    });
   } catch (error) {
-    console.log(error);
+    console.error(error);
+    // Sending an error response if an error occurs
     res.status(500).send({
       success: false,
-      message: "Error While Getting All users",
-      error,
+      message: "Error while fetching all users",
+      error: error.message
     });
   }
 };
