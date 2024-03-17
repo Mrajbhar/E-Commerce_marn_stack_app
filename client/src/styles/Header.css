@@ -1,0 +1,13 @@
+.navbar-brand {
+    color: #fff; /* Change heading color to white */
+    font-size: 24px; /* Adjust font size */
+  }
+  
+  .navbar-nav .nav-link {
+    color: #fff; /* Change nav link color */
+  }
+  
+  .navbar-nav .nav-link:hover {
+    text-decoration: underline; /* Add underline on hover */
+  }
+  

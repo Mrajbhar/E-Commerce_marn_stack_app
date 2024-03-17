@@ -6,6 +6,8 @@ import Layout from "../../components/Layout/Layout";
 import { useAuth } from "../../context/auth";
 import moment from "moment";
 import { Select } from "antd";
+import "../../styles/Heading.css"
+import { FaShoppingCart } from "react-icons/fa";
 const { Option } = Select;
 
 const AdminOrders = () => {
@@ -49,7 +51,7 @@ const AdminOrders = () => {
           <AdminMenu />
         </div>
         <div className="col-md-9">
-          <h1 className="text-center">All Orders</h1>
+          <h1 className="text-center animated-heading"> <FaShoppingCart />All Orders</h1>
           {orders?.map((o, i) => {
             return (
               <div className="border shadow">
@@ -96,7 +98,7 @@ const AdminOrders = () => {
                           className="card-img-top"
                           alt={p.name}
                           width="100px"
-                          height={"300px"}
+                          height={"auto"}
                         />
                       </div>
                       <div className="col-md-8">

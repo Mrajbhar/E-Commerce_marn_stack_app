@@ -28,7 +28,7 @@ const Orders = () => {
             <UserMenu />
           </div>
           <div className="col-md-9">
-            <h1 className="text-center">All Orders</h1>
+            <h1 className="text-center text-bg-dark">All Orders</h1>
             {orders?.map((o, i) => {
               return (
                 <div className="border shadow">
@@ -63,7 +63,7 @@ const Orders = () => {
                             className="card-img-top"
                             alt={p.name}
                             width="100px"
-                            height={"300px"}
+                            height={"auto"}
                           />
                         </div>
                         <div className="col-md-8">

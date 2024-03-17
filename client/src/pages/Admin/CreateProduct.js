@@ -4,6 +4,7 @@ import AdminMenu from "./../../components/Layout/AdminMenu";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { Select } from "antd";
+import { MdCreateNewFolder } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 const { Option } = Select;
 
@@ -70,7 +71,7 @@ const CreateProduct = () => {
             <AdminMenu />
           </div>
           <div className="col-md-9">
-            <h1>Create Product</h1>
+            <h1 className="animated-heading"><MdCreateNewFolder /> Create Product</h1>
             <div className="m-1 w-75">
               <Select
                 bordered={false}
