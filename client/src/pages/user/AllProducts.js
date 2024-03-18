@@ -90,16 +90,16 @@ const AllProducts = () => {
                   </h6>
                   <p className="card-text">{p.description.substring(0, 60)}...</p>
                 </div>
-                <div className="card-footer">
+                <div className="card-footer d-flex justify-content-between align-items-center">
                   <button
-                    className="btn btn-info me-2"
-                    onClick={() => navigate(`/product/${p.slug}`)}
+                className="btn btn-rounded btn-sm btn-primary me-2 animate-bounce"
+                onClick={() => navigate(`/product/${p.slug}`)}
                   >
                     More Details
                   </button>
                   <button
-                    className="btn btn-dark"
-                    onClick={() => {
+                  className="btn btn-rounded btn-sm btn-secondary animate-pulse"
+                  onClick={() => {
                       setCart([...cart, p]);
                       localStorage.setItem("cart", JSON.stringify([...cart, p]));
                       toast.success("Item Added to cart");
@@ -117,7 +117,7 @@ const AllProducts = () => {
             <AiOutlineLoading className="animate-spin text-3xl text-gray-500" />
           ) : (
             <button
-              className="btn btn-primary mt-3"
+              className="btn btn-rounded btn-primary mt-3 animate-bounce"
               onClick={(e) => {
                 e.preventDefault();
                 setPage(page + 1);
