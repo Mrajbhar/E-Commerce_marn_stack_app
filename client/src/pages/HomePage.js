@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Checkbox, Radio } from "antd";
+import { Checkbox, Radio, Collapse } from "antd"; // Import Collapse
 import { Prices } from "../components/Prices";
 import { useCart } from "../context/cart";
 import axios from "axios";
@@ -13,6 +13,8 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
+const { Panel } = Collapse;
+
 const HomePage = () => {
   const navigate = useNavigate();
   const [cart, setCart] = useCart();
@@ -24,8 +26,8 @@ const HomePage = () => {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [activeCategory, setActiveCategory] = useState(null);
-
-
+  const [priceOpen, setPriceOpen] = useState(true); // State for Price Collapse
+  const [categoryOpen, setCategoryOpen] = useState(true); // State for Category Collapse
 
   const handlecategoryFilter = (value, id) => {
     let all = [...checked];
@@ -37,9 +39,6 @@ const HomePage = () => {
     setChecked(all);
     setActiveCategory(id); // Set active category
   };
-  
-
-
 
   const getAllCategory = async () => {
     try {
@@ -169,28 +168,42 @@ const HomePage = () => {
       <div className="container-fluid row mt-3 home-page">
         <div className="col-md-3 filters">
           <h4 className="text-center">Filter By Category</h4>
-          <div className="d-flex flex-column">
-          {categories?.map((c) => (
-  <Checkbox
-    key={c._id}
-    onChange={(e) => handlecategoryFilter(e.target.checked, c._id)}
-    className={activeCategory === c._id ? "active-category" : ""}
-  >
-    {c.name}
-  </Checkbox>
-))}
-          </div>
+          <Collapse
+            activeKey={categoryOpen ? "category" : []}
+            onChange={() => setCategoryOpen(!categoryOpen)}
+          >
+            <Panel header="Select Category" key="category" showArrow={false}>
+              <div className="d-flex flex-column">
+                {categories?.map((c) => (
+                  <Checkbox
+                    key={c._id}
+                    onChange={(e) => handlecategoryFilter(e.target.checked, c._id)}
+                    className={activeCategory === c._id ? "active-category" : ""}
+                  >
+                    {c.name}
+                  </Checkbox>
+                ))}
+              </div>
+            </Panel>
+          </Collapse>
           {/* price filter */}
           <h4 className="text-center mt-4">Filter By Price</h4>
-          <div className="d-flex flex-column">
-            <Radio.Group onChange={(e) => setRadio(e.target.value)}>
-              {Prices?.map((p) => (
-                <div key={p._id}>
-                  <Radio value={p.array}>{p.name}</Radio>
-                </div>
-              ))}
-            </Radio.Group>
-          </div>
+          <Collapse
+            activeKey={priceOpen ? "price" : []}
+            onChange={() => setPriceOpen(!priceOpen)}
+          >
+            <Panel header="Select Price" key="price" showArrow={false}>
+              <div className="d-flex flex-column">
+                <Radio.Group onChange={(e) => setRadio(e.target.value)}>
+                  {Prices?.map((p) => (
+                    <div key={p._id}>
+                      <Radio value={p.array}>{p.name}</Radio>
+                    </div>
+                  ))}
+                </Radio.Group>
+              </div>
+            </Panel>
+          </Collapse>
           <div className="d-flex flex-column">
             <button
               className="btn btn-danger"

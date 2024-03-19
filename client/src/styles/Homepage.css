@@ -179,3 +179,104 @@
     transform: translateY(0);
   }
 }
+
+
+
+
+/* Homepage.css */
+
+/* Offer section styles */
+.offer-section {
+  margin-top: 30px;
+}
+
+.offer-item {
+  border: 1px solid #ccc;
+  border-radius: 10px; /* Rounded corners */
+  padding: 20px;
+  background-color: #f9f9f9;
+  transition: all 0.3s ease; /* Smooth transition */
+}
+
+.offer-item img {
+  border-radius: 10px; /* Rounded corners for images */
+  max-width: 100%;
+  height: auto;
+}
+
+.offer-item h3 {
+  margin-top: 10px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.offer-item p {
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.offer-item:hover {
+  transform: translateY(-5px); /* Move the item up on hover */
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1); /* Add shadow on hover */
+}
+
+
+/* Add space between offer items */
+.offer-item {
+  margin-right: 20px; /* Adjust spacing as needed */
+}
+
+/* Add animation to the slider */
+.offer-slider {
+  position: relative;
+  overflow: hidden;
+}
+
+.offer-slider .slick-list {
+  overflow: hidden;
+}
+
+.offer-slider .slick-slide {
+  transition: transform 0.5s ease;
+}
+
+.offer-slider .slick-slide:hover {
+  transform: scale(1.1);
+}
+
+
+/* Homepage.css */
+
+/* Add animation and styling for Collapse panels */
+.ant-collapse-header {
+  background-color: #f0f0f0; /* Set default background color */
+  transition: background-color 0.3s; /* Add transition for smooth color change */
+}
+
+.ant-collapse-item-active .ant-collapse-header {
+  background-color: #e6f7ff; /* Set background color for active state */
+}
+
+/* Add hover effect for Collapse panels */
+.ant-collapse-item {
+  transition: box-shadow 0.3s; /* Add transition for smooth hover effect */
+}
+
+.ant-collapse-item:hover {
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Add shadow on hover */
+}
+
+/* Homepage.css */
+
+/* Add animation for price select options */
+.ant-radio-group {
+  overflow: hidden; /* Hide overflow to prevent animation glitches */
+}
+
+.ant-radio-wrapper {
+  transition: transform 0.3s; /* Add transition for smooth animation */
+}
+
+.ant-radio-wrapper:hover {
+  transform: scale(1.1); /* Scale up on hover */
+}
