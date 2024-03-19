@@ -280,3 +280,12 @@
 .ant-radio-wrapper:hover {
   transform: scale(1.1); /* Scale up on hover */
 }
+
+
+.filter-heading {
+  font-size: 15px;
+  font-weight: bold;
+  color: #333; /* Change the color as needed */
+  text-transform: uppercase;
+  margin-bottom: 20px; /* Adjust spacing as needed */
+}

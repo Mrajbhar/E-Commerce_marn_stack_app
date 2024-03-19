@@ -167,7 +167,7 @@ const HomePage = () => {
       {/* banner image */}
       <div className="container-fluid row mt-3 home-page">
         <div className="col-md-3 filters">
-          <h4 className="text-center">Filter By Category</h4>
+          <h4 className="filter-heading">Filter By Category</h4>
           <Collapse
             activeKey={categoryOpen ? "category" : []}
             onChange={() => setCategoryOpen(!categoryOpen)}
@@ -187,7 +187,7 @@ const HomePage = () => {
             </Panel>
           </Collapse>
           {/* price filter */}
-          <h4 className="text-center mt-4">Filter By Price</h4>
+          <h4 className="filter-heading">Filter By Price</h4>
           <Collapse
             activeKey={priceOpen ? "price" : []}
             onChange={() => setPriceOpen(!priceOpen)}
