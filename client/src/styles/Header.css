@@ -53,3 +53,25 @@
     display: block;
   }
 }
+
+
+/* Header.css */
+
+/* Submenu Styles */
+.dropdown-submenu {
+  position: relative;
+}
+
+.dropdown-submenu .dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -1px;
+}
+
+.dropdown-submenu:hover .dropdown-menu {
+  display: block;
+}
+
+.dropdown-submenu:hover > .dropdown-toggle:after {
+  border-left-color: #fff;
+}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink, Link } from "react-router-dom";
 import { RiShoppingBag3Fill } from "react-icons/ri";
 import { useAuth } from "../../context/auth";
@@ -9,11 +9,13 @@ import { useCart } from "../../context/cart";
 import { Badge } from "antd";
 import "../../styles/Header.css";
 
-
 const Header = () => {
   const [auth, setAuth] = useAuth();
   const [cart] = useCart();
   const categories = useCategory();
+  const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
+  const [isProductSubMenuOpen, setIsProductSubMenuOpen] = useState(false);
+
   const handleLogout = () => {
     setAuth({
       ...auth,
@@ -27,6 +29,9 @@ const Header = () => {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
       <div className="container-fluid">
+        <Link to="/" className="navbar-brand">
+          <RiShoppingBag3Fill /> ShopStar
+        </Link>
         <button
           className="navbar-toggler"
           type="button"
@@ -36,11 +41,8 @@ const Header = () => {
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <span className="navbar-toggler-icon" />
+          <span className="navbar-toggler-icon"></span>
         </button>
-        <Link to="/" className="navbar-brand">
-          <RiShoppingBag3Fill /> ShopStar
-        </Link>
         <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
           <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
             <SearchInput />
@@ -49,8 +51,11 @@ const Header = () => {
                 Home
               </NavLink>
             </li>
-
-            <li className="nav-item dropdown">
+            <li
+              className="nav-item dropdown"
+              onMouseEnter={() => setIsSubMenuOpen(true)}
+              onMouseLeave={() => setIsSubMenuOpen(false)}
+            >
               <Link
                 className="nav-link dropdown-toggle"
                 to={"/categories"}
@@ -58,7 +63,11 @@ const Header = () => {
               >
                 Categories
               </Link>
-              <ul className="dropdown-menu">
+              <ul
+                className={`dropdown-menu ${isSubMenuOpen ? "show" : ""}`}
+                onMouseEnter={() => setIsSubMenuOpen(true)}
+                onMouseLeave={() => setIsSubMenuOpen(false)}
+              >
                 <li>
                   <Link className="dropdown-item" to={"/categories"}>
                     All Categories
@@ -76,12 +85,40 @@ const Header = () => {
                 ))}
               </ul>
             </li>
-            <li className="nav-item">
-              <NavLink to="/allproduct" className="nav-link">
+            <li
+              className="nav-item dropdown"
+              onMouseEnter={() => setIsProductSubMenuOpen(true)}
+              onMouseLeave={() => setIsProductSubMenuOpen(false)}
+            >
+              <Link
+                className="nav-link dropdown-toggle"
+                to={"/products"}
+                data-bs-toggle="dropdown"
+              >
                 Products
-              </NavLink>
+              </Link>
+              <ul
+                className={`dropdown-menu ${isProductSubMenuOpen ? "show" : ""}`}
+                onMouseEnter={() => setIsProductSubMenuOpen(true)}
+                onMouseLeave={() => setIsProductSubMenuOpen(false)}
+              >
+                <li>
+                  <Link className="dropdown-item" to={"/allproduct"}>
+                    All Products
+                  </Link>
+                </li>
+                <li>
+                  <Link className="dropdown-item" to={"/new-arrivals"}>
+                    New Arrivals
+                  </Link>
+                </li>
+                <li>
+                  <Link className="dropdown-item" to={"/best-sellers"}>
+                    Best Sellers
+                  </Link>
+                </li>
+              </ul>
             </li>
-
             {!auth?.user ? (
               <>
                 <li className="nav-item">
@@ -89,7 +126,6 @@ const Header = () => {
                     Register
                   </NavLink>
                 </li>
-
                 <li className="nav-item">
                   <NavLink to="/login" className="nav-link">
                     Login
@@ -101,7 +137,7 @@ const Header = () => {
                 <li className="nav-item dropdown">
                   <NavLink
                     className="nav-link dropdown-toggle"
-                    href="#"
+                    to="#"
                     role="button"
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
