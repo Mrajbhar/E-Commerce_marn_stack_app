@@ -9,6 +9,7 @@ import { useCart } from "../../context/cart";
 import { Badge } from "antd";
 import "../../styles/Header.css";
 
+
 const Header = () => {
   const [auth, setAuth] = useAuth();
   const [cart] = useCart();
