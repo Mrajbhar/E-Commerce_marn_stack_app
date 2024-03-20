@@ -27,9 +27,9 @@ const Header = () => {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-transparent">
       <div className="container-fluid">
-        <Link to="/" className="navbar-brand">
+        <Link to="/" className="navbar-brand text-black">
           <RiShoppingBag3Fill /> ShopStar
         </Link>
         <button
