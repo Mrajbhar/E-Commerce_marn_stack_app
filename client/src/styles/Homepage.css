@@ -289,3 +289,24 @@
   text-transform: uppercase;
   margin-bottom: 20px; /* Adjust spacing as needed */
 }
+
+
+
+/* Homepage.css */
+
+/* Define animation for collapsing/expanding */
+.custom-collapse {
+  transition: height 0.3s ease-in-out; /* Adjust animation duration and easing as needed */
+}
+
+/* Add styles for active category */
+.active-category {
+  font-weight: bold;
+}
+
+/* Add styles for responsive Collapse */
+.responsive-collapse .ant-collapse-item {
+  margin-bottom: 10px;
+}
+
+/* Additional styling can be added based on your design requirements */
