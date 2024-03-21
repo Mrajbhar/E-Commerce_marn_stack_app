@@ -62,4 +62,7 @@
   }
 }
 
-  
+.total-items {
+  color: black; /* Green color */
+  font-weight: initial;
+}

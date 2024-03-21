@@ -125,3 +125,11 @@
     border-bottom: none; /* Remove bottom border from the last link */
   }
 }
+
+
+.shopstar-text {
+  color: #333; /* Choose your desired color */
+  font-size: 24px; /* Adjust the font size as needed */
+  font-weight: bold; /* Make the text bold if desired */
+  margin-left: 10px; /* Adjust the spacing between the icon and the text */
+}

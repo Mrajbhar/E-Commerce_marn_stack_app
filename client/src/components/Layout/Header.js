@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import SearchInput from "../Form/SearchInput";
 import useCategory from "../../hooks/useCategory";
 import { useCart } from "../../context/cart";
+import { FaCartArrowDown } from "react-icons/fa";
 import { Badge } from "antd";
 import "../../styles/Header.css";
 
@@ -171,7 +172,7 @@ const Header = () => {
             <li className="nav-item">
               <Badge count={cart?.length} showZero>
                 <NavLink to="/cart" className="nav-link">
-                  Cart
+                <FaCartArrowDown />
                 </NavLink>
               </Badge>
             </li>

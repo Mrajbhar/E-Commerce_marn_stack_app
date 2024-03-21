@@ -3,7 +3,6 @@ import { NavLink } from "react-router-dom";
 import "../../styles/Adminmenu.css"
 import { CgProfile } from "react-icons/cg";
 
-
 const AdminMenu = () => {
   return (
     <div className="admin-menu-container">

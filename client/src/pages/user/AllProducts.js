@@ -70,16 +70,21 @@ const AllProducts = () => {
   return (
     <Layout title={"All Products - Best offers"}>
       <div className="container">
-        <h1 className="text-center heading-text heading-animation">Products</h1>
+        {/* <h1 className="text-center heading-text heading-animation">
+          Products 
+        </h1> */}
+        <span className="total-items">Total Items: {total}</span>
         <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
           {products.map((p) => (
             <div className="col" key={p._id}>
               <div className="card h-100">
-                <img
-                  src={`${process.env.REACT_APP_API}/api/v1/product/product-photo/${p._id}`}
-                  className="card-img-top"
-                  alt={p.name}
-                />
+                <a href={`/product/${p.slug}`}>
+                  <img
+                    src={`${process.env.REACT_APP_API}/api/v1/product/product-photo/${p._id}`}
+                    className="card-img-top"
+                    alt={p.name}
+                  />
+                </a>
                 <div className="card-body">
                   <h5 className="card-title">{p.name}</h5>
                   <h6 className="card-subtitle mb-2 text-muted">
@@ -92,14 +97,14 @@ const AllProducts = () => {
                 </div>
                 <div className="card-footer d-flex justify-content-between align-items-center">
                   <button
-                className="btn btn-rounded btn-sm btn-primary me-2 animate-bounce"
-                onClick={() => navigate(`/product/${p.slug}`)}
+                    className="btn btn-rounded btn-sm btn-primary me-2 animate-bounce"
+                    onClick={() => navigate(`/product/${p.slug}`)}
                   >
                     More Details
                   </button>
                   <button
-                  className="btn btn-rounded btn-sm btn-secondary animate-pulse"
-                  onClick={() => {
+                    className="btn btn-rounded btn-sm btn-secondary animate-pulse"
+                    onClick={() => {
                       setCart([...cart, p]);
                       localStorage.setItem("cart", JSON.stringify([...cart, p]));
                       toast.success("Item Added to cart");
