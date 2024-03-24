@@ -16,6 +16,7 @@ const Footer = () => {
           <span className="divider">|</span>
           <Link to="/policy" className="footer-link">Privacy Policy</Link>
         </p>
+        
       </div>
     </div>
   );

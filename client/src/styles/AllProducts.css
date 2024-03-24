@@ -57,7 +57,7 @@
   0% {
     color: #333; /* Starting color */
   }
-  100% {
+  100% { 
     color: #0000ff; /* Blue color */
   }
 }
@@ -66,3 +66,5 @@
   color: black; /* Green color */
   font-weight: initial;
 }
+
+

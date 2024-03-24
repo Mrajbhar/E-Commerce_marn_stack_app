@@ -9,6 +9,8 @@ import { useCart } from "../../context/cart";
 import { FaCartArrowDown } from "react-icons/fa";
 import { Badge } from "antd";
 import "../../styles/Header.css";
+import { useTheme } from "../../pages/Themes/ThemeContext";
+import { ToggleButton } from "./ToggleButton";
 
 const Header = () => {
   const [auth, setAuth] = useAuth();
@@ -16,6 +18,8 @@ const Header = () => {
   const categories = useCategory();
   const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
   const [isProductSubMenuOpen, setIsProductSubMenuOpen] = useState(false);
+
+  const { darkMode } = useTheme();
 
   const handleLogout = () => {
     setAuth({
@@ -28,7 +32,7 @@ const Header = () => {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-transparent">
+    <nav className={`navbar navbar-expand-lg ${darkMode ? 'navbar-dark bg-dark' : 'navbar-light bg-light'}`}>
       <div className="container-fluid">
         <Link to="/" className="navbar-brand text-black">
           <RiShoppingBag3Fill /> ShopStar
@@ -176,7 +180,11 @@ const Header = () => {
                 </NavLink>
               </Badge>
             </li>
+           
+
+            
           </ul>
+
         </div>
       </div>
     </nav>

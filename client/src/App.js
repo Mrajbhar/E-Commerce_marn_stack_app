@@ -25,11 +25,12 @@ import CategoryProduct from "./pages/CategoriesProduct";
 import CartPage from "./pages/CartPage";
 import AdminOrders from "./pages/Admin/AdminOrders";
 import AllProducts from "./pages/user/AllProducts";
+import { ThemeProvider } from "./pages/Themes/ThemeContext";
 
 function App() {
   return (
+    <ThemeProvider>
     <>
-
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/allproduct" element={<AllProducts />} />
@@ -66,6 +67,8 @@ function App() {
         <Route path="*" element={<Pagenotfound />} />
       </Routes>
     </>
+    </ThemeProvider>
+
   );
 }
 

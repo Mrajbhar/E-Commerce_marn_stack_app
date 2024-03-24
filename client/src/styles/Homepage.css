@@ -333,29 +333,3 @@
 
 
 
-.filter-section {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
-}
-
-.filter-button {
-  padding: 8px 16px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: #fff;
-  display: none; /* Initially hide the buttons */
-  align-items: center;
-}
-
-.filter-button:hover {
-  cursor: pointer;
-  background-color: #f0f0f0;
-}
-
-@media screen and (max-width: 768px) {
-  .filter-button {
-    display: flex; /* Show the buttons on smaller screens */
-  }
-}
