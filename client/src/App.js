@@ -26,6 +26,8 @@ import CartPage from "./pages/CartPage";
 import AdminOrders from "./pages/Admin/AdminOrders";
 import AllProducts from "./pages/user/AllProducts";
 import { ThemeProvider } from "./pages/Themes/ThemeContext";
+import BestSellers from "./pages/BestSellers";
+import NewArrivals from "./pages/NewArrivals";
 
 function App() {
   return (
@@ -34,6 +36,10 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/allproduct" element={<AllProducts />} />
+
+        <Route path="/bestsellers" element={<BestSellers />} />
+        <Route path="/newarrivals" element={<NewArrivals />} />
+
         <Route path="/product/:slug" element={<ProductDetails />} />
         <Route path="/categories" element={<Categories />} />
         <Route path="/cart" element={<CartPage />} />

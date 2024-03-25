@@ -1,63 +1,32 @@
-/* Categories.css */
-
 .category-link {
-    text-decoration: none;
-    color: inherit;
-  }
-  
-  .card {
-    border: none;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    overflow: hidden;
-  }
-  
-  .card-body {
-    text-align: center;
-    padding: 20px;
-    background-color: #f8f9fa; /* Initial background color */
-    transition: background-color 0.3s ease; /* Smooth transition for background color */
-  }
-  
-  .card:hover .card-body {
-    animation: changeBackgroundColor 3s infinite alternate; /* Apply animation on hover */
-  }
-  
-  .card-title {
-    font-size: 20px;
-    font-weight: bold;
-    color: #333;
-  }
-  
-  @keyframes changeBackgroundColor {
-    0% {
-      background-color: #f8f9fa; /* Initial background color */
-    }
-    25% {
-      background-color: #007bff; /* First target background color */
-    }
-    50% {
-      background-color: #28a745; /* Second target background color */
-    }
-    75% {
-      background-color: #dc3545; /* Third target background color */
-    }
-    100% {
-      background-color: #ffc107; /* Final target background color */
-    }
-  }
-  
-  @media (max-width: 768px) {
-    .col-md-4 {
-      flex: 0 0 50%;
-      max-width: 50%;
-    }
-  }
-  
-  @media (max-width: 576px) {
-    .col-md-4 {
-      flex: 0 0 100%;
-      max-width: 100%;
-    }
-  }
-  
+  text-decoration: none;
+  color: inherit;
+}
+
+.category-menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 150px; /* Adjust height as needed */
+  padding: 20px;
+  border: 1px solid #ccc; /* Border for the category menu */
+  border-radius: 10px;
+  transition: background-color 0.3s ease; /* Smooth transition for background color */
+  background-color: #fff; /* Background color */
+}
+
+.category-menu:hover {
+  background-color: #f0f0f0; /* Background color on hover */
+}
+
+.category-icon {
+  font-size: 48px; /* Adjust icon size as needed */
+  margin-bottom: 10px; /* Add space between icon and name */
+}
+
+.category-name {
+  font-size: 16px; /* Adjust name font size as needed */
+  font-weight: bold;
+  text-align: center;
+}

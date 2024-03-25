@@ -113,12 +113,12 @@ const Header = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link className="dropdown-item" to={"/new-arrivals"}>
+                  <Link className="dropdown-item" to={"/newarrivals"}>
                     New Arrivals
                   </Link>
                 </li>
                 <li>
-                  <Link className="dropdown-item" to={"/best-sellers"}>
+                  <Link className="dropdown-item" to={"/bestsellers"}>
                     Best Sellers
                   </Link>
                 </li>

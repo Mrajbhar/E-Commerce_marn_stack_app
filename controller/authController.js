@@ -269,10 +269,8 @@ export const orderStatusController = async (req, res) => {
 export const getAllUsersController = async (req, res) => {
   try {
     // Find all users and populate referenced fields if needed
-    const users = await userModel
-      .find({})
-      .populate("buyer", "name")
-      .sort('-createdAt');
+    const users = await userModel.find({}).sort('-createdAt');
+
     // Sending the users data as a response
     res.status(200).send({
       success: true,
@@ -285,6 +283,41 @@ export const getAllUsersController = async (req, res) => {
     res.status(500).send({
       success: false,
       message: "Error while fetching all users",
+      error: error.message
+    });
+  }
+};
+
+
+export const updateuserrole = async (req, res) => {
+  const { id } = req.params;
+  const { role } = req.body;
+
+  try {
+    // Find the user by ID
+    const user = await userModel.findById(id);
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found"
+      });
+    }
+
+    // Update the user's role
+    user.role = role;
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: "User role updated successfully",
+      user: user
+    });
+  } catch (error) {
+    console.error('Error updating user role:', error);
+    res.status(500).json({
+      success: false,
+      message: "Error updating user role",
       error: error.message
     });
   }

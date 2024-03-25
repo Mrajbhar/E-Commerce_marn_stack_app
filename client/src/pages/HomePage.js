@@ -13,6 +13,9 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useTheme } from "../pages/Themes/ThemeContext" 
+import { FaCartArrowDown } from "react-icons/fa";
+import { CgDetailsMore } from "react-icons/cg";
+
 
 const { Panel } = Collapse;
 
@@ -132,6 +135,41 @@ const HomePage = () => {
     infinite: true,
   };
 
+  const settingss = {
+    autoplay: true,
+    autoplaySpeed: 3000,
+    infinite: true,
+    slidesToShow: 5,
+    slidesToScroll: 1,
+    responsive: [
+      {
+        breakpoint: 1200,
+        settings: {
+          slidesToShow: 4,
+        },
+      },
+      {
+        breakpoint: 992,
+        settings: {
+          slidesToShow: 3,
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+      {
+        breakpoint: 576,
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+    ],
+  };
+
+
   return (
     <Layout title={"All Products - Best offers"}>
       {/* banner image */}
@@ -148,10 +186,24 @@ const HomePage = () => {
           />
         ))}
       </Slider>
+
+      <h2 className="special-offers-heading">Special Offers</h2>
+      <Slider {...settingss}>
+        {mainCaroseldata.map((item, index) => (
+          <div key={index} className="offer-item">
+            <img
+              src={item.image}
+              alt={`bannerimage-${index}`}
+              className="offer-image"
+              onClick={() => navigate(`/allproduct`)}
+            />
+          </div>
+        ))}
+      </Slider>
       {/* banner image */}
       <div className={`container-fluid row mt-3 home-page ${darkMode ? 'dark-mode' : ''}`}>
         <div className="col-md-9">
-          <h1 className="text-center">All Products</h1>
+          <h1 className="text-center">Products</h1>
           <div className="d-flex flex-wrap">
             {products?.map((p) => (
               <div className="card m-2" key={p._id}>
@@ -178,7 +230,7 @@ const HomePage = () => {
                       className="btn btn-info ms-1"
                       onClick={() => navigate(`/product/${p.slug}`)}
                     >
-                      More Details
+                       <CgDetailsMore />  More Details
                     </button>
                     <button
                       className="btn btn-dark ms-1"
@@ -188,7 +240,7 @@ const HomePage = () => {
                         toast.success("Item Added to cart");
                       }}
                     >
-                      ADD TO CART
+                     <FaCartArrowDown />   ADD TO CART
                     </button>
                   </div>
                 </div>

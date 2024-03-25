@@ -1,0 +1,13 @@
+/* BestSellers.css */
+
+/* Add the following styles to adjust the size of the buttons */
+.btn {
+    font-size: 12px; /* Adjust the font size */
+    padding: 8px 12px; /* Adjust the padding */
+  }
+  
+  /* Adjust the size of the icons */
+  .btn svg {
+    font-size: 18px; /* Adjust the icon size */
+  }
+  

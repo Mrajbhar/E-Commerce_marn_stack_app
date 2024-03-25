@@ -12,12 +12,11 @@ const Categories = () => {
       <div className="container">
         <div className="row">
           {categories.map((c) => (
-            <div className="col-md-4 col-sm-6 mt-5" key={c._id}>
+            <div className="col-md-3 col-sm-6 mt-4" key={c._id}>
               <Link to={`/category/${c.slug}`} className="category-link">
-                <div className="card">
-                  <div className="card-body">
-                    <h5 className="card-title">{c.name}</h5>
-                  </div>
+                <div className="category-menu">
+                  <div className="category-icon">{c.icon}</div>
+                  <div className="category-name">{c.name}</div>
                 </div>
               </Link>
             </div>

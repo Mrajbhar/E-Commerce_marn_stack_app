@@ -1,23 +1,26 @@
 /* Register Page Styles */
 
+/* Background Animation */
 .form-container {
   margin-top: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 70vh;
+  min-height: 100vh; /* Set minimum height to full viewport height */
   flex-direction: column;
-  background-color: #222; /* Dark background color */
-  background-image: linear-gradient(45deg, #000, #333); /* Gradient background */
+  background-color: #fff; /* White background color */
+  background-image: linear-gradient(45deg, #faf6f6e8, #333); /* Gradient background */
   animation: backgroundAnimation 20s ease infinite alternate; /* Background animation */
   transition: background-color 0.3s ease; /* Smooth transition for background color */
   position: relative; /* Ensure relative positioning for z-index */
 }
 
+/* Darker background color on hover */
 .form-container:hover {
-  background-color: #111; /* Darker background color on hover */
+  background-color: #111;
 }
 
+/* Background animation keyframes */
 @keyframes backgroundAnimation {
   0% {
     background-position: 0% 50%;
@@ -31,38 +34,57 @@
   }
 }
 
+/* Form Styles */
 .form-container form {
-  box-shadow: rgba(255, 255, 255, 0.1) 0px 5px 15px;
+  box-shadow: rgba(241, 236, 236, 0.918) 0px 5px 15px;
   padding: 20px;
-  background-color: #333; /* Dark background color for form */
+  background-color: #e4e1e1; /* Dark background color for form */
   position: relative; /* Ensure relative positioning for z-index */
   z-index: 1; /* Ensure form is rendered above the background */
+  max-width: 400px; /* Limit form width for better readability */
+  width: 100%; /* Full width */
 }
-
 .form-container form .title {
   text-align: center;
   margin-bottom: 15px;
   font-weight: bold;
   font-family: "Playfair Display", serif;
-  color: #fff; /* White text color */
+  color: #0e0101; /* Dark text color */
+  font-size: 24px; /* Adjust font size for better visibility */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add text shadow for depth */
+  animation: titleAnimation 2s ease infinite alternate; /* Title animation */
 }
 
+/* Title animation keyframes */
+@keyframes titleAnimation {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-5px);
+  }
+}
+
+/* Form input styles */
 .form-container form input {
   border: none;
   border-bottom: 1px solid #fff; /* White bottom border */
   border-radius: 0;
-  color: #fff; /* White text color */
+  color: #0e0101; /* Dark text color */
   background-color: transparent; /* Transparent background */
   padding: 10px; /* Adjust padding for better visibility */
   width: 100%; /* Full width */
   transition: border-color 0.3s ease; /* Smooth transition for border color */
+  margin-bottom: 15px; /* Add space between inputs */
 }
 
+/* Change border color on focus */
 .form-container form input:focus {
-  border-color: #007bff; /* Change border color on focus */
+  border-color: #007bff;
   outline: none; /* Remove default focus outline */
 }
 
+/* Form button styles */
 .form-container form button {
   border: 1px solid #fff; /* White border */
   border-radius: 0;
@@ -74,15 +96,18 @@
   transition: background-color 0.3s ease; /* Smooth transition for background color */
 }
 
+/* Dark background color on button hover */
 .form-container form button:hover {
-  background-color: #434343; /* Dark background color on hover */
+  background-color: #434343;
 }
 
+/* Additional styles for forgot button */
 .forgot-btn {
   background-color: #434343a4 !important;
   border: 0 !important;
 }
 
+/* Text color on forgot button hover */
 .forgot-btn:hover {
   color: white !important;
 }

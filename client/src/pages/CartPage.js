@@ -8,6 +8,12 @@ import { AiFillWarning } from "react-icons/ai";
 import axios from "axios";
 import toast from "react-hot-toast";
 import "../styles/CartPage.css";
+import { IoIosRemoveCircle } from "react-icons/io";
+import { MdPayment } from "react-icons/md";
+import { GrDocumentUpdate } from "react-icons/gr";
+import { BiSolidLogInCircle } from "react-icons/bi";
+
+
 
 const CartPage = () => {
   const [auth, setAuth] = useAuth();
@@ -107,7 +113,7 @@ const CartPage = () => {
                   </div>
                   <div className="cart-remove-btn col-md-12">
                     <button className="btn btn-danger" onClick={() => removeCartItem(p._id)}>
-                      Remove
+                    <IoIosRemoveCircle />Remove
                     </button>
                   </div>
                 </div>
@@ -126,7 +132,7 @@ const CartPage = () => {
                       className="btn btn-outline-warning"
                       onClick={() => navigate("/dashboard/user/profile")}
                     >
-                      Update Address
+                      <GrDocumentUpdate />Update Address
                     </button>
                   </>
                 ) : (
@@ -134,7 +140,7 @@ const CartPage = () => {
                     className="btn btn-outline-warning"
                     onClick={() => navigate("/login", { state: "/cart" })}
                   >
-                    Please Login to Checkout
+                  <BiSolidLogInCircle />  Please Login to Checkout
                   </button>
                 )}
               </div>
@@ -157,7 +163,7 @@ const CartPage = () => {
                       onClick={handlePayment}
                       disabled={loading || !instance || !auth?.user?.address}
                     >
-                      {loading ? "Processing ...." : "Make Payment"}
+                     <MdPayment /> {loading ? "Processing ...." : "Make Payment"}
                     </button>
                   </>
                 )}

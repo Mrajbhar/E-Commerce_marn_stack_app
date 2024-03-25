@@ -1,4 +1,3 @@
-// ToggleButton.js
 import React from 'react';
 import { useTheme } from "../Themes/ThemeContext";
 

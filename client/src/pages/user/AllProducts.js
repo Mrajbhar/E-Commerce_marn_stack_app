@@ -11,6 +11,10 @@ import "../../styles/Homepage.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useTheme } from "../Themes/ThemeContext";
+import { FaCartArrowDown } from "react-icons/fa";
+import { CgDetailsMore } from "react-icons/cg";
+import { GrPowerReset } from "react-icons/gr";
+
 
 const { Panel } = Collapse;
 
@@ -198,12 +202,13 @@ const AllProducts = () => {
               className="btn btn-danger"
               onClick={() => window.location.reload()}
             >
-              RESET FILTERS
+             <GrPowerReset /> RESET FILTERS
             </button>
           </div>
         </div>
         <div className="col-md-9">
           <h1 className="text-center">All Products</h1>
+          <span>{total} items</span>
           <div className="d-flex flex-wrap">
           {products?.map((p) => (
     <div className="card m-2" key={p._id}>
@@ -231,7 +236,7 @@ const AllProducts = () => {
                       className="btn btn-info ms-1"
                       onClick={() => navigate(`/product/${p.slug}`)}
                     >
-                      More Details
+                      <CgDetailsMore />   More Details
                     </button>
                     <button
                       className="btn btn-dark ms-1"
@@ -241,7 +246,7 @@ const AllProducts = () => {
                         toast.success("Item Added to cart");
                       }}
                     >
-                      ADD TO CART
+                      <FaCartArrowDown /> ADD TO CART
                     </button>
                   </div>
                 </div>
