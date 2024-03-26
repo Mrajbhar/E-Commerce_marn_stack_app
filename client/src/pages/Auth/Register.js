@@ -35,6 +35,18 @@ const Register = () => {
     }
   };
 
+  // Handle change for phone input with validation
+  const handlePhoneChange = (e) => {
+    const value = e.target.value;
+    // Check if value is not empty and contains only digits
+    if (value === "" || /^\d+$/.test(value)) {
+      // If value is empty or contains only digits and length is less than or equal to 10, update state
+      if (value === "" || value.length <= 10) {
+        setPhone(value);
+      }
+    }
+  };
+
   return (
     <Layout title="Register - Ecommerce App">
       <div className="form-container">
@@ -74,9 +86,10 @@ const Register = () => {
             <input
               type="text"
               value={phone}
-              onChange={(e) => setPhone(e.target.value)}
+              onChange={handlePhoneChange}
               className="form-control"
               placeholder="Phone"
+              maxLength={10} // Set maximum length to 10
               required
             />
           </div>
