@@ -35,7 +35,7 @@ const Header = () => {
     <nav className={`navbar navbar-expand-lg ${darkMode ? 'navbar-dark bg-dark' : 'navbar-light bg-light'}`}>
       <div className="container-fluid">
         <Link to="/" className="navbar-brand text-black">
-          <RiShoppingBag3Fill /> ShopStar
+          <RiShoppingBag3Fill /> MarketHub
         </Link>
         <button
           className="navbar-toggler"
