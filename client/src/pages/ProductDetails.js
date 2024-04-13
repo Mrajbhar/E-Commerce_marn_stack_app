@@ -7,6 +7,8 @@ import "../styles/ProductDetailsStyles.css";
 import toast from "react-hot-toast";
 import { FaCartArrowDown } from "react-icons/fa";
 import { motion } from "framer-motion";
+import { CgDetailsMore } from "react-icons/cg";
+
 
 const ProductDetails = () => {
   const params = useParams();
@@ -137,7 +139,7 @@ const ProductDetails = () => {
                     className="btn btn-info ms-1"
                     onClick={() => navigate(`/product/${p.slug}`)}
                   >
-                    More Details
+                    <CgDetailsMore/>More Details
                   </button>
                 </div>
               </div>
