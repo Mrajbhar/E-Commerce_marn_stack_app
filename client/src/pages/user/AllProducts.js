@@ -31,6 +31,8 @@ const AllProducts = () => {
   const [priceOpen, setPriceOpen] = useState(true); // State for Price Collapse
   const [categoryOpen, setCategoryOpen] = useState(true); // State for Category Collapse
   const { darkMode } = useTheme(); // Access darkMode state from ThemeContext
+  const exchangeRate = 83.61;
+
 
   const handlecategoryFilter = (value, id) => {
     let all = [...checked];
@@ -229,10 +231,10 @@ const AllProducts = () => {
                   <div className="card-name-price">
                     <h5 className="card-title">{p.name}</h5>
                     <h5 className="card-title card-price">
-                      {p.price.toLocaleString("en-US", {
-                        style: "currency",
-                        currency: "USD",
-                      })}
+                    {(p.price * exchangeRate).toLocaleString("en-IN", {
+                      style: "currency",
+                      currency: "INR",
+                    })}
                     </h5>
                   </div>
                   <p className="card-text">

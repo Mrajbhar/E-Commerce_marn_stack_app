@@ -9,13 +9,13 @@ import { FaCartArrowDown } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { CgDetailsMore } from "react-icons/cg";
 
-
 const ProductDetails = () => {
   const params = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState({});
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [cart, setCart] = useCart();
+  const exchangeRate = 83.61;
 
   useEffect(() => {
     if (params?.slug) getProduct();
@@ -65,9 +65,13 @@ const ProductDetails = () => {
           <h6>Description : {product.description}</h6>
           <h6>
             Price :
-            {product?.price?.toLocaleString("en-US", {
+            {/* {product?.price?.toLocaleString("en-US", {
               style: "currency",
               currency: "USD",
+            })} */}
+            {(product.price * exchangeRate).toLocaleString("en-IN", {
+              style: "currency",
+              currency: "INR",
             })}
           </h6>
           <h6>Category : {product?.category?.name}</h6>
@@ -77,7 +81,9 @@ const ProductDetails = () => {
             whileHover={{ scale: 1.1 }} // Scale up on hover
             whileTap={{ scale: 0.9 }} // Scale down when pressed
             onClick={() => {
-              const existingItem = cart.find((item) => item._id === product._id);
+              const existingItem = cart.find(
+                (item) => item._id === product._id
+              );
               if (existingItem) {
                 // If the item already exists in the cart, update its quantity
                 const updatedCart = cart.map((item) =>
@@ -127,19 +133,22 @@ const ProductDetails = () => {
                 <div className="card-name-price">
                   <h5 className="card-title">{p.name}</h5>
                   <h5 className="card-title card-price">
-                    {p.price.toLocaleString("en-US", {
+                    {(p.price * exchangeRate).toLocaleString("en-IN", {
                       style: "currency",
-                      currency: "USD",
+                      currency: "INR",
                     })}
                   </h5>
                 </div>
-                <p className="card-text ">{p.description.substring(0, 60)}...</p>
+                <p className="card-text ">
+                  {p.description.substring(0, 60)}...
+                </p>
                 <div className="card-name-price">
                   <button
                     className="btn btn-info ms-1"
                     onClick={() => navigate(`/product/${p.slug}`)}
                   >
-                    <CgDetailsMore/>More Details
+                    <CgDetailsMore />
+                    More Details
                   </button>
                 </div>
               </div>

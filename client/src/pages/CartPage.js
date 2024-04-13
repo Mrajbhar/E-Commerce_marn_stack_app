@@ -21,15 +21,17 @@ const CartPage = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  const exchangeRate = 83.61;
+
   const totalPrice = () => {
     try {
       let total = 0;
       cart?.map((item) => {
         total = total + item.price * item.quantity; // Multiply price by quantity
       });
-      return total.toLocaleString("en-US", {
+      return (total * exchangeRate).toLocaleString("en-IN", {
         style: "currency",
-        currency: "USD",
+        currency: "INR",
       });
     } catch (error) {
       console.log(error);
@@ -100,10 +102,14 @@ const CartPage = () => {
     <Layout>
       <div className="cart-page">
         <h1 className="text-center">
-          {!auth?.user ? "Hello Guest" : `Hello  ${auth?.token && auth?.user?.name}`}
+          {!auth?.user
+            ? "Hello Guest"
+            : `Hello  ${auth?.token && auth?.user?.name}`}
         </h1>
         <p className="text-center">
-          {cart?.length ? `You have ${cart.length} items in your cart` : "Your cart is empty"}
+          {cart?.length
+            ? `You have ${cart.length} items in your cart`
+            : "Your cart is empty"}
         </p>
         <div className="container">
           <div className="row">
@@ -119,7 +125,13 @@ const CartPage = () => {
                   <div className="cart-item-info col-md-8">
                     <p>{item.name}</p>
                     <p>{item.description.substring(0, 30)}</p>
-                    <p>Price: {item.price}</p>
+                    <p>
+                      Price:{" "}
+                      {(item.price * 83.61).toLocaleString("en-IN", {
+                        style: "currency",
+                        currency: "INR",
+                      })}
+                    </p>
                     <div className="quantity-controls">
                       <button
                         className="btn btn-secondary"
@@ -141,7 +153,8 @@ const CartPage = () => {
                       className="btn btn-danger"
                       onClick={() => removeCartItem(item._id)}
                     >
-                      <IoIosRemoveCircle />Remove
+                      <IoIosRemoveCircle />
+                      Remove
                     </button>
                   </div>
                 </div>
@@ -160,7 +173,8 @@ const CartPage = () => {
                       className="btn btn-outline-warning"
                       onClick={() => navigate("/dashboard/user/profile")}
                     >
-                      <GrDocumentUpdate />Update Address
+                      <GrDocumentUpdate />
+                      Update Address
                     </button>
                   </>
                 ) : (
@@ -191,7 +205,8 @@ const CartPage = () => {
                       onClick={handlePayment}
                       disabled={loading || !instance || !auth?.user?.address}
                     >
-                      <MdPayment /> {loading ? "Processing ...." : "Make Payment"}
+                      <MdPayment />{" "}
+                      {loading ? "Processing ...." : "Make Payment"}
                     </button>
                   </>
                 )}

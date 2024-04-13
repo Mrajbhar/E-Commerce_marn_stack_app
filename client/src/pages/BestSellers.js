@@ -22,6 +22,9 @@ const BestSellers = () => {
   const navigate = useNavigate();
   const { darkMode } = useTheme(); // Access darkMode state from ThemeContext
 
+  const exchangeRate = 83.61;
+
+
   const getAllProducts = async () => {
     try {
       setLoading(true);
@@ -94,9 +97,9 @@ const BestSellers = () => {
                 <div className="card-name-price">
                   <h5 className="card-title">{p.name}</h5>
                   <h5 className="card-title card-price">
-                    {p.price.toLocaleString("en-US", {
+                  {(p.price * exchangeRate).toLocaleString("en-IN", {
                       style: "currency",
-                      currency: "USD",
+                      currency: "INR",
                     })}
                   </h5>
                 </div>

@@ -2,12 +2,16 @@ import React, { useState, useEffect } from "react";
 import Layout from "../components/Layout/Layout";
 import { useParams, useNavigate } from "react-router-dom";
 import "../styles/CategoryProductStyles.css";
+import { CgDetailsMore } from "react-icons/cg";
+
 import axios from "axios";
 const CategoryProduct = () => {
   const params = useParams();
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [category, setCategory] = useState([]);
+  const exchangeRate = 83.61;
+
 
   useEffect(() => {
     if (params?.slug) getPrductsByCat();
@@ -44,10 +48,10 @@ const CategoryProduct = () => {
                     <div className="card-name-price">
                       <h5 className="card-title">{p.name}</h5>
                       <h5 className="card-title card-price">
-                        {p.price.toLocaleString("en-US", {
-                          style: "currency",
-                          currency: "USD",
-                        })}
+                      {(p.price * exchangeRate).toLocaleString("en-IN", {
+                      style: "currency",
+                      currency: "INR",
+                    })}
                       </h5>
                     </div>
                     <p className="card-text ">
@@ -58,7 +62,7 @@ const CategoryProduct = () => {
                         className="btn btn-info ms-1"
                         onClick={() => navigate(`/product/${p.slug}`)}
                       >
-                        More Details
+                       <CgDetailsMore/>   More Details
                       </button>
                       {/* <button
                     className="btn btn-dark ms-1"

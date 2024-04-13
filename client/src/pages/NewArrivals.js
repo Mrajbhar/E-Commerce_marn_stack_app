@@ -21,6 +21,8 @@ const NewArrivals = () => {
   const navigate = useNavigate();
   const { darkMode } = useTheme(); // Access darkMode state from ThemeContext
 
+  const exchangeRate = 83.61;
+
   const getAllProducts = async () => {
     try {
       setLoading(true);
@@ -109,9 +111,9 @@ const NewArrivals = () => {
                 <div className="card-name-price">
                   <h5 className="card-title">{p.name}</h5>
                   <h5 className="card-title card-price">
-                    {p.price.toLocaleString("en-US", {
+                    {(p.price * exchangeRate).toLocaleString("en-IN", {
                       style: "currency",
-                      currency: "USD",
+                      currency: "INR",
                     })}
                   </h5>
                 </div>
@@ -125,33 +127,7 @@ const NewArrivals = () => {
                   </button>
                   <button
                     className="btn btn-dark ms-1"
-                    onClick={() => {
-                      const existingItem = cart.find(
-                        (item) => item._id === p._id
-                      );
-                      if (existingItem) {
-                        // If the item already exists in the cart, update its quantity
-                        const updatedCart = cart.map((item) =>
-                          item._id === existingItem._id
-                            ? { ...item, quantity: item.quantity + 1 }
-                            : item
-                        );
-                        setCart(updatedCart);
-                        localStorage.setItem(
-                          "cart",
-                          JSON.stringify(updatedCart)
-                        );
-                        toast.success("Item Added to cart");
-                      } else {
-                        // If the item does not exist in the cart, add it with a quantity of 1
-                        setCart([...cart, { ...p, quantity: 1 }]);
-                        localStorage.setItem(
-                          "cart",
-                          JSON.stringify([...cart, { ...p, quantity: 1 }])
-                        );
-                        toast.success("Item Added to cart");
-                      }
-                    }}
+                    onClick={() => addItemToCart(p)}
                   >
                     <FaCartArrowDown /> ADD TO CART
                   </button>
