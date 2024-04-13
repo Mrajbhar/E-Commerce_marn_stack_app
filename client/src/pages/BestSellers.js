@@ -7,8 +7,9 @@ import { useCart } from "../context/cart";
 import { AiOutlineReload } from "react-icons/ai";
 import "../styles/BestSellers.css";
 import "../styles/Homepage.css";
-import { useTheme } from "../pages/Themes/ThemeContext" 
-
+import { useTheme } from "../pages/Themes/ThemeContext";
+import { FaCartArrowDown } from "react-icons/fa";
+import { CgDetailsMore } from "react-icons/cg";
 
 
 const BestSellers = () => {
@@ -20,7 +21,6 @@ const BestSellers = () => {
   const [products, setProducts] = useState([]); // State to hold fetched products
   const navigate = useNavigate();
   const { darkMode } = useTheme(); // Access darkMode state from ThemeContext
-
 
   const getAllProducts = async () => {
     try {
@@ -36,44 +36,48 @@ const BestSellers = () => {
     }
   };
 
-      const getTotal = async () => {
-        try {
-          const { data } = await axios.get(
-            `${process.env.REACT_APP_API}/api/v1/product/product-count`
-          );
-          setTotal(data?.total);
-        } catch (error) {
-          console.log(error);
-        }
-      };
-    
-      useEffect(() => {
-        if (page === 1) return;
-        loadMore();
-      }, [page]);
+  const getTotal = async () => {
+    try {
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_API}/api/v1/product/product-count`
+      );
+      setTotal(data?.total);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-      const loadMore = async () => {
-        try {
-          setLoading(true);
-          const { data } = await axios.get(
-            `${process.env.REACT_APP_API}/api/v1/product/product-list/${page}`
-          );
-          setLoading(false);
-          setProducts([...products, ...data?.products]);
-        } catch (error) {
-          console.log(error);
-          setLoading(false);
-        }
-      };
+  useEffect(() => {
+    if (page === 1) return;
+    loadMore();
+  }, [page]);
 
-      useEffect(() => {
-        getAllProducts();     getTotal();
+  const loadMore = async () => {
+    try {
+      setLoading(true);
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_API}/api/v1/product/product-list/${page}`
+      );
+      setLoading(false);
+      setProducts([...products, ...data?.products]);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
 
-      }, []);
+  useEffect(() => {
+    getAllProducts();
+    getTotal();
+  }, []);
 
   return (
     <Layout title="New Arrivals">
-      <div className={`container-fluid row mt-3 home-page ${darkMode ? 'dark-mode' : ''}`}>
+      <div
+        className={`container-fluid row mt-3 home-page ${
+          darkMode ? "dark-mode" : ""
+        }`}
+      >
         <h2>Best Sellers</h2>
         <div className="d-flex flex-wrap">
           {products.map((p) => (
@@ -102,17 +106,39 @@ const BestSellers = () => {
                     className="btn btn-info ms-1"
                     onClick={() => navigate(`/product/${p.slug}`)}
                   >
-                    More Details
+                   <CgDetailsMore/> More Details
                   </button>
                   <button
                     className="btn btn-dark ms-1"
                     onClick={() => {
-                      setCart([...cart, p]);
-                      localStorage.setItem("cart", JSON.stringify([...cart, p]));
-                      toast.success("Item Added to cart");
+                      const existingItem = cart.find(
+                        (item) => item._id === p._id
+                      );
+                      if (existingItem) {
+                        // If the item already exists in the cart, update its quantity
+                        const updatedCart = cart.map((item) =>
+                          item._id === existingItem._id
+                            ? { ...item, quantity: item.quantity + 1 }
+                            : item
+                        );
+                        setCart(updatedCart);
+                        localStorage.setItem(
+                          "cart",
+                          JSON.stringify(updatedCart)
+                        );
+                        toast.success("Item Added to cart");
+                      } else {
+                        // If the item does not exist in the cart, add it with a quantity of 1
+                        setCart([...cart, { ...p, quantity: 1 }]);
+                        localStorage.setItem(
+                          "cart",
+                          JSON.stringify([...cart, { ...p, quantity: 1 }])
+                        );
+                        toast.success("Item Added to cart");
+                      }
                     }}
                   >
-                    ADD TO CART
+                    <FaCartArrowDown /> ADD TO CART
                   </button>
                 </div>
               </div>

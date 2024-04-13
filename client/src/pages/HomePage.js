@@ -12,10 +12,9 @@ import { mainCaroseldata } from "./mainCaroseldata";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { useTheme } from "../pages/Themes/ThemeContext" 
+import { useTheme } from "../pages/Themes/ThemeContext";
 import { FaCartArrowDown } from "react-icons/fa";
 import { CgDetailsMore } from "react-icons/cg";
-
 
 const { Panel } = Collapse;
 
@@ -33,7 +32,6 @@ const HomePage = () => {
   const [priceOpen, setPriceOpen] = useState(true); // State for Price Collapse
   const [categoryOpen, setCategoryOpen] = useState(true); // State for Category Collapse
   const { darkMode } = useTheme(); // Access darkMode state from ThemeContext
-
 
   const getAllCategory = async () => {
     try {
@@ -103,7 +101,6 @@ const HomePage = () => {
   };
 
   //filter by category
- 
 
   useEffect(() => {
     if (!checked.length || !radio.length) getAllProducts();
@@ -169,7 +166,6 @@ const HomePage = () => {
     ],
   };
 
-
   return (
     <Layout title={"All Products - Best offers"}>
       {/* banner image */}
@@ -201,7 +197,11 @@ const HomePage = () => {
         ))}
       </Slider>
       {/* banner image */}
-      <div className={`container-fluid row mt-3 home-page ${darkMode ? 'dark-mode' : ''}`}>
+      <div
+        className={`container-fluid row mt-3 home-page ${
+          darkMode ? "dark-mode" : ""
+        }`}
+      >
         <div className="col-md-9">
           <h1 className="text-center">Products</h1>
           <div className="d-flex flex-wrap">
@@ -224,23 +224,47 @@ const HomePage = () => {
                       })}
                     </h5>
                   </div>
-                  <p className="card-text">{p.description.substring(0, 60)}...</p>
+                  <p className="card-text">
+                    {p.description.substring(0, 60)}...
+                  </p>
                   <div className="card-name-price">
                     <button
                       className="btn btn-info ms-1"
                       onClick={() => navigate(`/product/${p.slug}`)}
                     >
-                       <CgDetailsMore />  More Details
+                      <CgDetailsMore /> More Details
                     </button>
                     <button
                       className="btn btn-dark ms-1"
                       onClick={() => {
-                        setCart([...cart, p]);
-                        localStorage.setItem("cart", JSON.stringify([...cart, p]));
-                        toast.success("Item Added to cart");
+                        const existingItem = cart.find(
+                          (item) => item._id === p._id
+                        );
+                        if (existingItem) {
+                          // If the item already exists in the cart, update its quantity
+                          const updatedCart = cart.map((item) =>
+                            item._id === existingItem._id
+                              ? { ...item, quantity: item.quantity + 1 }
+                              : item
+                          );
+                          setCart(updatedCart);
+                          localStorage.setItem(
+                            "cart",
+                            JSON.stringify(updatedCart)
+                          );
+                          toast.success("Item Added to cart");
+                        } else {
+                          // If the item does not exist in the cart, add it with a quantity of 1
+                          setCart([...cart, { ...p, quantity: 1 }]);
+                          localStorage.setItem(
+                            "cart",
+                            JSON.stringify([...cart, { ...p, quantity: 1 }])
+                          );
+                          toast.success("Item Added to cart");
+                        }
                       }}
                     >
-                     <FaCartArrowDown />   ADD TO CART
+                      <FaCartArrowDown /> ADD TO CART
                     </button>
                   </div>
                 </div>

@@ -13,8 +13,6 @@ import { MdPayment } from "react-icons/md";
 import { GrDocumentUpdate } from "react-icons/gr";
 import { BiSolidLogInCircle } from "react-icons/bi";
 
-
-
 const CartPage = () => {
   const [auth, setAuth] = useAuth();
   const [cart, setCart] = useCart();
@@ -23,12 +21,11 @@ const CartPage = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  //total price
   const totalPrice = () => {
     try {
       let total = 0;
       cart?.map((item) => {
-        total = total + item.price;
+        total = total + item.price * item.quantity; // Multiply price by quantity
       });
       return total.toLocaleString("en-US", {
         style: "currency",
@@ -39,23 +36,33 @@ const CartPage = () => {
     }
   };
 
-  //delete item
   const removeCartItem = (pid) => {
-    try {
-      let myCart = [...cart];
-      let index = myCart.findIndex((item) => item._id === pid);
-      myCart.splice(index, 1);
-      setCart(myCart);
-      localStorage.setItem("cart", JSON.stringify(myCart));
-    } catch (error) {
-      console.log(error);
-    }
+    const updatedCart = cart.filter((item) => item._id !== pid);
+    setCart(updatedCart);
+  };
+
+  const increaseQuantity = (pid) => {
+    const updatedCart = cart.map((item) =>
+      item._id === pid ? { ...item, quantity: item.quantity + 1 } : item
+    );
+    setCart(updatedCart);
+  };
+
+  const decreaseQuantity = (pid) => {
+    const updatedCart = cart.map((item) =>
+      item._id === pid && item.quantity > 1
+        ? { ...item, quantity: item.quantity - 1 }
+        : item
+    );
+    setCart(updatedCart);
   };
 
   //get payment gateway token
   const getToken = async () => {
     try {
-      const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/product/braintree/token`);
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_API}/api/v1/product/braintree/token`
+      );
       setClientToken(data?.clientToken);
     } catch (error) {
       console.log(error);
@@ -71,10 +78,13 @@ const CartPage = () => {
     try {
       setLoading(true);
       const { nonce } = await instance.requestPaymentMethod();
-      const { data } = await axios.post(`${process.env.REACT_APP_API}/api/v1/product/braintree/payment`, {
-        nonce,
-        cart,
-      });
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_API}/api/v1/product/braintree/payment`,
+        {
+          nonce,
+          cart,
+        }
+      );
       setLoading(false);
       localStorage.removeItem("cart");
       setCart([]);
@@ -98,22 +108,40 @@ const CartPage = () => {
         <div className="container">
           <div className="row">
             <div className="col-md-7">
-              {cart?.map((p) => (
-                <div className="cart-item" key={p._id}>
+              {cart?.map((item) => (
+                <div className="cart-item" key={item._id}>
                   <div className="col-md-4">
                     <img
-                      src={`${process.env.REACT_APP_API}/api/v1/product/product-photo/${p._id}`}
-                      alt={p.name}
+                      src={`${process.env.REACT_APP_API}/api/v1/product/product-photo/${item._id}`}
+                      alt={item.name}
                     />
                   </div>
                   <div className="cart-item-info col-md-8">
-                    <p>{p.name}</p>
-                    <p>{p.description.substring(0, 30)}</p>
-                    <p>Price: {p.price}</p>
+                    <p>{item.name}</p>
+                    <p>{item.description.substring(0, 30)}</p>
+                    <p>Price: {item.price}</p>
+                    <div className="quantity-controls">
+                      <button
+                        className="btn btn-secondary"
+                        onClick={() => decreaseQuantity(item._id)}
+                      >
+                        -
+                      </button>
+                      <span>{item.quantity}</span>
+                      <button
+                        className="btn btn-secondary"
+                        onClick={() => increaseQuantity(item._id)}
+                      >
+                        +
+                      </button>
+                    </div>
                   </div>
                   <div className="cart-remove-btn col-md-12">
-                    <button className="btn btn-danger" onClick={() => removeCartItem(p._id)}>
-                    <IoIosRemoveCircle />Remove
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => removeCartItem(item._id)}
+                    >
+                      <IoIosRemoveCircle />Remove
                     </button>
                   </div>
                 </div>
@@ -140,7 +168,7 @@ const CartPage = () => {
                     className="btn btn-outline-warning"
                     onClick={() => navigate("/login", { state: "/cart" })}
                   >
-                  <BiSolidLogInCircle />  Please Login to Checkout
+                    <BiSolidLogInCircle /> Please Login to Checkout
                   </button>
                 )}
               </div>
@@ -163,7 +191,7 @@ const CartPage = () => {
                       onClick={handlePayment}
                       disabled={loading || !instance || !auth?.user?.address}
                     >
-                     <MdPayment /> {loading ? "Processing ...." : "Make Payment"}
+                      <MdPayment /> {loading ? "Processing ...." : "Make Payment"}
                     </button>
                   </>
                 )}

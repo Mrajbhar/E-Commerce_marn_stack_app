@@ -5,6 +5,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useCart } from "../context/cart";
 import "../styles/ProductDetailsStyles.css";
 import toast from "react-hot-toast";
+import { FaCartArrowDown } from "react-icons/fa";
+import { motion } from "framer-motion";
 
 const ProductDetails = () => {
   const params = useParams();
@@ -43,7 +45,9 @@ const ProductDetails = () => {
   return (
     <Layout>
       <div className="row container product-details">
+        {/* Product Details */}
         <div className="col-md-6">
+          {/* Product Image */}
           <img
             src={`${process.env.REACT_APP_API}/api/v1/product/product-photo/${product._id}`}
             className="card-img-top"
@@ -65,19 +69,40 @@ const ProductDetails = () => {
             })}
           </h6>
           <h6>Category : {product?.category?.name}</h6>
-          <button
-            className="btn btn-secondary ms-1"
+          {/* Add to Cart Button */}
+          <motion.button
+            className="btn btn-dark ms-1"
+            whileHover={{ scale: 1.1 }} // Scale up on hover
+            whileTap={{ scale: 0.9 }} // Scale down when pressed
             onClick={() => {
-              setCart([...cart, product]);
-              localStorage.setItem("cart", JSON.stringify([...cart, product]));
-              toast.success("Item Added to cart");
+              const existingItem = cart.find((item) => item._id === product._id);
+              if (existingItem) {
+                // If the item already exists in the cart, update its quantity
+                const updatedCart = cart.map((item) =>
+                  item._id === existingItem._id
+                    ? { ...item, quantity: item.quantity + 1 }
+                    : item
+                );
+                setCart(updatedCart);
+                localStorage.setItem("cart", JSON.stringify(updatedCart));
+                toast.success("Item Added to cart");
+              } else {
+                // If the item does not exist in the cart, add it with a quantity of 1
+                setCart([...cart, { ...product, quantity: 1 }]);
+                localStorage.setItem(
+                  "cart",
+                  JSON.stringify([...cart, { ...product, quantity: 1 }])
+                );
+                toast.success("Item Added to cart");
+              }
             }}
           >
-            ADD TO CART
-          </button>
+            <FaCartArrowDown /> ADD TO CART
+          </motion.button>
         </div>
       </div>
       <hr />
+      {/* Similar Products */}
       <div className="row container similar-products">
         <h4>Similar Products ➡️</h4>
         {relatedProducts.length < 1 && (
@@ -85,7 +110,12 @@ const ProductDetails = () => {
         )}
         <div className="d-flex flex-wrap">
           {relatedProducts?.map((p) => (
-            <div className="card m-2" key={p._id}>
+            <motion.div
+              key={p._id}
+              className="card m-2"
+              whileHover={{ scale: 1.05 }} // Scale up on hover
+              whileTap={{ scale: 0.95 }} // Scale down when pressed
+            >
               <img
                 src={`${process.env.REACT_APP_API}/api/v1/product/product-photo/${p._id}`}
                 className="card-img-top"
@@ -111,7 +141,7 @@ const ProductDetails = () => {
                   </button>
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

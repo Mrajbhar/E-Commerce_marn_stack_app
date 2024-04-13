@@ -25,6 +25,7 @@
     "dotenv": "^16.4.1",
     "express": "^4.18.2",
     "express-formidable": "^1.2.0",
+    "framer-motion": "^11.0.28",
     "i": "^0.3.7",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.1.1",
