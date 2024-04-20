@@ -1,0 +1,27 @@
+.icon {
+    width: 20px; /* Set the width of the icon */
+    height: 20px; /* Set the height of the icon */
+    transition: transform 0.3s ease-in-out; /* Add a transition for smooth animation */
+    border: none; /* Remove the border */
+  }
+  
+  .sun, .moon {
+    font-size: 20px; /* Set a smaller font size for the icons */
+  }
+  
+  .sun {
+    color: #ffc107; /* Set the color of the sun icon */
+  }
+  
+  .moon {
+    color: #6c757d; /* Set the color of the moon icon */
+  }
+  
+  .dark-mode-toggle:hover .moon {
+    transform: rotate(360deg); /* Rotate the moon icon on hover */
+  }
+  
+  .dark-mode-toggle:hover .sun {
+    transform: rotate(360deg); /* Rotate the sun icon on hover */
+  }
+  

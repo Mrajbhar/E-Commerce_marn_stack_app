@@ -332,4 +332,56 @@
 }
 
 
+.dark-mode {
+  background-color: #1a1a1a; /* Dark background color */
+  color: #f0f0f0; /* Light text color */
+}
+
+/* Enhance readability by adjusting colors for specific elements */
+.dark-mode h1, .dark-mode h2, .dark-mode h3 {
+  color: #ffcc00; /* Heading colors */
+}
+
+.dark-mode .card {
+  background-color: #2d2d2d; /* Dark card background color */
+  border-color: #3d3d3d; /* Dark border color */
+}
+
+.dark-mode .card-title {
+  color: #f0f0f0; /* Light text color for card titles */
+}
+
+.dark-mode .card-text {
+  color: #cccccc; /* Light text color for card content */
+}
+
+.dark-mode .btn {
+  background-color: #ffcc00; /* Yellow button background color */
+  color: #1a1a1a; /* Dark button text color */
+}
+
+.dark-mode .btn:hover {
+  background-color: #ffdb4d; /* Lighter yellow on hover */
+}
+
+/* Adjust slider colors for better visibility */
+.dark-mode .slick-dots li button:before {
+  color: #cccccc; /* Slider dot color */
+}
+
+/* Example of adjusting link color */
+.dark-mode a {
+  color: #ffcc00; /* Link color */
+}
+
+/* Example of adjusting navigation background color */
+.dark-mode .navbar {
+  background-color: #1a1a1a; /* Dark navigation background color */
+}
+
+
+
+
+
+
 

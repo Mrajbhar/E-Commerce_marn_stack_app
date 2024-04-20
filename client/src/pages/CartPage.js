@@ -4,7 +4,6 @@ import { useCart } from "../context/cart";
 import { useAuth } from "../context/auth";
 import { useNavigate } from "react-router-dom";
 import DropIn from "braintree-web-drop-in-react";
-import { AiFillWarning } from "react-icons/ai";
 import axios from "axios";
 import toast from "react-hot-toast";
 import "../styles/CartPage.css";
@@ -12,6 +11,7 @@ import { IoIosRemoveCircle } from "react-icons/io";
 import { MdPayment } from "react-icons/md";
 import { GrDocumentUpdate } from "react-icons/gr";
 import { BiSolidLogInCircle } from "react-icons/bi";
+import { useTheme } from "../pages/Themes/ThemeContext"; // Import useTheme hook
 
 const CartPage = () => {
   const [auth, setAuth] = useAuth();
@@ -20,9 +20,11 @@ const CartPage = () => {
   const [instance, setInstance] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { darkMode } = useTheme(); // Access darkMode state
 
   const exchangeRate = 83.61;
 
+  // Function to calculate total price
   const totalPrice = () => {
     try {
       let total = 0;
@@ -38,11 +40,13 @@ const CartPage = () => {
     }
   };
 
+  // Function to remove item from cart
   const removeCartItem = (pid) => {
     const updatedCart = cart.filter((item) => item._id !== pid);
     setCart(updatedCart);
   };
 
+  // Function to increase item quantity
   const increaseQuantity = (pid) => {
     const updatedCart = cart.map((item) =>
       item._id === pid ? { ...item, quantity: item.quantity + 1 } : item
@@ -50,6 +54,7 @@ const CartPage = () => {
     setCart(updatedCart);
   };
 
+  // Function to decrease item quantity
   const decreaseQuantity = (pid) => {
     const updatedCart = cart.map((item) =>
       item._id === pid && item.quantity > 1
@@ -59,7 +64,7 @@ const CartPage = () => {
     setCart(updatedCart);
   };
 
-  //get payment gateway token
+  // Function to get payment gateway token
   const getToken = async () => {
     try {
       const { data } = await axios.get(
@@ -75,7 +80,7 @@ const CartPage = () => {
     getToken();
   }, [auth?.token]);
 
-  //handle payments
+  // Function to handle payments
   const handlePayment = async () => {
     try {
       setLoading(true);
@@ -100,7 +105,7 @@ const CartPage = () => {
 
   return (
     <Layout>
-      <div className="cart-page">
+      <div className={`cart-page ${darkMode ? 'dark-mode' : ''}`}>
         <h1 className="text-center">
           {!auth?.user
             ? "Hello Guest"

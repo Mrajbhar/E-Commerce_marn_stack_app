@@ -133,3 +133,37 @@
   font-weight: bold; /* Make the text bold if desired */
   margin-left: 10px; /* Adjust the spacing between the icon and the text */
 }
+
+
+
+
+
+
+
+/* Header.css */
+
+.navbar-dark.bg-dark {
+  background-color:#000 !important; /* Change text color to black */
+}
+
+.navbar-dark.bg-dark .navbar-brand,
+.navbar-dark.bg-dark .navbar-nav .nav-link,
+.navbar-dark.bg-dark .navbar-toggler-icon {
+  color:#ffcc00 !important;
+
+
+}
+/* Header.css */
+.navbar-dark .dropdown-menu {
+  background-color: #000; /* Set background color for dropdown menu */
+  border: none; /* Remove border */
+}
+
+.navbar-dark .dropdown-menu a {
+  color: #ffcc00 !important; /* Set text color for dropdown items */
+}
+
+.navbar-dark .dropdown-menu a:hover {
+  background-color: #222; /* Change background color on hover */
+}
+

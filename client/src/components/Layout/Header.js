@@ -10,7 +10,8 @@ import { FaCartArrowDown } from "react-icons/fa";
 import { Badge } from "antd";
 import "../../styles/Header.css";
 import { useTheme } from "../../pages/Themes/ThemeContext";
-import { ToggleButton } from "./ToggleButton";
+import DarkModeToggle from "./DarkModeToggle";
+
 
 const Header = () => {
   const [auth, setAuth] = useAuth();
@@ -182,7 +183,9 @@ const Header = () => {
             </li>
            
 
-            
+            <li className="nav-item">
+              <DarkModeToggle /> 
+            </li>
           </ul>
 
         </div>
