@@ -183,9 +183,7 @@ const Header = () => {
             </li>
            
 
-            <li className="nav-item">
-              <DarkModeToggle /> 
-            </li>
+          
           </ul>
 
         </div>
