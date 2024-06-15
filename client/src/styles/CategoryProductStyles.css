@@ -5,6 +5,7 @@
 .category .card {
   background-color: rgba(128, 128, 128, 0.097);
   width: 18rem;
+  transition: transform 0.3s ease;
 }
 .category .card-name-price {
   display: flex;
@@ -23,10 +24,24 @@
   border-bottom-right-radius: 5px;
   font-size: 14px;
   font-weight: bold;
+  background-color: #007bff; /* Updated button color */
+  color: #fff;
+  border: none;
+  padding: 10px;
+  transition: background-color 0.3s ease, transform 0.3s ease; /* Add transition for button */
+}
+
+.category button:hover {
+  background-color: #0056b3; /* Darker shade on hover */
+  transform: scale(1.05); /* Slightly enlarge the button on hover */
 }
 
 .category .card-text {
   color: rgb(90, 89, 89);
+}
+
+.category .card img {
+  transition: transform 0.3s ease; /* Smooth transition for image scaling */
 }
 
 .category .card img:hover {
@@ -35,4 +50,10 @@
 
 .category .card-img-top {
   height: 300px !important;
+}
+
+/* Add card hover effect */
+.category .card:hover {
+  transform: translateY(-5px); /* Slightly lift the card on hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add a shadow effect */
 }

@@ -14,6 +14,8 @@ import { useTheme } from "../Themes/ThemeContext";
 import { FaCartArrowDown } from "react-icons/fa";
 import { CgDetailsMore } from "react-icons/cg";
 import { GrPowerReset } from "react-icons/gr";
+import { PiShoppingCartFill } from "react-icons/pi";
+
 
 const { Panel } = Collapse;
 
@@ -32,7 +34,7 @@ const AllProducts = () => {
   const [categoryOpen, setCategoryOpen] = useState(true); // State for Category Collapse
   const { darkMode } = useTheme(); // Access darkMode state from ThemeContext
   const exchangeRate = 83.61;
-
+  const [itemAdded, setItemAdded] = useState(false); // State for tracking item added to cart
 
   const handlecategoryFilter = (value, id) => {
     let all = [...checked];
@@ -247,38 +249,46 @@ const AllProducts = () => {
                     >
                       <CgDetailsMore /> More Details
                     </button>
-                    <button
-                      className="btn btn-dark ms-1"
-                      onClick={() => {
-                        const existingItem = cart.find(
-                          (item) => item._id === p._id
-                        );
-                        if (existingItem) {
-                          // If the item already exists in the cart, update its quantity
-                          const updatedCart = cart.map((item) =>
-                            item._id === existingItem._id
-                              ? { ...item, quantity: item.quantity + 1 }
-                              : item
+                    
+                    {itemAdded ? (
+                      <button
+                        className="btn btn-success ms-1"
+                        onClick={() => navigate("/cart")}
+                      >
+                        <PiShoppingCartFill /> GO TO CART
+                      </button>
+                    ) : (
+                      <button
+                        className="btn btn-dark ms-1"
+                        onClick={() => {
+                          const existingItem = cart.find(
+                            (item) => item._id === p._id
                           );
-                          setCart(updatedCart);
-                          localStorage.setItem(
-                            "cart",
-                            JSON.stringify(updatedCart)
-                          );
+                          if (existingItem) {
+                            const updatedCart = cart.map((item) =>
+                              item._id === existingItem._id
+                                ? { ...item, quantity: item.quantity + 1 }
+                                : item
+                            );
+                            setCart(updatedCart);
+                            localStorage.setItem(
+                              "cart",
+                              JSON.stringify(updatedCart)
+                            );
+                          } else {
+                            setCart([...cart, { ...p, quantity: 1 }]);
+                            localStorage.setItem(
+                              "cart",
+                              JSON.stringify([...cart, { ...p, quantity: 1 }])
+                            );
+                          }
+                          setItemAdded(true); // Set itemAdded to true
                           toast.success("Item Added to cart");
-                        } else {
-                          // If the item does not exist in the cart, add it with a quantity of 1
-                          setCart([...cart, { ...p, quantity: 1 }]);
-                          localStorage.setItem(
-                            "cart",
-                            JSON.stringify([...cart, { ...p, quantity: 1 }])
-                          );
-                          toast.success("Item Added to cart");
-                        }
-                      }}
-                    >
-                      <FaCartArrowDown /> ADD TO CART
-                    </button>
+                        }}
+                      >
+                        <FaCartArrowDown /> ADD TO CART
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>

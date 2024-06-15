@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Checkbox, Radio, Collapse } from "antd"; // Import Collapse
+import { Checkbox, Radio, Collapse } from "antd";
 import { Prices } from "../components/Prices";
 import { useCart } from "../context/cart";
 import axios from "axios";
@@ -15,6 +15,8 @@ import "slick-carousel/slick/slick-theme.css";
 import { useTheme } from "../pages/Themes/ThemeContext";
 import { FaCartArrowDown } from "react-icons/fa";
 import { CgDetailsMore } from "react-icons/cg";
+import { PiShoppingCartFill } from "react-icons/pi";
+
 
 const { Panel } = Collapse;
 
@@ -29,12 +31,13 @@ const HomePage = () => {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [activeCategory, setActiveCategory] = useState(null);
-  const [priceOpen, setPriceOpen] = useState(true); // State for Price Collapse
-  const [categoryOpen, setCategoryOpen] = useState(true); // State for Category Collapse
-  const { darkMode } = useTheme(); // Access darkMode state from ThemeContext
-
+  const [priceOpen, setPriceOpen] = useState(true);
+  const [categoryOpen, setCategoryOpen] = useState(true);
+  const { darkMode } = useTheme();
   const exchangeRate = 83.61;
 
+  // Track product IDs in the cart
+  const [cartProductIds, setCartProductIds] = useState([]);
 
   const getAllCategory = async () => {
     try {
@@ -56,7 +59,7 @@ const HomePage = () => {
     getTotal();
   }, []);
 
-  //get product getAllproducts
+  // Get product getAllproducts
   const getAllProducts = async () => {
     try {
       setLoading(true);
@@ -71,7 +74,7 @@ const HomePage = () => {
     }
   };
 
-  //get Total Count
+  // Get Total Count
   const getTotal = async () => {
     try {
       const { data } = await axios.get(
@@ -88,7 +91,7 @@ const HomePage = () => {
     loadMore();
   }, [page]);
 
-  //load more
+  // Load more
   const loadMore = async () => {
     try {
       setLoading(true);
@@ -103,8 +106,7 @@ const HomePage = () => {
     }
   };
 
-  //filter by category
-
+  // Filter by category
   useEffect(() => {
     if (!checked.length || !radio.length) getAllProducts();
   }, [checked.length, radio.length]);
@@ -113,7 +115,7 @@ const HomePage = () => {
     if (checked.length || radio.length) filterProducts();
   }, [checked, radio]);
 
-  //get filtered products
+  // Get filtered products
   const filterProducts = async () => {
     try {
       const { data } = await axios.post(
@@ -169,9 +171,29 @@ const HomePage = () => {
     ],
   };
 
+  const handleAddToCart = (product) => {
+    const existingItem = cart.find((item) => item._id === product._id);
+    if (existingItem) {
+      const updatedCart = cart.map((item) =>
+        item._id === existingItem._id
+          ? { ...item, quantity: item.quantity + 1 }
+          : item
+      );
+      setCart(updatedCart);
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
+      toast.success("Item Added to cart");
+    } else {
+      const newCart = [...cart, { ...product, quantity: 1 }];
+      setCart(newCart);
+      localStorage.setItem("cart", JSON.stringify(newCart));
+      toast.success("Item Added to cart");
+    }
+    setCartProductIds([...cartProductIds, product._id]);
+  };
+
   return (
     <Layout title={"All Products - Best offers"}>
-      {/* banner image */}
+      {/* Banner image */}
       <Slider {...settings}>
         {mainCaroseldata.map((item, index) => (
           <img
@@ -199,7 +221,7 @@ const HomePage = () => {
           </div>
         ))}
       </Slider>
-      {/* banner image */}
+      {/* Banner image */}
       <div
         className={`container-fluid row mt-3 home-page ${
           darkMode ? "dark-mode" : ""
@@ -221,10 +243,10 @@ const HomePage = () => {
                   <div className="card-name-price">
                     <h5 className="card-title">{p.name}</h5>
                     <h5 className="card-title card-price">
-                    {(p.price * exchangeRate).toLocaleString("en-IN", {
-                      style: "currency",
-                      currency: "INR",
-                    })}
+                      {(p.price * exchangeRate).toLocaleString("en-IN", {
+                        style: "currency",
+                        currency: "INR",
+                      })}
                     </h5>
                   </div>
                   <p className="card-text">
@@ -237,38 +259,22 @@ const HomePage = () => {
                     >
                       <CgDetailsMore /> More Details
                     </button>
-                    <button
-                      className="btn btn-dark ms-1"
-                      onClick={() => {
-                        const existingItem = cart.find(
-                          (item) => item._id === p._id
-                        );
-                        if (existingItem) {
-                          // If the item already exists in the cart, update its quantity
-                          const updatedCart = cart.map((item) =>
-                            item._id === existingItem._id
-                              ? { ...item, quantity: item.quantity + 1 }
-                              : item
-                          );
-                          setCart(updatedCart);
-                          localStorage.setItem(
-                            "cart",
-                            JSON.stringify(updatedCart)
-                          );
-                          toast.success("Item Added to cart");
-                        } else {
-                          // If the item does not exist in the cart, add it with a quantity of 1
-                          setCart([...cart, { ...p, quantity: 1 }]);
-                          localStorage.setItem(
-                            "cart",
-                            JSON.stringify([...cart, { ...p, quantity: 1 }])
-                          );
-                          toast.success("Item Added to cart");
-                        }
-                      }}
-                    >
-                      <FaCartArrowDown /> ADD TO CART
-                    </button>
+                    {cartProductIds.includes(p._id) ? (
+                      <button
+                        className="btn btn-warning ms-1"
+                        onClick={() => navigate("/cart")}
+                      >
+                      <PiShoppingCartFill /> Go to Cart
+
+                      </button>
+                    ) : (
+                      <button
+                        className="btn btn-dark ms-1"
+                        onClick={() => handleAddToCart(p)}
+                      >
+                        <FaCartArrowDown /> ADD TO CART
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>

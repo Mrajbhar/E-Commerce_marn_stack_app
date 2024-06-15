@@ -10,6 +10,7 @@ import { FaCartArrowDown } from "react-icons/fa";
 import { CgDetailsMore } from "react-icons/cg";
 import "../styles/Homepage.css";
 import { useTheme } from "../pages/Themes/ThemeContext";
+import { PiShoppingCartFill } from "react-icons/pi";
 
 const NewArrivals = () => {
   const [newArrivals, setNewArrivals] = useState([]);
@@ -18,6 +19,7 @@ const NewArrivals = () => {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState([]); // State to hold fetched products
+  const [itemAdded, setItemAdded] = useState({}); // State for tracking item added to cart
   const navigate = useNavigate();
   const { darkMode } = useTheme(); // Access darkMode state from ThemeContext
 
@@ -82,10 +84,14 @@ const NewArrivals = () => {
           : item
       );
       setCart(updatedCart);
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
     } else {
       // If the item does not exist in the cart, add it with a quantity of 1
       setCart([...cart, { ...product, quantity: 1 }]);
+      localStorage.setItem("cart", JSON.stringify([...cart, { ...product, quantity: 1 }]));
     }
+    toast.success("Item Added to cart");
+    setItemAdded((prev) => ({ ...prev, [product._id]: true })); // Set itemAdded to true for the specific product
   };
 
   return (
@@ -125,12 +131,21 @@ const NewArrivals = () => {
                   >
                     <CgDetailsMore /> More Details
                   </button>
-                  <button
-                    className="btn btn-dark ms-1"
-                    onClick={() => addItemToCart(p)}
-                  >
-                    <FaCartArrowDown /> ADD TO CART
-                  </button>
+                  {itemAdded[p._id] ? (
+                    <button
+                      className="btn btn-success ms-1"
+                      onClick={() => navigate("/cart")}
+                    >
+                      <PiShoppingCartFill /> GO TO CART
+                    </button>
+                  ) : (
+                    <button
+                      className="btn btn-dark ms-1"
+                      onClick={() => addItemToCart(p)}
+                    >
+                      <FaCartArrowDown /> ADD TO CART
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
