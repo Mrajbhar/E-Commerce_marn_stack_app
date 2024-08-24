@@ -227,7 +227,7 @@ const HomePage = () => {
           darkMode ? "dark-mode" : ""
         }`}
       >
-        <div className="col-md-9">
+        <div className="special-offers-heading">
           <h1 className="text-center">Products</h1>
           <div className="d-flex flex-wrap">
             {products?.map((p) => (
