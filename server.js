@@ -8,13 +8,12 @@ import categoryRoutees from "./routes/categoryRoutes.js";
 import productRoutes from "./routes/productRouters.js"
 import cors from 'cors';
 import path from "path";
-import { fileURLToPath } from 'url';
 
 dotenv.config();
 
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
 
 //database configar
 
@@ -28,11 +27,11 @@ app.use(express.json())
 app.use(morgan('dev'))
 //app.use(express.static(path.join(__dirname,"./client/build")))
 
-app.use(express.static(path.join(__dirname, 'client/build')));
+// app.use(express.static(path.join(__dirname, 'client/build')));
 
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
-  });
+// app.get('*', (req, res) => {
+//     res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+//   });
   
 // app.get('*', (req, res) => {
 //     res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
