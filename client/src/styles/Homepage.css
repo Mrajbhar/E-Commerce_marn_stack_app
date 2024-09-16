@@ -1,383 +1,334 @@
 /* Homepage.css */
-
-/* Banner Image */
-.banner-img {
-  margin-top: 0px;
-  transition: transform 0.3s ease-in-out;
+.hero-section {
+  position: relative;
+  width: 100%;
+  overflow: hidden; /* Ensure no overflow */
 }
 
-.banner-img:hover {
-  transform: scale(1.1);
+.hero-image {
+  width: 100%;
+  height: auto; /* Ensure image scales properly */
+  display: block;
 }
 
-/* Home Page Title */
-.home-page h1 {
-  color: gray;
-  font-family: "Playfair Display", serif;
-  text-align: center;
+.slick-prev,
+.slick-next {
+  background: transparent;
+  border: none;
+  color: #333; /* Adjust color if needed */
+  cursor: pointer;
+  outline: none;
+  z-index: 1;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 24px; /* Adjust size if needed */
+}
+
+.slick-prev {
+  left: 10px; /* Adjust as needed */
+}
+
+.slick-next {
+  right: 10px; /* Adjust as needed */
+}
+
+
+/* Section Titles */
+.section-title {
+  font-size: 24px;
+  font-weight: bold;
   margin-bottom: 20px;
-  font-size: 28px;
-  text-transform: uppercase;
 }
 
-/* Home Page Container */
-.home-page {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+/* Product Grid */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 15px;
 }
 
-/* Product Cards */
-.home-page .card {
-  background-color: rgba(128, 128, 128, 0.097);
-  width: 260px;
-  margin: 10px;
-  border-radius: 10px;
-  box-shadow: 0 0 50px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease-in-out;
+/* Product Card */
+.product-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #fff;
+  transition: box-shadow 0.3s ease;
 }
 
-.home-page .card:hover {
-  transform: translateY(-5px);
+.product-card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.home-page .card-img-top {
-  height: 150px;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+.card-img-top {
+  width: 100%;
+  height: 180px;
   object-fit: cover;
 }
 
-.home-page .card-body {
-  padding: 0px;
-  max-height: fit-content;
+.card-body {
+  padding: 15px;
 }
 
-.home-page .card-name-price {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.home-page .card-title {
+.card-title {
   font-size: 18px;
+  font-weight: bold;
   margin-bottom: 10px;
 }
 
-.home-page .card-price {
-  color: green;
-  font-weight: bold;
-}
-
-.home-page .card-text {
-  color: rgb(90, 89, 89);
-}
-
-.home-page button {
-  width: 100%;
-  border-radius: 5px;
-  padding: 10px;
-  margin-top: 10px;
-  font-size: 12px;
-  font-weight: bold;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.home-page button:hover {
-  background-color: #0056b3;
-}
-
-/* Filters */
-.filters {
-  background-color: #f0f0f0;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
-}
-
-.filters h4 {
-  color: #333;
-  margin-bottom: 15px;
-  text-align: center;
-}
-
-.filters .ant-checkbox-wrapper,
-.filters .ant-radio-wrapper {
-  margin-bottom: 10px !important;
-}
-
-.filters button {
-  width: 100%;
-  border-radius: 5px;
-  padding: 10px;
+.card-price {
   font-size: 16px;
-  font-weight: bold;
-  background-color: #dc3545;
-  color: #fff;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+  color: #28a745;
+  margin-bottom: 10px;
 }
 
-.filters button:hover {
-  background-color: #c82333;
-}
-
-/* Load More Button */
-.loadmore {
-  width: 100%;
-  border-radius: 5px;
-  padding: 10px;
-  font-size: 16px;
-  font-weight: bold;
-  background-color: #28a745;
-  color: #fff;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.loadmore:hover {
-  background-color: #218838;
-}
-
-
-/* Homepage.css */
-
-.filters {
-  transition: transform 0.3s ease-in-out;
-}
-
-.filters.hide {
-  transform: translateX(-100%);
-}
-
-.toggle-button {
-  position: fixed;
-  top: 50%;
-  right: 0;
-  transform: translateY(-50%);
-  z-index: 999;
-}
-
-
-.active-category {
-  animation: fadeIn 0.5s ease-in-out;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-
-
-
-/* Homepage.css */
-
-/* Offer section styles */
-.offer-section {
-  margin-top: 30px;
-}
-
-.offer-item {
-  border: 1px solid #ccc;
-  border-radius: 10px; /* Rounded corners */
-  padding: 20px;
-  background-color: #f9f9f9;
-  transition: all 0.3s ease; /* Smooth transition */
-}
-
-.offer-item img {
-  border-radius: 10px; /* Rounded corners for images */
-  max-width: 100%;
-  height: auto;
-}
-
-.offer-item h3 {
-  margin-top: 10px;
-  font-size: 18px;
-  font-weight: bold;
-}
-
-.offer-item p {
-  margin-top: 10px;
+.card-text {
   font-size: 14px;
+  color: #666;
+  margin-bottom: 15px;
 }
 
-.offer-item:hover {
-  transform: translateY(-5px); /* Move the item up on hover */
-  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1); /* Add shadow on hover */
+/* Buttons */
+.btn-info {
+  background-color: #17a2b8;
+  color: #fff;
 }
 
-
-/* Add space between offer items */
-.offer-item {
-  margin-right: 20px; /* Adjust spacing as needed */
+.btn-warning {
+  background-color: #ffc107;
+  color: #333;
 }
 
-/* Add animation to the slider */
-.offer-slider {
-  position: relative;
-  overflow: hidden;
+.btn-dark {
+  background-color: #343a40;
+  color: #fff;
 }
 
-.offer-slider .slick-list {
-  overflow: hidden;
+.btn-info:hover {
+  background-color: #138496;
 }
 
-.offer-slider .slick-slide {
-  transition: transform 0.5s ease;
+.btn-warning:hover {
+  background-color: #e0a800;
 }
 
-.offer-slider .slick-slide:hover {
-  transform: scale(1.1);
+.btn-dark:hover {
+  background-color: #23272b;
 }
 
-
-/* Homepage.css */
-
-/* Add animation and styling for Collapse panels */
-.ant-collapse-header {
-  background-color: #f0f0f0; /* Set default background color */
-  transition: background-color 0.3s; /* Add transition for smooth color change */
-}
-
-.ant-collapse-item-active .ant-collapse-header {
-  background-color: #e6f7ff; /* Set background color for active state */
-}
-
-/* Add hover effect for Collapse panels */
-.ant-collapse-item {
-  transition: box-shadow 0.3s; /* Add transition for smooth hover effect */
-}
-
-.ant-collapse-item:hover {
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Add shadow on hover */
-}
-
-/* Homepage.css */
-
-/* Add animation for price select options */
-.ant-radio-group {
-  overflow: hidden; /* Hide overflow to prevent animation glitches */
-}
-
-.ant-radio-wrapper {
-  transition: transform 0.3s; /* Add transition for smooth animation */
-}
-
-.ant-radio-wrapper:hover {
-  transform: scale(1.1); /* Scale up on hover */
-}
-
-
-.filter-heading {
-  font-size: 15px;
-  font-weight: bold;
-  color: #333; /* Change the color as needed */
-  text-transform: uppercase;
-  margin-bottom: 20px; /* Adjust spacing as needed */
-}
-
-
-
-/* Homepage.css */
-
-/* Define animation for collapsing/expanding */
-.custom-collapse {
-  transition: height 0.3s ease-in-out; /* Adjust animation duration and easing as needed */
-}
-
-/* Add styles for active category */
-.active-category {
-  font-weight: bold;
-}
-
-/* Add styles for responsive Collapse */
-.responsive-collapse .ant-collapse-item {
-  margin-bottom: 10px;
-}
-
-/* Additional styling can be added based on your design requirements */
-.filter-header {
-  font-size: 16px;
-  font-weight: bold;
+/* Slick Carousel Arrow Buttons */
+.slick-prev,
+.slick-next {
+  width: 30px;
+  height: 30px;
+  background-color: #333;
+  border-radius: 50%;
+  color: #fff;
   display: flex;
   align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  z-index: 1;
 }
 
-.filter-header svg {
-  margin-left: 5px;
+.slick-prev {
+  left: 10px;
 }
 
-.filter-section {
-  margin-bottom: 20px;
+.slick-next {
+  right: 10px;
 }
 
-@media screen and (max-width: 768px) {
-  .filter-header {
-    font-size: 14px;
-  }
+.slick-prev:hover,
+.slick-next:hover {
+  background-color: #555;
 }
 
-
-.dark-mode {
-  background-color: #1a1a1a; /* Dark background color */
-  color: #f0f0f0; /* Light text color */
+/* Dark Mode */
+.dark-mode .product-card {
+  background-color: #2d2d2d;
+  color: #f0f0f0;
 }
 
-/* Enhance readability by adjusting colors for specific elements */
-.dark-mode h1, .dark-mode h2, .dark-mode h3 {
-  color: #ffcc00; /* Heading colors */
-}
-
-.dark-mode .card {
-  background-color: #2d2d2d; /* Dark card background color */
-  border-color: #3d3d3d; /* Dark border color */
-}
-
-.dark-mode .card-title {
-  color: #f0f0f0; /* Light text color for card titles */
+.dark-mode .card-price {
+  color: #f0f0f0;
 }
 
 .dark-mode .card-text {
-  color: #cccccc; /* Light text color for card content */
+  color: #cccccc;
 }
 
-.dark-mode .btn {
-  background-color: #ffcc00; /* Yellow button background color */
-  color: #1a1a1a; /* Dark button text color */
+/* Responsive Design */
+@media (max-width: 992px) {
+  .card-img-top {
+    height: 160px;
+  }
 }
 
-.dark-mode .btn:hover {
-  background-color: #ffdb4d; /* Lighter yellow on hover */
+@media (max-width: 768px) {
+  .card-img-top {
+    height: 140px;
+  }
 }
 
-/* Adjust slider colors for better visibility */
-.dark-mode .slick-dots li button:before {
-  color: #cccccc; /* Slider dot color */
+@media (max-width: 576px) {
+  .card-img-top {
+    height: 120px;
+  }
 }
 
-/* Example of adjusting link color */
-.dark-mode a {
-  color: #ffcc00; /* Link color */
+
+
+
+
+/* Homepage.css */
+
+/* Container for the popular products slider */
+.popular-products {
+  position: relative; /* Needed to position arrows */
 }
 
-/* Example of adjusting navigation background color */
-.dark-mode .navbar {
-  background-color: #1a1a1a; /* Dark navigation background color */
+/* Custom Arrow Buttons */
+.slick-prev,
+.slick-next {
+  background: transparent;
+  border: none;
+  color: #333; /* Adjust color if needed */
+  cursor: pointer;
+  outline: none;
+  z-index: 1;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 24px; /* Adjust size if needed */
 }
+
+/* Position the previous arrow on the left */
+.slick-prev {
+  left: 10px; /* Adjust as needed */
+}
+
+/* Position the next arrow on the right */
+.slick-next {
+  right: 10px; /* Adjust as needed */
+}
+
+/* Ensure the slider container is positioned relatively to contain the arrows */
+.slick-slider {
+  position: relative;
+}
+
+/* Style for the product cards */
+.product-card {
+  margin: 0 5px; /* Adjust as needed for spacing between cards */
+  box-sizing: border-box;
+  padding: 10px; /* Add padding if needed */
+  border: 1px solid #ddd; /* Optional: Border to better distinguish product cards */
+  border-radius: 8px; /* Optional: Rounded corners */
+  background-color: #fff; /* Optional: Background color */
+}
+
+/* Make sure images fit well within the card */
+.card-img-top {
+  width: 100%;
+  height: auto;
+  display: block;
+  max-height: 150px; /* Limit the height of the images to keep them small */
+  object-fit: cover; /* Ensure images cover the space */
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+  .slick-slide {
+    display: flex;
+    justify-content: center;
+    /* Allow space around the card and control how many cards fit */
+  }
+
+  .slick-slide .product-card {
+    margin: 0 10px; /* Add margin for spacing between cards */
+    width: 90%; /* Adjust width to fit more cards and ensure spacing */
+    max-width: 150px; /* Set a max width for the product cards to ensure they are small */
+  }
+
+  .slick-prev,
+  .slick-next {
+    font-size: 20px; /* Smaller arrows for small screens */
+  }
+}
+
+
+
+
+.special-offers {
+  position: relative;
+  padding: 0 10px; /* Add padding around the section */
+}
+
+.offer-item {
+  padding: 0 5px; /* Add padding between items */
+  box-sizing: border-box; /* Ensure padding is included in width */
+}
+
+.offer-image {
+  width: 100%; /* Ensure image scales with its container */
+  height: auto; /* Maintain aspect ratio */
+  display: block; /* Remove extra space below images */
+}
+
+.slick-prev,
+.slick-next {
+  background: transparent;
+  border: none;
+  color: #333; /* Adjust color if needed */
+  cursor: pointer;
+  outline: none;
+  z-index: 1;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 24px; /* Adjust size if needed */
+}
+
+.slick-prev {
+  left: 10px; /* Adjust as needed */
+}
+
+.slick-next {
+  right: 10px; /* Adjust as needed */
+}
+
+/* Additional media queries for better responsiveness */
+@media (max-width: 1200px) {
+  .slick-slide {
+    padding: 0 10px; /* Adjust padding */
+  }
+}
+
+@media (max-width: 768px) {
+  .slick-slide {
+    padding: 0 8px; /* Adjust padding */
+  }
+}
+
+@media (max-width: 576px) {
+  .slick-slide {
+    padding: 0 4px; /* Reduce padding */
+  }
+
+  .offer-item {
+    padding: 0; /* Remove padding */
+  }
+
+  .slick-prev,
+  .slick-next {
+    font-size: 18px; /* Adjust arrow size */
+  }
+}
+
+
+
+
 
 

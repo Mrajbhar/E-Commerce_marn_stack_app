@@ -14,33 +14,45 @@ export const mainCaroseldata = [
     },
 
     {
-        image: "https://www.lee.in/media/mageplaza/bannerslider/banner/image/2/3/23-490_lee_sara_cover_v3_1440x423_11zon.jpg"
+        image: "/Images/62041480593438.avif"
     },
-
     {
-        image: "https://www.lee.in/media/mageplaza/bannerslider/banner/image/s/p/spring_summer_collection24_desktop_banner_-_1400x423_1.jpg"
+        image: "/Images/62041480658974.avif"
     },
-
     {
-        image: "https://www.lee.in/media/mageplaza/bannerslider/banner/image/u/j/uj-website-banner.jpg"
-    },
-
-    {
-        image: "//assets.tatacliq.com/medias/sys_master/images/50504080523294.jpg"
-    },
-
-    {
-        image: "//assets.tatacliq.com/medias/sys_master/images/50504080392222.jpg"
+        image: "/Images/62041480855582.avif"
     },
 
 
-    {
-        image: "//assets.tatacliq.com/medias/sys_master/images/50504080523294.jpg"
-    },
 
-    {
-        image: "//assets.tatacliq.com/medias/sys_master/images/50504080883742.jpg"
-    },
+    // {
+    //     image: "https://www.lee.in/media/mageplaza/bannerslider/banner/image/2/3/23-490_lee_sara_cover_v3_1440x423_11zon.jpg"
+    // },
+
+    // {
+    //     image: "https://www.lee.in/media/mageplaza/bannerslider/banner/image/s/p/spring_summer_collection24_desktop_banner_-_1400x423_1.jpg"
+    // },
+
+    // {
+    //     image: "https://www.lee.in/media/mageplaza/bannerslider/banner/image/u/j/uj-website-banner.jpg"
+    // },
+
+    // {
+    //     image: "//assets.tatacliq.com/medias/sys_master/images/50504080523294.jpg"
+    // },
+
+    // {
+    //     image: "//assets.tatacliq.com/medias/sys_master/images/50504080392222.jpg"
+    // },
+
+
+    // {
+    //     image: "//assets.tatacliq.com/medias/sys_master/images/50504080523294.jpg"
+    // },
+
+    // {
+    //     image: "//assets.tatacliq.com/medias/sys_master/images/50504080883742.jpg"
+    // },
       
 
     
