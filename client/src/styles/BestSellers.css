@@ -1,0 +1,85 @@
+/* ✅ Ensure all product items have the same size */
+.product-item {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    width: 100%;
+    max-width: 1100px; /* Slightly reduced max width for a better fit */
+    margin: 15px auto; /* Adds space between products */
+}
+
+.product-item:hover {
+    transform: scale(1.02);
+}
+
+/* ✅ Adjusted Image Size for Better Fit */
+.product-image-container {
+    flex: 1;
+    max-width: 300px; /* Reduced width for better proportion */
+}
+
+.product-image {
+    width: 100%;
+    height: 280px; /* Reduced height slightly */
+    object-fit: cover; /* Ensures full coverage */
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+}
+
+.product-image:hover {
+    transform: scale(1.03);
+}
+
+/* ✅ Balanced Product Details Section */
+.product-details {
+    flex: 2;
+    padding-left: 25px; /* Adjusted padding for spacing */
+}
+
+/* ✅ Adjust Font Sizes for Clarity */
+.product-name {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+}
+
+.product-description {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 10px;
+    line-height: 1.4;
+}
+
+.product-price {
+    font-size: 18px;
+    font-weight: bold;
+    color: #222;
+}
+
+/* ✅ Improved Button Styling */
+.btn-cart {
+    width: 100%;
+    font-size: 16px;
+    padding: 10px;
+    font-weight: bold;
+}
+
+/* ✅ Smooth Scroll Animation */
+[data-aos] {
+    opacity: 0;
+    transform: translateY(15px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+[data-aos].aos-animate {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+

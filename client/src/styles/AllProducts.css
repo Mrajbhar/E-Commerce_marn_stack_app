@@ -1,70 +1,121 @@
-@keyframes rotateIn {
-    0% {
-      opacity: 0;
-      transform: rotate(-180deg);
-    }
-    100% {
-      opacity: 1;
-      transform: rotate(0);
-    }
+/* Filters Section */
+.filters {
+  padding: 20px;
+  border-right: 1px solid #ddd;
+}
+
+/* Product List Item (Larger Images & Better Alignment) */
+.product-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1200px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 15px 0;
+  background: white;
+  transition: transform 0.3s ease;
+}
+
+.product-list-item:hover {
+  transform: scale(1.02);
+}
+
+/* Product Image */
+.product-image-container {
+  flex: 1.2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.product-image {
+  width: 100%;
+  max-width: 400px;
+  height: 300px;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+/* Product Info */
+.product-info {
+  flex: 1.5;
+  padding-left: 30px;
+}
+
+.product-name {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.product-description {
+  color: #555;
+  font-size: 16px;
+  margin-bottom: 12px;
+}
+
+.product-price {
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Add to Cart Button */
+.btn-custom {
+  background-color: #fb641b !important;
+  border-color: #fb641b !important;
+  color: white !important;
+  font-weight: bold;
+  padding: 10px 18px;
+  margin-top: 15px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-custom:hover {
+  background-color: #e65a00 !important;
+  transform: scale(1.05);
+}
+
+/* Cart Button */
+.btn-cart {
+  width: 100%;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .filters {
+    width: 100%;
+    border-right: none;
+    margin-bottom: 20px;
   }
-  
-  .heading-animation {
-    animation: typingAnimation 3s steps(20, end) infinite, colorChange 5s infinite;
-  }
-  
-  .heading-container {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+
+  .product-list-item {
+    flex-direction: column;
     text-align: center;
+    padding: 20px;
   }
-  
-  .heading-text {
-    font-size: 36px;
-    font-weight: bold;
-    color: #333;
-    text-transform: uppercase;
-    margin: 0;
-    padding: 0;
-    opacity: 0; /* Initial opacity for typing animation */
+
+  .product-image-container {
+    width: 100%;
   }
-  .subheading-text {
-    font-size: 30px;
-    color: #555; /* Adjust color as needed */
-    margin-top: 12px; /* Increase margin for spacing */
-    font-style: italic; /* Add italic style for emphasis */
-    text-align: center; /* Center-align the subheading */
-    line-height: 1.5; /* Adjust line height for readability */
+
+  .product-image {
+    max-width: 90%;
+    height: auto;
   }
-  
-  /* Typing animation keyframes */
-  @keyframes typingAnimation {
-    from {
-      width: 0;
-      opacity: 0;
-    }
-    to {
-      width: 100%;
-      opacity: 1;
-    }
+
+  .product-info {
+    padding-left: 0;
+    margin-top: 15px;
   }
-  
-  /* Color change animation keyframes */
- /* Color change animation keyframes */
-@keyframes colorChange {
-  0% {
-    color: #333; /* Starting color */
-  }
-  100% { 
-    color: #0000ff; /* Blue color */
+
+  .btn-cart {
+    width: 100%;
   }
 }
 
-.total-items {
-  color: black; /* Green color */
-  font-weight: initial;
-}
 
 

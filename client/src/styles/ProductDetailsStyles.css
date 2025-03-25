@@ -51,3 +51,24 @@
   color: #fff;
   transform: scale(1.05);
 }
+
+.product-image {
+  max-width: 100%;
+  max-height: 500px; /* Adjust as needed */
+  object-fit: contain; /* Ensures the entire image is shown without cropping */
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-custom {
+  background-color: #ffa41c !important; /* Amazon-like orange */
+  border-color: #ffa41c !important;
+  color: white !important;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-custom:hover {
+  background-color: #e69500 !important; /* Darker orange on hover */
+  transform: scale(1.05);
+}

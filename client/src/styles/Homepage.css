@@ -331,4 +331,123 @@
 
 
 
+/* Main container - ensures scrolling only applies to the product list */
+.home-page {
+  display: flex;
+  height: 100vh; /* Full screen height */
+  overflow: hidden; /* Prevents the entire page from scrolling */
+}
 
+/* Filters Section - Stays Fixed */
+.filters {
+  position: sticky;
+  top: 0;
+  height: 100vh; /* Full height */
+  overflow-y: auto; /* Allows scrolling inside filters if needed */
+  padding: 15px;
+  background: #fff; /* Keeps a clean background */
+  border-right: 1px solid #ddd;
+}
+
+/* Product List - This is the only section that scrolls */
+.product-section {
+  flex: 1; /* Takes up remaining space */
+  height: 100vh; /* Full height */
+  overflow-y: auto; /* Enables vertical scrolling for products */
+  padding: 20px;
+}
+
+/* Product List Item - Layout Improvement */
+.product-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1200px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 15px 0;
+  background: white;
+  transition: transform 0.3s ease;
+}
+
+.product-list-item:hover {
+  transform: scale(1.02);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .home-page {
+    flex-direction: column; /* Stacks filters on top for small screens */
+    height: auto; /* Removes fixed height */
+  }
+
+  .filters {
+    position: static; /* Disables sticky on small screens */
+    height: auto;
+    width: 100%;
+    border-right: none;
+  }
+
+  .product-section {
+    height: auto; /* Enables full content display */
+    overflow-y: visible; /* Allows normal scrolling */
+  }
+}
+
+
+
+
+
+
+
+
+/* ✅ Improved Button Styling */
+.btn-cart {
+  width: 100%;
+  font-size: 16px;
+  padding: 10px;
+  font-weight: bold;
+}
+
+
+
+
+
+/* Header Styling */
+.ecom-header {
+  position: relative;
+  text-align: center;
+  font-size: 2rem; /* Large size */
+  font-weight: 700;
+  text-transform: uppercase;
+  background: linear-gradient(45deg, #000000, #070707);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; /* Gradient text */
+  letter-spacing: 2px;
+  margin-bottom: 40px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Underline Animation */
+.ecom-header::after {
+  content: "";
+  display: block;
+  width: 80px;
+  height: 4px;
+  background: #111010;
+  margin: 10px auto 0;
+  transition: width 0.3s ease-in-out;
+}
+
+.ecom-header:hover::after {
+  width: 120px; /* Expands underline on hover */
+}
+
+/* Hover Glow Effect */
+.ecom-header:hover {
+  text-shadow: 0px 0px 15px rgba(255, 244, 95, 0.8);
+}

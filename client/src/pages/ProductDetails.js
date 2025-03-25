@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 import { FaCartArrowDown } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { CgDetailsMore } from "react-icons/cg";
-import { PiShoppingCartFill } from "react-icons/pi"; // Import the cart icon
+import { PiShoppingCartFill } from "react-icons/pi";
 
 const ProductDetails = () => {
   const params = useParams();
@@ -16,7 +16,7 @@ const ProductDetails = () => {
   const [product, setProduct] = useState({});
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [cart, setCart] = useCart();
-  const [itemAdded, setItemAdded] = useState(false); // State to track if item is added to cart
+  const [itemAdded, setItemAdded] = useState(false);
   const exchangeRate = 83.61;
 
   useEffect(() => {
@@ -66,50 +66,53 @@ const ProductDetails = () => {
 
   return (
     <Layout>
-      <div className="row container product-details">
-        <div className="col-md-6">
-          <img
-            src={`${process.env.REACT_APP_API}/api/v1/product/product-photo/${product._id}`}
-            className="card-img-top"
-            alt={product.name}
-            height="500"
-            width={"350px"}
-          />
-        </div>
-        <div className="col-md-6 product-details-info">
-          <h1 className="text-center">Product Details</h1>
-          <hr />
-          <h6>Name : {product.name}</h6>
-          <h6>Description : {product.description}</h6>
-          <h6>
-            Price :
-            {(product.price * exchangeRate).toLocaleString("en-IN", {
-              style: "currency",
-              currency: "INR",
-            })}
-          </h6>
-          <h6>Category : {product?.category?.name}</h6>
-          {itemAdded ? (
-            <motion.button
-              className="btn btn-success ms-1"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              onClick={() => navigate("/cart")}
-            >
-              <PiShoppingCartFill /> GO TO CART
-            </motion.button>
-          ) : (
-            <motion.button
-              className="btn btn-dark ms-1"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              onClick={addItemToCart}
-            >
-              <FaCartArrowDown /> ADD TO CART
-            </motion.button>
-          )}
-        </div>
-      </div>
+     <div className="row container product-details">
+  <div className="col-md-6 d-flex justify-content-center align-items-center">
+    <img
+      src={`${process.env.REACT_APP_API}/api/v1/product/product-photo/${product._id}`}
+      className="product-image"
+      alt={product.name}
+    />
+  </div>
+  <div className="col-md-6 product-details-info">
+    <h1 className="text-center">Product Details</h1>
+    <hr />
+    <h4>{product?.name}</h4>
+    <h6>{product?.description}</h6>
+    <h2>
+  <strong>
+    {Number(product?.price || 0).toLocaleString("en-IN", {
+      style: "currency",
+      currency: "INR",
+    })}
+  </strong>
+</h2>
+
+    {/* <h6><strong>Category:</strong> {product?.category?.name}</h6> */}
+
+    {itemAdded ? (
+      <motion.button
+        className="btn btn-success ms-1"
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+        onClick={() => navigate("/cart")}
+      >
+        <PiShoppingCartFill /> GO TO CART
+      </motion.button>
+    ) : (
+      <motion.button
+      className="btn ms-1 btn-custom"
+      whileHover={{ scale: 1.1 }}
+      whileTap={{ scale: 0.9 }}
+      onClick={addItemToCart}
+    >
+      <FaCartArrowDown /> ADD TO CART
+    </motion.button>
+    
+    )}
+  </div>
+</div>
+
       <hr />
       <div className="row container similar-products">
         <h4>Similar Products ➡️</h4>

@@ -1,32 +1,123 @@
-.category-link {
-  text-decoration: none;
-  color: inherit;
-}
-
-.category-menu {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 150px; /* Adjust height as needed */
-  padding: 20px;
-  border: 1px solid #ccc; /* Border for the category menu */
-  border-radius: 10px;
-  transition: background-color 0.3s ease; /* Smooth transition for background color */
-  background-color: #fff; /* Background color */
-}
-
-.category-menu:hover {
-  background-color: #f0f0f0; /* Background color on hover */
-}
-
-.category-icon {
-  font-size: 48px; /* Adjust icon size as needed */
-  margin-bottom: 10px; /* Add space between icon and name */
-}
-
-.category-name {
-  font-size: 16px; /* Adjust name font size as needed */
-  font-weight: bold;
+/* Category Container */
+.category-container {
+  padding: 40px 20px;
   text-align: center;
+  max-width: 1000px;
+  margin: auto;
 }
+
+/* Title */
+.category-title {
+  font-size: 28px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 30px;
+}
+
+/* Category List (Flexible Grid Layout) */
+.category-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  padding: 0;
+  list-style: none;
+  margin: 0 auto;
+  max-width: 1000px;
+}
+
+/* Each Category Item */
+.category-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 220px;
+  height: 100px;
+  background: white;
+  text-decoration: none;
+  color: #333;
+  font-size: 18px;
+  font-weight: bold;
+  padding-left: 20px;
+  transition: 0.5s;
+  transform: rotate(-30deg) skew(25deg);
+  box-shadow: -20px 20px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Hover Effect */
+.category-item:hover {
+  background: var(--hover-color);
+  color: white;
+  transform: rotate(-30deg) skew(25deg) translate(20px, -15px);
+  box-shadow: -50px 50px 50px rgba(0, 0, 0, 0.5);
+}
+
+/* Image inside category */
+.category-image {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+/* Category Text */
+.category-text {
+  margin-left: 70px;
+  white-space: nowrap;
+}
+
+/* 3D Effect */
+.category-item:before,
+.category-item:after {
+  content: '';
+  position: absolute;
+  background: #b1b1b1;
+  transition: background 0.3s ease;
+}
+
+.category-item:before {
+  top: 10px;
+  left: -20px;
+  height: 100%;
+  width: 20px;
+  transform: rotate(0deg) skewY(-45deg);
+}
+
+.category-item:after {
+  bottom: -20px;
+  left: -10px;
+  height: 20px;
+  width: 100%;
+  transform: rotate(0deg) skewX(-45deg);
+}
+
+/* Apply the hover effect to the 3D parts */
+.category-item:hover:before,
+.category-item:hover:after {
+  background: var(--hover-color);
+}
+
+/* Responsive Grid */
+@media screen and (max-width: 768px) {
+  .category-list {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .category-item {
+    width: 250px;
+    height: 90px;
+    line-height: 90px;
+  }
+}
+
+
+
+
+

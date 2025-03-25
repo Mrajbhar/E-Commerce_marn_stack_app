@@ -242,7 +242,7 @@ const HomePage = () => {
               <div className="card-body">
                 <h5 className="card-title">{p.name}</h5>
                 <h5 className="card-price">
-                  {(p.price * exchangeRate).toLocaleString("en-IN", {
+                {(p?.price || 0).toLocaleString("en-IN", {
                     style: "currency",
                     currency: "INR",
                   })}
@@ -269,11 +269,12 @@ const HomePage = () => {
               <div className="card-body">
                 <h5 className="card-title">{p.name}</h5>
                 <h5 className="card-price">
-                  {(p.price * exchangeRate).toLocaleString("en-IN", {
+                  {(p?.price || 0).toLocaleString("en-IN", {
                     style: "currency",
                     currency: "INR",
                   })}
                 </h5>
+
                 <p className="card-text">{p.description.substring(0, 60)}...</p>
               </div>
             </div>
@@ -295,10 +296,10 @@ const HomePage = () => {
         <div className="card-body">
           <h5 className="card-title">{p.name}</h5>
           <h5 className="card-price">
-            {(p.price * exchangeRate).toLocaleString("en-IN", {
-              style: "currency",
-              currency: "INR",
-            })}
+          {(p?.price || 0).toLocaleString("en-IN", {
+                    style: "currency",
+                    currency: "INR",
+                  })}
           </h5>
           <p className="card-text">{p.description.substring(0, 60)}...</p>
         </div>

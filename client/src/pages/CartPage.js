@@ -11,7 +11,7 @@ import { IoIosRemoveCircle } from "react-icons/io";
 import { MdPayment } from "react-icons/md";
 import { GrDocumentUpdate } from "react-icons/gr";
 import { BiSolidLogInCircle } from "react-icons/bi";
-import { useTheme } from "../pages/Themes/ThemeContext"; // Import useTheme hook
+import { useTheme } from "../pages/Themes/ThemeContext"; 
 
 const CartPage = () => {
   const [auth, setAuth] = useAuth();
@@ -20,18 +20,18 @@ const CartPage = () => {
   const [instance, setInstance] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { darkMode } = useTheme(); // Access darkMode state
+  const { darkMode } = useTheme(); 
 
   const exchangeRate = 83.61;
 
-  // Function to calculate total price
+ 
   const totalPrice = () => {
     try {
       let total = 0;
       cart?.map((item) => {
-        total = total + item.price * item.quantity; // Multiply price by quantity
+        total = total + item.price * item.quantity; 
       });
-      return (total * exchangeRate).toLocaleString("en-IN", {
+      return (total || 0).toLocaleString("en-IN", {
         style: "currency",
         currency: "INR",
       });
@@ -40,13 +40,13 @@ const CartPage = () => {
     }
   };
 
-  // Function to remove item from cart
+  
   const removeCartItem = (pid) => {
     const updatedCart = cart.filter((item) => item._id !== pid);
     setCart(updatedCart);
   };
 
-  // Function to increase item quantity
+  
   const increaseQuantity = (pid) => {
     const updatedCart = cart.map((item) =>
       item._id === pid ? { ...item, quantity: item.quantity + 1 } : item
@@ -54,7 +54,7 @@ const CartPage = () => {
     setCart(updatedCart);
   };
 
-  // Function to decrease item quantity
+ 
   const decreaseQuantity = (pid) => {
     const updatedCart = cart.map((item) =>
       item._id === pid && item.quantity > 1
@@ -64,7 +64,7 @@ const CartPage = () => {
     setCart(updatedCart);
   };
 
-  // Function to get payment gateway token
+  
   const getToken = async () => {
     try {
       const { data } = await axios.get(
@@ -80,7 +80,7 @@ const CartPage = () => {
     getToken();
   }, [auth?.token]);
 
-  // Function to handle payments
+  
   const handlePayment = async () => {
     try {
       setLoading(true);
@@ -121,7 +121,7 @@ const CartPage = () => {
             <div className="col-md-7">
               {cart?.map((item) => (
                 <div className="cart-item" key={item._id}>
-                  <div className="col-md-4">
+                  <div className="col-md-6">
                     <img
                       src={`${process.env.REACT_APP_API}/api/v1/product/product-photo/${item._id}`}
                       alt={item.name}
@@ -131,11 +131,13 @@ const CartPage = () => {
                     <p>{item.name}</p>
                     <p>{item.description.substring(0, 30)}</p>
                     <p>
+                    <strong>
                       Price:{" "}
-                      {(item.price * 83.61).toLocaleString("en-IN", {
-                        style: "currency",
-                        currency: "INR",
-                      })}
+                      {(item?.price || 0).toLocaleString("en-IN", {
+                    style: "currency",
+                    currency: "INR",
+                  })}
+                  </strong>
                     </p>
                     <div className="quantity-controls">
                       <button
