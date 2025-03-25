@@ -30,3 +30,91 @@
     transform: scale(1.05);
   }
   
+
+
+
+  /* ✅ Mobile View Adjustments (for screens up to 768px) */
+@media (max-width: 768px) {
+  /* Center the heading and adjust font size */
+  .new-arrivals-heading {
+      font-size: 24px;
+      margin-bottom: 15px;
+  }
+
+  /* ✅ Make the product list a single column */
+  .product-list {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+  }
+
+  /* ✅ Adjust product item width */
+  .product-item {
+      width: 90%;
+      max-width: 350px;
+      padding: 12px;
+  }
+
+  /* ✅ Ensure product images are fully responsive */
+  .product-image-container {
+      width: 100%;
+  }
+
+  .product-image {
+      width: 100%;
+      height: auto;
+  }
+
+  /* ✅ Adjust product name and description for readability */
+  .product-name {
+      font-size: 18px;
+  }
+
+  .product-description {
+      font-size: 14px;
+      line-height: 1.4;
+  }
+
+  /* ✅ Adjust product price font size */
+  .product-price {
+      font-size: 18px;
+  }
+
+  /* ✅ Resize buttons for better touch usability */
+  .btn-cart {
+      font-size: 14px;
+      padding: 10px;
+  }
+
+  /* ✅ Load More Button - Adjust for Mobile */
+  .text-center .loadmore {
+      width: 90%;
+      font-size: 14px;
+      padding: 10px;
+  }
+}
+
+/* ✅ Small Mobile Screens (for screens up to 480px) */
+@media (max-width: 480px) {
+  /* Further adjust heading size */
+  .new-arrivals-heading {
+      font-size: 22px;
+  }
+
+  /* Ensure product items take full width */
+  .product-item {
+      width: 95%;
+      padding: 10px;
+  }
+
+  /* Optimize button size for smaller screens */
+  .btn-cart {
+      font-size: 13px;
+      padding: 8px;
+  }
+
+  .text-center .loadmore {
+      font-size: 13px;
+      padding: 8px;
+  }
+}

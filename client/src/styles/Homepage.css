@@ -451,3 +451,114 @@
 .ecom-header:hover {
   text-shadow: 0px 0px 15px rgba(255, 244, 95, 0.8);
 }
+
+/* ✅ Mobile View (up to 768px) */
+@media (max-width: 768px) {
+  /* ✅ Hero Section - Make it More Responsive */
+  .hero-section {
+      text-align: center;
+  }
+
+  .hero-image {
+      max-height: 250px; /* Adjust hero image size */
+      object-fit: cover;
+  }
+
+  /* ✅ Product Grid - Adjust Column Layout */
+  .product-grid {
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); /* Smaller columns */
+      gap: 10px;
+  }
+
+  /* ✅ Product Card - Reduce Padding & Font Size */
+  .product-card {
+      padding: 8px;
+      border-radius: 6px;
+  }
+
+  .card-title {
+      font-size: 16px;
+  }
+
+  .card-price {
+      font-size: 14px;
+  }
+
+  .card-text {
+      font-size: 12px;
+  }
+
+  /* ✅ Image Size Adjustments */
+  .card-img-top {
+      height: 130px; /* Reduce image height */
+  }
+
+  /* ✅ Button Styling */
+  .btn-cart {
+      font-size: 14px;
+      padding: 8px;
+  }
+
+  /* ✅ Slick Slider Adjustments */
+  .slick-prev,
+  .slick-next {
+      font-size: 20px;
+      width: 25px;
+      height: 25px;
+  }
+}
+
+/* ✅ Small Mobile Screens (up to 480px) */
+@media (max-width: 480px) {
+  /* ✅ Adjust Hero Image */
+  .hero-image {
+      max-height: 200px;
+  }
+
+  /* ✅ Product Grid - Single Column for Better Visibility */
+  .product-grid {
+      grid-template-columns: 1fr;
+  }
+
+  /* ✅ Reduce Product Card Spacing */
+  .product-card {
+      padding: 6px;
+  }
+
+  /* ✅ Reduce Text Sizes */
+  .card-title {
+      font-size: 14px;
+  }
+
+  .card-price {
+      font-size: 13px;
+  }
+
+  .card-text {
+      font-size: 11px;
+  }
+
+  /* ✅ Reduce Image Height Further */
+  .card-img-top {
+      height: 110px;
+  }
+
+  /* ✅ Buttons - Adjust for Small Screens */
+  .btn-cart {
+      font-size: 12px;
+      padding: 6px;
+  }
+
+  /* ✅ Slick Slider Arrows - Make them Smaller */
+  .slick-prev,
+  .slick-next {
+      font-size: 16px;
+      width: 20px;
+      height: 20px;
+  }
+
+  /* ✅ Adjust Special Offers Section */
+  .offer-image {
+      max-height: 150px;
+  }
+}
