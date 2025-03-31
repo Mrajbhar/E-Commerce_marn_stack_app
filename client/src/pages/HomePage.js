@@ -194,6 +194,7 @@ const HomePage = () => {
   
 
   return (
+    <div className={darkMode ? "dark-mode" : ""}>
     <Layout title={"All Products - Best offers"}>
       {/* Hero Section */}
       <div className="hero-section">
@@ -228,6 +229,7 @@ const HomePage = () => {
       </section>
 
       {/* New Arrivals */}
+      
       <section className={`new-arrivals ${darkMode ? "dark-mode" : ""}`}>
         <h2 className="section-title">New Arrivals</h2>
         <div className="product-grid">
@@ -314,6 +316,7 @@ const HomePage = () => {
         {/* Removed Load More button */}
       </div>
     </Layout>
+    </div>
   );
 };
 

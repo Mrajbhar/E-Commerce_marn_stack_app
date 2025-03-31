@@ -27,6 +27,8 @@ const Categories = () => {
   const { darkMode } = useTheme();
 
   return (
+    <div className={darkMode ? "dark-mode" : ""}>
+
     <Layout title={"All Categories"}>
       <div className={`container category-container ${darkMode ? "dark-mode" : ""}`}>
         <h2 className="category-title">Browse Categories</h2>
@@ -50,6 +52,7 @@ const Categories = () => {
         </ul>
       </div>
     </Layout>
+    </div>
   );
 };
 

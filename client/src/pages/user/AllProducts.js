@@ -29,9 +29,17 @@ const AllProducts = () => {
   const [activeCategory, setActiveCategory] = useState(null);
   const [priceOpen, setPriceOpen] = useState(true);
   const [categoryOpen, setCategoryOpen] = useState(true);
-   const [itemAdded, setItemAdded] = useState({}); 
+  const [itemAdded, setItemAdded] = useState({});
   const { darkMode } = useTheme();
   const exchangeRate = 83.61;
+
+
+  useEffect(() => {
+    localStorage.setItem("darkMode", darkMode);
+    document.documentElement.classList.toggle("dark", darkMode);
+    document.body.classList.toggle("dark-mode", darkMode);  // Apply to body
+  }, [darkMode]);
+
 
   // Fetch categories
   const getAllCategory = useCallback(async () => {
@@ -74,24 +82,24 @@ const AllProducts = () => {
       console.log(error);
     }
   }, []);
-  
+
   const loadMore = useCallback(async () => {
     if (loading || products.length >= total) return; // Prevent unnecessary calls
-  
+
     try {
       setLoading(true);
       const { data } = await axios.get(
         `${process.env.REACT_APP_API}/api/v1/product/product-list/${page}`
       );
       setLoading(false);
-      
+
       setProducts((prevProducts) => [...new Set([...prevProducts, ...data.products])]); // Prevent duplicates
     } catch (error) {
       console.log(error);
       setLoading(false);
     }
   }, [page, total, loading, products]);
-  
+
 
   // Filter products
   const filterProducts = useCallback(async () => {
@@ -153,7 +161,7 @@ const AllProducts = () => {
   const addItemToCart = (product) => {
     setCart((prevCart) => {
       const existingItem = prevCart.find((item) => item._id === product._id);
-      
+
       let updatedCart;
       if (existingItem) {
         updatedCart = prevCart.map((item) =>
@@ -162,16 +170,14 @@ const AllProducts = () => {
       } else {
         updatedCart = [...prevCart, { ...product, quantity: 1 }];
       }
-  
+
       localStorage.setItem("cart", JSON.stringify(updatedCart));
       return updatedCart;
     });
-  
+
     setItemAdded((prev) => ({ ...prev, [product._id]: true })); // Ensure correct button rendering
     toast.success("Item Added to cart");
   };
-  
-
 
   return (
     <Layout title={"All Products - Best Offers"}>
@@ -191,9 +197,9 @@ const AllProducts = () => {
                 </div>
               </Panel>
             </Collapse>
-  
+
             <Divider />
-  
+
             <Collapse activeKey={priceOpen ? "price" : []} onChange={() => setPriceOpen(!priceOpen)}>
               <Panel header="Select Price" key="price" showArrow={false}>
                 <div className="d-flex flex-column">
@@ -207,24 +213,24 @@ const AllProducts = () => {
                 </div>
               </Panel>
             </Collapse>
-  
+
             <Divider />
-  
+
             <div className="d-flex flex-column mt-3">
               <button className="btn btn-danger" onClick={clearFilters}>
                 <AiOutlineReload /> RESET FILTERS
               </button>
             </div>
           </div>
-  
+
           {/* Products Section (Right Side) */}
-<div className="col-lg-9 col-md-8 product-section">
-<h1 className="ecom-header">
-  <span>All Products</span>
-</h1>
+          <div className="col-lg-9 col-md-8 product-section">
+            <h1 className="ecom-header">
+              <span>All Products</span>
+            </h1>
 
             <span className="d-block mb-4">{total} items</span>
-  
+
             <div className="d-flex flex-wrap justify-content-center">
               {products?.map((p) => (
                 <div className="product-list-item" key={p._id}>
@@ -238,7 +244,7 @@ const AllProducts = () => {
                       style={{ cursor: "pointer" }}
                     />
                   </div>
-  
+
                   {/* Product Details */}
                   <div className="product-info">
                     <h4 className="product-name">{p.name}</h4>
@@ -251,7 +257,7 @@ const AllProducts = () => {
                         currency: "INR",
                       })}
                     </h5>
-  
+
                     {/* Add to Cart Button */}
                     {itemAdded[p._id] ? (
                       <button className="btn btn-success btn-cart" onClick={() => navigate("/cart")}>
@@ -266,26 +272,26 @@ const AllProducts = () => {
                 </div>
               ))}
             </div>
-  
+
             {/* Load More Button */}
-           {/* Load More Button */}
-<div className="d-flex justify-content-center mt-4">
-  {products && products.length < total && (
-    <button className="btn btn-primary" onClick={(e) => {
-      e.preventDefault();
-      setPage(page + 1);
-    }}>
-      {loading ? "Loading..." : "Load More"}
-    </button>
-  )}
-</div>
+            {/* Load More Button */}
+            <div className="d-flex justify-content-center mt-4">
+              {products && products.length < total && (
+                <button className="btn btn-primary" onClick={(e) => {
+                  e.preventDefault();
+                  setPage(page + 1);
+                }}>
+                  {loading ? "Loading..." : "Load More"}
+                </button>
+              )}
+            </div>
 
           </div>
         </div>
       </div>
     </Layout>
   );
-  
+
 };
 
 export default AllProducts;

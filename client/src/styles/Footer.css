@@ -63,3 +63,28 @@
     }
   }
   
+
+  .footer-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px; /* Spacing between elements */
+  }
+  
+  .footer-links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .footer-links .divider {
+    margin: 0 8px;
+  }
+  
+  .footer-links .toggle-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  

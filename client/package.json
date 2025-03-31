@@ -13,6 +13,7 @@
     "axios": "^1.6.7",
     "braintree-web-drop-in-react": "^1.2.1",
     "framer-motion": "^11.0.28",
+    "lucide-react": "^0.486.0",
     "moment": "^2.30.1",
     "react": "^18.2.0",
     "react-alice-carousel": "^2.8.0",

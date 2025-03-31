@@ -70,6 +70,7 @@ const BestSellers = () => {
   };
 
   return (
+    <div className={darkMode ? "dark-mode" : ""}>
     <Layout title="Best Sellers">
       <div className={`container ${darkMode ? "dark-mode" : ""}`}>
         <h2 className="text-center mb-4">🔥 Best Sellers 🔥</h2>
@@ -123,6 +124,7 @@ const BestSellers = () => {
         )}
       </div>
     </Layout>
+    </div>
   );
 };
 

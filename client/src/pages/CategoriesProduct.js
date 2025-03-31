@@ -4,12 +4,15 @@ import { useParams, useNavigate } from "react-router-dom";
 import { CgDetailsMore } from "react-icons/cg";
 import axios from "axios";
 import "../styles/CategoryProductStyles.css";
+import { useTheme } from "../pages/Themes/ThemeContext";
 
 const CategoryProduct = () => {
   const params = useParams();
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [category, setCategory] = useState(null);
+    const { darkMode } = useTheme();
+  
   const exchangeRate = 83.61;
 
   useEffect(() => {
@@ -29,9 +32,11 @@ const CategoryProduct = () => {
   };
 
   return (
+    <div className={darkMode ? "dark-mode" : ""}>
+
     <Layout>
-      <div className="container mt-4 category-container">
-        {/* Category Header */}
+    <div className={`category-container ${darkMode ? "dark-mode" : ""}`}>
+    {/* Category Header */}
         <div className="text-center category-header">
           <h2 className="category-title">Category - {category?.name}</h2>
           <p className="category-subtitle">{products.length} items found</p>
@@ -79,6 +84,7 @@ const CategoryProduct = () => {
         </div>
       </div>
     </Layout>
+    </div>
   );
 };
 

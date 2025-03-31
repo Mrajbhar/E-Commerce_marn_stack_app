@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "../../styles/Footer.css"
-import DarkModeToggle from "./DarkModeToggle";
+import "../../styles/Footer.css";
+import ToggleButton from "../../pages/Themes/ToggleButton";
 
 const Footer = () => {
   return (
@@ -17,9 +17,10 @@ const Footer = () => {
           <span className="divider">|</span>
           <Link to="/policy" className="footer-link">Privacy Policy</Link>
           <span className="divider">|</span>
-          <DarkModeToggle />
+
+          {/* Correct ToggleButton Usage */}
+          <ToggleButton /> 
         </p>
-        
       </div>
     </div>
   );

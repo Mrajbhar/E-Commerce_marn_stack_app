@@ -145,19 +145,6 @@
   background-color: #555;
 }
 
-/* Dark Mode */
-.dark-mode .product-card {
-  background-color: #2d2d2d;
-  color: #f0f0f0;
-}
-
-.dark-mode .card-price {
-  color: #f0f0f0;
-}
-
-.dark-mode .card-text {
-  color: #cccccc;
-}
 
 /* Responsive Design */
 @media (max-width: 992px) {
@@ -668,4 +655,165 @@
     width: 20px;
     height: 20px;
   }
+}
+
+
+
+/* Dark Mode for Global Background and Text */
+.dark-mode {
+  background-color: #121212; /* Dark background for entire page */
+  color: #e0e0e0; /* Lighter text for better contrast */
+}
+
+/* Dark Mode for Header Section */
+.dark-mode .ecom-header {
+  color: #ffffff; /* White text for header */
+}
+
+/* Dark Mode for Filters Section */
+.dark-mode .filters {
+  background-color: #1f1f1f; /* Darker background for filter section */
+  color: #fff; /* White text */
+  border-radius: 5px;
+  padding: 15px;
+}
+
+.dark-mode .filters .ant-collapse-header {
+  background-color: #333; /* Dark background for collapse headers */
+  color: #fff; /* White text */
+}
+
+.dark-mode .filters .ant-checkbox-wrapper {
+  color: #fff; /* White text for checkbox label */
+}
+
+.dark-mode .filters .ant-checkbox-inner {
+  border-color: #444; /* Lighter border for checkboxes */
+}
+
+.dark-mode .filters .ant-radio-inner {
+  border-color: #444; /* Lighter border for radio buttons */
+}
+
+.dark-mode .filters .ant-radio-checked .ant-radio-inner {
+  background-color: #28a745; /* Green color for checked radio button */
+  border-color: #28a745; /* Green border */
+}
+
+.dark-mode .filters .ant-checkbox-checked .ant-checkbox-inner {
+  background-color: #28a745; /* Green color for checked checkbox */
+  border-color: #28a745; /* Green border */
+}
+
+.dark-mode .filters button {
+  background-color: #c82333; /* Red background for reset button */
+  color: #fff; /* White text */
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px; /* Rounded corners */
+}
+
+.dark-mode .filters button:hover {
+  background-color: #a71d2a; /* Darker red on hover */
+  opacity: 0.9; /* Slight opacity on hover */
+}
+
+/* Dark Mode for Product Section */
+.dark-mode .product-section {
+  background-color: #1f1f1f; /* Dark background for product section */
+  padding: 20px; /* Padding for spacing */
+}
+
+.dark-mode .product-list-item {
+  background-color: #292929; /* Dark background for product items */
+  color: #fff; /* White text for product details */
+  border: 1px solid #444; /* Light border for product items */
+  margin-bottom: 15px; /* Margin for spacing */
+}
+
+.dark-mode .product-info {
+  color: #fff; /* White text for product details */
+}
+
+.dark-mode .product-name {
+  color: #ffffff; /* Ensure product name is white */
+  font-weight: bold; /* Make product name bold */
+}
+
+.dark-mode .product-description {
+  color: #bbb; /* Lighter text for description */
+}
+
+.dark-mode .product-price {
+  color: #f0f0f0; /* Lighter text for price */
+  font-weight: bold;
+}
+
+.dark-mode .btn-custom,
+.dark-mode .btn-cart {
+  background-color: #333; /* Dark background for buttons */
+  color: #fff; /* White text */
+}
+
+.dark-mode .btn-success {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.dark-mode .btn-primary {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.dark-mode .btn-custom:hover,
+.dark-mode .btn-cart:hover,
+.dark-mode .btn-success:hover,
+.dark-mode .btn-primary:hover {
+  opacity: 0.8;
+}
+
+/* Dark Mode for Product Image */
+.dark-mode .product-image-container img {
+  border-radius: 8px; /* Add rounded corners to product images */
+  border: 1px solid #444; /* Light border around images */
+}
+
+/* Dark Mode for Load More Button */
+.dark-mode .btn-primary {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.dark-mode .btn-primary:hover {
+  opacity: 0.8;
+}
+
+/* Adjust body background and text color */
+.dark-mode body {
+  background-color: #121212; /* Dark background for the whole body */
+  color: #e0e0e0; /* Light text color */
+}
+
+/* Specific styles for the active category */
+.dark-mode .active-category {
+  color: #28a745; /* Green text for active category */
+}
+
+/* Ensure sidebar and page layout are consistent */
+.dark-mode .container-fluid {
+  background-color: #121212; /* Dark background for the container */
+  color: #e0e0e0; /* Light text color */
+}
+
+.dark-mode .ant-collapse-content {
+  background-color: #222; /* Dark content background */
+}
+
+.dark-mode .ant-collapse-item {
+  border-color: #444; /* Dark border for items */
+}
+
+.dark-mode .ant-collapse-content-box {
+  padding: 10px; /* Adjust padding for content */
 }

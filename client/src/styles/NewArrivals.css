@@ -118,3 +118,42 @@
       padding: 8px;
   }
 }
+
+
+/* Apply dark mode styles globally */
+.dark-mode {
+    background-color: #181818;  /* Dark background for the whole page */
+    color: white;  /* Light text color */
+  }
+  
+  /* Specific dark mode styles for product container */
+  .dark-mode .new-arrivals-container {
+    background-color: #181818;  /* Ensure the container itself has a dark background */
+  }
+  
+  /* Ensure product item and other elements follow the same theme */
+  .dark-mode .product-item {
+    background-color: #2d2d2d; /* Dark background for product items */
+    border: 1px solid #444; /* Border color */
+  }
+  
+  .dark-mode .product-name, 
+  .dark-mode .product-description, 
+  .dark-mode .product-price {
+    color: #f1f1f1; /* Light text for product details */
+  }
+  
+  .dark-mode .btn-cart {
+    background-color: #333; /* Dark button background */
+    color: white; /* Button text color */
+  }
+  
+  .dark-mode .btn-cart:hover {
+    background-color: #555; /* Lighter button background on hover */
+  }
+  
+  /* Additional dark mode styling for the rest of the layout */
+  .dark-mode .new-arrivals-heading {
+    color: #f1f1f1; /* Lighter color for the heading */
+  }
+  

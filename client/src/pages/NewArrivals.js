@@ -95,8 +95,10 @@ const NewArrivals = () => {
   
 
   return (
+    <div className={darkMode ? "dark-mode" : ""}>
+
     <Layout title="New Arrivals">
-      <div className={`container new-arrivals-container ${darkMode ? "dark-mode" : ""}`}>
+<div className={`container new-arrivals-container ${darkMode ? "dark-mode" : ""}`}>
         
         {/* ✅ Heading */}
         <h2 className="new-arrivals-heading">✨ New Arrivals ✨</h2>
@@ -155,6 +157,7 @@ const NewArrivals = () => {
         </div>
       </div>
     </Layout>
+    </div>
   );
 };
 

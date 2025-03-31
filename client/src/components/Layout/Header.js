@@ -11,6 +11,7 @@ import { Badge } from "antd";
 import "../../styles/Header.css";
 import { useTheme } from "../../pages/Themes/ThemeContext";
 import DarkModeToggle from "./DarkModeToggle";
+import ToggleButton from "../../pages/Themes/ToggleButton";
 
 
 const Header = () => {
@@ -182,8 +183,7 @@ const Header = () => {
               </Badge>
             </li>
            
-
-          
+         
           </ul>
 
         </div>
