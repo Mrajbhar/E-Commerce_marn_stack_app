@@ -23,6 +23,7 @@ export const mainCaroseldata = [
         image: "https://cms.landmarkshops.in/cdn-cgi/image/w=1232,q=85,fit=cover/MAX-Friday/MAX2.O/MAX-Banner1-desktopp-Women-11MAR26.png"
     },
 
+    
     // {
     //     image: "https://www.lee.in/media/mageplaza/bannerslider/banner/image/2/3/23-490_lee_sara_cover_v3_1440x423_11zon.jpg"
     // },
