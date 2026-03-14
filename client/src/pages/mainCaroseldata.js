@@ -20,7 +20,7 @@ export const mainCaroseldata = [
         image: "https://cdn-webdata.seasonsindia.com/assets/images/seasons-banner-18.jpg"
     },
     {
-        image: "https://img.theloom.in/live/media/loom/banners/6march2026-summer-staples-1.jpg?tr=h-624%2Cw-1600"
+        image: "https://cms.landmarkshops.in/cdn-cgi/image/w=1232,q=85,fit=cover/MAX-Friday/MAX2.O/MAX-Banner1-desktopp-Women-11MAR26.png"
     },
 
 
