@@ -1,123 +1,217 @@
-/* Category Container */
-.category-container {
-  padding: 40px 20px;
+/* ============================================================
+   Categories.css â€” matches the store design system.
+   Scoped under .categories-page. Light + dark via .dark-mode class.
+   ============================================================ */
+
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap");
+
+.categories-page {
+  --bg: #faf7f2;
+  --surface: #fff;
+  --ink: #1a1714;
+  --ink-soft: #6b6258;
+  --line: #e8e1d6;
+  --accent: #c2562f;
+  --accent-soft: #f3e3da;
+  --shadow:
+    0 1px 2px rgba(26, 23, 20, 0.04), 0 10px 30px rgba(26, 23, 20, 0.07);
+  --shadow-lg: 0 18px 50px rgba(26, 23, 20, 0.16);
+  --radius: 18px;
+  --fd: "Fraunces", Georgia, serif;
+  --fb: "Hanken Grotesk", system-ui, sans-serif;
+
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--fb);
+  min-height: 70vh;
+  padding: 40px 24px 90px;
+  transition:
+    background 0.4s,
+    color 0.4s;
+}
+.categories-page.dark-mode {
+  --bg: #16130f;
+  --surface: #211c17;
+  --ink: #f3ede4;
+  --ink-soft: #a89e90;
+  --line: #322a22;
+  --accent: #e0784f;
+  --accent-soft: #3a261c;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 10px 30px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 18px 50px rgba(0, 0, 0, 0.55);
+}
+
+/* ---------- Header ---------- */
+.cats-header {
+  max-width: 1280px;
+  margin: 0 auto 38px;
   text-align: center;
-  max-width: 1000px;
-  margin: auto;
+}
+.cats-kicker {
+  display: inline-block;
+  font-size: 0.72rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 10px;
+}
+.cats-title {
+  font-family: var(--fd);
+  font-weight: 500;
+  font-size: clamp(2rem, 4.5vw, 3.2rem);
+  line-height: 1.04;
+  letter-spacing: -0.015em;
+  margin: 0;
+}
+.cats-subtitle {
+  color: var(--ink-soft);
+  margin-top: 12px;
+  font-size: 0.95rem;
 }
 
-/* Title */
-.category-title {
-  font-size: 28px;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 30px;
-}
-
-/* Category List (Flexible Grid Layout) */
-.category-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-  padding: 0;
-  list-style: none;
+/* ---------- Grid ---------- */
+.cats-grid {
+  max-width: 1280px;
   margin: 0 auto;
-  max-width: 1000px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: clamp(16px, 2vw, 24px);
+  list-style: none;
+  padding: 0;
 }
 
-/* Each Category Item */
-.category-item {
+/* ---------- Tile ---------- */
+.cat-link {
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  width: 220px;
-  height: 100px;
-  background: white;
+  display: block;
+  height: 240px;
+  border-radius: var(--radius);
+  overflow: hidden;
   text-decoration: none;
-  color: #333;
-  font-size: 18px;
-  font-weight: bold;
-  padding-left: 20px;
-  transition: 0.5s;
-  transform: rotate(-30deg) skew(25deg);
-  box-shadow: -20px 20px 10px rgba(0, 0, 0, 0.5);
+  box-shadow: var(--shadow);
+  transition:
+    transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.4s;
+}
+.cat-link:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
 }
 
-/* Hover Effect */
-.category-item:hover {
-  background: var(--hover-color);
-  color: white;
-  transform: rotate(-30deg) skew(25deg) translate(20px, -15px);
-  box-shadow: -50px 50px 50px rgba(0, 0, 0, 0.5);
-}
-
-/* Image inside category */
-.category-image {
+.cat-link img {
   position: absolute;
-  left: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 50px;
-  height: 50px;
-  border-radius: 10px;
-  object-fit: cover;
-}
-
-/* Category Text */
-.category-text {
-  margin-left: 70px;
-  white-space: nowrap;
-}
-
-/* 3D Effect */
-.category-item:before,
-.category-item:after {
-  content: '';
-  position: absolute;
-  background: #b1b1b1;
-  transition: background 0.3s ease;
-}
-
-.category-item:before {
-  top: 10px;
-  left: -20px;
-  height: 100%;
-  width: 20px;
-  transform: rotate(0deg) skewY(-45deg);
-}
-
-.category-item:after {
-  bottom: -20px;
-  left: -10px;
-  height: 20px;
+  inset: 0;
   width: 100%;
-  transform: rotate(0deg) skewX(-45deg);
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.cat-link:hover img {
+  transform: scale(1.08);
 }
 
-/* Apply the hover effect to the 3D parts */
-.category-item:hover:before,
-.category-item:hover:after {
-  background: var(--hover-color);
+/* gradient overlay (uses per-tile --hover-color tint at the bottom) */
+.cat-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.78),
+    rgba(0, 0, 0, 0.15) 55%,
+    transparent 80%
+  );
+  transition: opacity 0.4s;
+}
+.cat-link:hover::after {
+  background: linear-gradient(
+    to top,
+    var(--hover-color, rgba(0, 0, 0, 0.8)) -10%,
+    rgba(0, 0, 0, 0.35) 55%,
+    transparent 85%
+  );
 }
 
-/* Responsive Grid */
-@media screen and (max-width: 768px) {
-  .category-list {
-    flex-direction: column;
-    align-items: center;
+.cat-content {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  padding: 20px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  color: #fff;
+}
+.cat-name {
+  font-family: var(--fd);
+  font-weight: 600;
+  font-size: 1.4rem;
+  line-height: 1.15;
+  margin: 0;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+}
+.cat-go {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(4px);
+  display: grid;
+  place-items: center;
+  font-size: 18px;
+  color: #fff;
+  transition:
+    background 0.3s,
+    transform 0.3s,
+    color 0.3s;
+}
+.cat-link:hover .cat-go {
+  background: #fff;
+  color: var(--ink);
+  transform: rotate(-45deg);
+}
+
+/* ---------- Empty ---------- */
+.cats-empty {
+  max-width: 520px;
+  margin: 30px auto;
+  text-align: center;
+  color: var(--ink-soft);
+  font-size: 1.05rem;
+  padding: 50px 20px;
+}
+
+/* ---------- Responsive ---------- */
+@media (min-width: 1500px) {
+  .cats-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   }
-
-  .category-item {
-    width: 250px;
-    height: 90px;
-    line-height: 90px;
+}
+@media (max-width: 768px) {
+  .categories-page {
+    padding: 32px 18px 70px;
+  }
+  .cats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+  .cat-link {
+    height: 190px;
+  }
+  .cat-name {
+    font-size: 1.2rem;
   }
 }
-
-
-
-
-
+@media (max-width: 460px) {
+  .cats-grid {
+    grid-template-columns: 1fr;
+  }
+  .cat-link {
+    height: 200px;
+  }
+}

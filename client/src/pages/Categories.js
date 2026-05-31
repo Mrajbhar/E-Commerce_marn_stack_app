@@ -6,20 +6,33 @@ import { useTheme } from "../pages/Themes/ThemeContext";
 import "../styles/Categories.css";
 
 const categoryImages = {
-  "Smart Phones": "https://img.freepik.com/premium-psd/iphone-mockup_373676-427.jpg",
-  "Iphones": "https://img.freepik.com/free-photo/elegant-smartphone-composition_23-2149437075.jpg",
-  "Mens wear": "https://img.freepik.com/free-photo/still-life-with-classic-shirts-hanger_23-2150828578.jpg",
-  "Mens collections": "https://img.freepik.com/premium-photo/man-trendy-fashion-clothes-collage-white_1199132-214720.jpg",
-  "Mobiles": "https://img.freepik.com/free-photo/elegant-smartphone-composition_23-2149437106.jpg",
-  "Mens": "https://img.freepik.com/premium-photo/woman-wearing-watch-is-standing-front-gray-wall_687553-22695.jpg",
-  "new Arrivals": "https://img.freepik.com/free-vector/new-arrival-modern-red-banner-design_1017-36760.jpg",
-  "Best Sellers": "https://img.freepik.com/premium-vector/bestseller-badge-stamp-sign-vector-design_569027-280.jpg",
-  "Women's wear": "https://img.freepik.com/premium-photo/cheerful-beautiful-young-women-having-party_93675-76766.jpg",
+  "Smart Phones":
+    "https://img.freepik.com/premium-psd/iphone-mockup_373676-427.jpg",
+  Iphones:
+    "https://img.freepik.com/free-photo/elegant-smartphone-composition_23-2149437075.jpg",
+  "Mens wear":
+    "https://img.freepik.com/free-photo/still-life-with-classic-shirts-hanger_23-2150828578.jpg",
+  "Mens collections":
+    "https://img.freepik.com/premium-photo/man-trendy-fashion-clothes-collage-white_1199132-214720.jpg",
+  Mobiles:
+    "https://img.freepik.com/free-photo/elegant-smartphone-composition_23-2149437106.jpg",
+  Mens: "https://img.freepik.com/premium-photo/woman-wearing-watch-is-standing-front-gray-wall_687553-22695.jpg",
+  "new Arrivals":
+    "https://img.freepik.com/free-vector/new-arrival-modern-red-banner-design_1017-36760.jpg",
+  "Best Sellers":
+    "https://img.freepik.com/premium-vector/bestseller-badge-stamp-sign-vector-design_569027-280.jpg",
+  "Women's wear":
+    "https://img.freepik.com/premium-photo/cheerful-beautiful-young-women-having-party_93675-76766.jpg",
 };
 
+// soft tint applied to the overlay on hover (per tile)
 const hoverColors = [
-  "#3b5998", "#00aced", "#dd4b39", "#e4405f", 
-  "#ffcc00", "#34a853", "#ff6f61", "#673ab7"
+  "rgba(194,86,47,.85)",
+  "rgba(52,81,79,.85)",
+  "rgba(87,71,102,.85)",
+  "rgba(106,87,52,.85)",
+  "rgba(60,58,79,.85)",
+  "rgba(122,74,48,.85)",
 ];
 
 const Categories = () => {
@@ -27,32 +40,50 @@ const Categories = () => {
   const { darkMode } = useTheme();
 
   return (
-    <div className={darkMode ? "dark-mode" : ""}>
-
     <Layout title={"All Categories"}>
-      <div className={`container category-container ${darkMode ? "dark-mode" : ""}`}>
-        <h2 className="category-title">Browse Categories</h2>
-        <ul className="category-list">
-          {categories.map((c, index) => (
-            <li key={c._id}>
-              <Link 
-                to={`/category/${c.slug}`} 
-                className="category-item"
-                style={{ "--hover-color": hoverColors[index % hoverColors.length] }}
-              >
-                <img
-                  src={categoryImages[c.name] || "https://via.placeholder.com/100"}
-                  alt={c.name}
-                  className="category-image"
-                />
-                <span className="category-text">{c.name}</span>
-              </Link>
-            </li>
-          ))}
-        </ul>
+      <div className={`categories-page ${darkMode ? "dark-mode" : ""}`}>
+        {/* Header */}
+        <header className="cats-header">
+          <span className="cats-kicker">Browse</span>
+          <h1 className="cats-title">Shop by Category</h1>
+          <p className="cats-subtitle">
+            Explore our full range across {categories?.length || 0} categories
+          </p>
+        </header>
+
+        {/* Grid */}
+        {!categories || categories.length === 0 ? (
+          <div className="cats-empty">No categories available yet.</div>
+        ) : (
+          <ul className="cats-grid">
+            {categories.map((c, index) => (
+              <li key={c._id}>
+                <Link
+                  to={`/category/${c.slug}`}
+                  className="cat-link"
+                  style={{
+                    "--hover-color": hoverColors[index % hoverColors.length],
+                  }}
+                >
+                  <img
+                    src={
+                      categoryImages[c.name] ||
+                      "https://via.placeholder.com/400x300?text=Category"
+                    }
+                    alt={c.name}
+                    loading="lazy"
+                  />
+                  <div className="cat-content">
+                    <h3 className="cat-name">{c.name}</h3>
+                    <span className="cat-go">&#8599;</span>
+                  </div>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
     </Layout>
-    </div>
   );
 };
 

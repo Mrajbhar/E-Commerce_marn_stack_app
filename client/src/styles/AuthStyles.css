@@ -1,113 +1,317 @@
-/* Register Page Styles */
+/* ============================================================
+   AuthStyles.css — Login / Register / Forgot Password
+   Split-card design matching the store. Scoped under .auth-page.
+   Light + dark via .dark class.
+   ============================================================ */
 
-/* Background Animation */
-.form-container {
-  margin-top: 60px;
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap");
+
+.auth-page {
+  --bg: #faf7f2;
+  --surface: #fff;
+  --ink: #1a1714;
+  --ink-soft: #6b6258;
+  --line: #e8e1d6;
+  --accent: #c2562f;
+  --accent-soft: #f3e3da;
+  --shadow-lg: 0 30px 70px rgba(26, 23, 20, 0.18);
+  --fd: "Fraunces", Georgia, serif;
+  --fb: "Hanken Grotesk", system-ui, sans-serif;
+
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 40px 20px;
+  background:
+    radial-gradient(circle at 18% 20%, var(--accent-soft), transparent 45%),
+    radial-gradient(circle at 85% 80%, #e9dcd0, transparent 45%), var(--bg);
+  font-family: var(--fb);
+  transition: background 0.4s;
+}
+.auth-page.dark {
+  --bg: #16130f;
+  --surface: #1d1813;
+  --ink: #f3ede4;
+  --ink-soft: #a89e90;
+  --line: #322a22;
+  --accent: #e0784f;
+  --accent-soft: #3a261c;
+  --shadow-lg: 0 30px 70px rgba(0, 0, 0, 0.6);
+  background:
+    radial-gradient(circle at 18% 20%, #241a14, transparent 45%),
+    radial-gradient(circle at 85% 80%, #1e1812, transparent 45%), var(--bg);
+}
+
+/* ----- Card ----- */
+.auth-page .auth-card {
+  width: 100%;
+  max-width: 920px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  animation: authIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes authIn {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ----- Brand aside ----- */
+.auth-page .auth-aside {
+  position: relative;
+  padding: 48px 40px;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: linear-gradient(150deg, #241b16, #6e3a26 55%, #c2562f);
+  overflow: hidden;
+}
+.auth-page .auth-aside::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 75% 20%,
+    rgba(255, 255, 255, 0.16),
+    transparent 45%
+  );
+}
+.auth-page .auth-aside > * {
+  position: relative;
+  z-index: 2;
+}
+.auth-page .auth-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-family: var(--fd);
+  font-weight: 600;
+  font-size: 1.5rem;
+  color: #fff;
+  text-decoration: none;
+}
+.auth-page .auth-aside h2 {
+  font-family: var(--fd);
+  font-weight: 500;
+  font-size: 2.1rem;
+  line-height: 1.1;
+  margin: auto 0 14px;
+}
+.auth-page .auth-aside .aside-lead {
+  opacity: 0.9;
+  line-height: 1.6;
+  font-size: 0.95rem;
+  margin-bottom: 24px;
+}
+.auth-page .auth-perks {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.auth-page .auth-perks div {
   display: flex;
   align-items: center;
-  justify-content: center;
-  min-height: 100vh; /* Set minimum height to full viewport height */
+  gap: 10px;
+  font-size: 0.92rem;
+  opacity: 0.95;
+}
+.auth-page .auth-perks .pk {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.18);
+  display: grid;
+  place-items: center;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+/* ----- Form side ----- */
+.auth-page .auth-form-side {
+  padding: 48px 44px;
+  display: flex;
   flex-direction: column;
-  background-color: #fff; /* White background color */
-  background-image: linear-gradient(45deg, #faf6f6e8, #333); /* Gradient background */
-  animation: backgroundAnimation 20s ease infinite alternate; /* Background animation */
-  transition: background-color 0.3s ease; /* Smooth transition for background color */
-  position: relative; /* Ensure relative positioning for z-index */
+  justify-content: center;
+}
+.auth-page .auth-form-side form {
+  width: 100%;
+}
+.auth-page .auth-kicker {
+  font-size: 0.72rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 8px;
+  display: block;
+}
+.auth-page .title {
+  font-family: var(--fd);
+  font-weight: 500;
+  font-size: 2rem;
+  color: var(--ink);
+  margin-bottom: 6px;
+  text-align: left;
+  text-shadow: none;
+}
+.auth-page .auth-lead {
+  color: var(--ink-soft);
+  font-size: 0.92rem;
+  margin-bottom: 26px;
 }
 
-/* Darker background color on hover */
-.form-container:hover {
-  background-color: #111;
+/* ----- Fields ----- */
+.auth-page .auth-field {
+  position: relative;
+  margin-bottom: 16px;
 }
-
-/* Background animation keyframes */
-@keyframes backgroundAnimation {
-  0% {
-    background-position: 0% 50%;
-  }
-  100% {
-    background-position: 100% 50%;
-  }
-  /* Add animation for background color */
-  50% {
-    background-image: linear-gradient(45deg, #333, #555); /* Dark grey gradient */
-  }
+.auth-page .auth-field .ico {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--ink-soft);
+  font-size: 16px;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
 }
-
-/* Form Styles */
-.form-container form {
-  box-shadow: rgba(241, 236, 236, 0.918) 0px 5px 15px;
-  padding: 20px;
-  background-color: #e4e1e1; /* Dark background color for form */
-  position: relative; /* Ensure relative positioning for z-index */
-  z-index: 1; /* Ensure form is rendered above the background */
-  max-width: 400px; /* Limit form width for better readability */
-  width: 100%; /* Full width */
+.auth-page .form-control {
+  width: 100%;
+  padding: 13px 16px 13px 44px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--fb);
+  font-size: 0.95rem;
+  outline: none;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
 }
-.form-container form .title {
-  text-align: center;
-  margin-bottom: 15px;
-  font-weight: bold;
-  font-family: "Playfair Display", serif;
-  color: #0e0101; /* Dark text color */
-  font-size: 24px; /* Adjust font size for better visibility */
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add text shadow for depth */
-  animation: titleAnimation 2s ease infinite alternate; /* Title animation */
+.auth-page .form-control::placeholder {
+  color: var(--ink-soft);
+  opacity: 0.7;
 }
-
-/* Title animation keyframes */
-@keyframes titleAnimation {
-  0% {
-    transform: translateY(0);
-  }
-  100% {
-    transform: translateY(-5px);
-  }
+.auth-page .form-control:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
 }
-
-/* Form input styles */
-.form-container form input {
+.auth-page .pw-toggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
   border: none;
-  border-bottom: 1px solid #fff; /* White bottom border */
-  border-radius: 0;
-  color: #0e0101; /* Dark text color */
-  background-color: transparent; /* Transparent background */
-  padding: 10px; /* Adjust padding for better visibility */
-  width: 100%; /* Full width */
-  transition: border-color 0.3s ease; /* Smooth transition for border color */
-  margin-bottom: 15px; /* Add space between inputs */
+  color: var(--ink-soft);
+  cursor: pointer;
+  font-size: 16px;
+  display: grid;
+  place-items: center;
+  padding: 6px;
+}
+.auth-page .pw-toggle:hover {
+  color: var(--accent);
 }
 
-/* Change border color on focus */
-.form-container form input:focus {
-  border-color: #007bff;
-  outline: none; /* Remove default focus outline */
+/* two-up rows for longer forms (register) */
+.auth-page .auth-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 14px;
+}
+@media (max-width: 520px) {
+  .auth-page .auth-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
-/* Form button styles */
-.form-container form button {
-  border: 1px solid #fff; /* White border */
-  border-radius: 0;
-  background-color: #000;
-  color: #fff; /* White text color */
-  width: 100%; /* Full width */
-  padding: 10px; /* Adjust padding for better visibility */
-  cursor: pointer; /* Add cursor pointer */
-  transition: background-color 0.3s ease; /* Smooth transition for background color */
+/* ----- Forgot link row ----- */
+.auth-page .auth-row {
+  display: flex;
+  justify-content: flex-end;
+  margin: -4px 0 18px;
+}
+.auth-page .forgot-btn {
+  background: none !important;
+  border: none !important;
+  color: var(--accent) !important;
+  font-weight: 600;
+  font-size: 0.86rem;
+  cursor: pointer;
+  padding: 0 !important;
+  width: auto !important;
+}
+.auth-page .forgot-btn:hover {
+  text-decoration: underline;
+  background: none !important;
 }
 
-/* Dark background color on button hover */
-.form-container form button:hover {
-  background-color: #434343;
+/* ----- Primary button ----- */
+.auth-page .btn-primary {
+  width: 100%;
+  border: none;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--bg);
+  font-family: var(--fb);
+  font-weight: 600;
+  font-size: 0.98rem;
+  padding: 14px;
+  cursor: pointer;
+  transition:
+    transform 0.2s,
+    background 0.2s,
+    box-shadow 0.2s;
+  letter-spacing: 0.02em;
+}
+.auth-page .btn-primary:hover {
+  background: var(--accent);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 26px rgba(194, 86, 47, 0.35);
 }
 
-/* Additional styles for forgot button */
-.forgot-btn {
-  background-color: #434343a4 !important;
-  border: 0 !important;
+/* ----- Switch link ----- */
+.auth-page .auth-switch {
+  text-align: center;
+  margin-top: 20px;
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+}
+.auth-page .auth-switch a {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+.auth-page .auth-switch a:hover {
+  text-decoration: underline;
 }
 
-/* Text color on forgot button hover */
-.forgot-btn:hover {
-  color: white !important;
+/* ----- Responsive ----- */
+@media (max-width: 760px) {
+  .auth-page .auth-card {
+    grid-template-columns: 1fr;
+    max-width: 440px;
+  }
+  .auth-page .auth-aside {
+    display: none;
+  }
+  .auth-page .auth-form-side {
+    padding: 40px 28px;
+  }
 }

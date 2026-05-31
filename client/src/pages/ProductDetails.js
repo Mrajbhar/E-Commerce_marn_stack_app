@@ -9,6 +9,8 @@ import { FaCartArrowDown } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { CgDetailsMore } from "react-icons/cg";
 import { PiShoppingCartFill } from "react-icons/pi";
+import { TbTruckDelivery, TbArrowBackUp, TbLock } from "react-icons/tb";
+import { useTheme } from "../pages/Themes/ThemeContext";
 
 const ProductDetails = () => {
   const params = useParams();
@@ -17,16 +19,22 @@ const ProductDetails = () => {
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [cart, setCart] = useCart();
   const [itemAdded, setItemAdded] = useState(false);
-  const exchangeRate = 83.61;
+  const [qty, setQty] = useState(1);
+  const { darkMode } = useTheme();
 
   useEffect(() => {
     if (params?.slug) getProduct();
+    // reset state when navigating between products
+    setItemAdded(false);
+    setQty(1);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params?.slug]);
 
   const getProduct = async () => {
     try {
       const { data } = await axios.get(
-        `${process.env.REACT_APP_API}/api/v1/product/get-product/${params.slug}`
+        `${process.env.REACT_APP_API}/api/v1/product/get-product/${params.slug}`,
       );
       setProduct(data?.product);
       getSimilarProduct(data?.product._id, data?.product.category._id);
@@ -38,7 +46,7 @@ const ProductDetails = () => {
   const getSimilarProduct = async (pid, cid) => {
     try {
       const { data } = await axios.get(
-        `${process.env.REACT_APP_API}/api/v1/product/related-product/${pid}/${cid}`
+        `${process.env.REACT_APP_API}/api/v1/product/related-product/${pid}/${cid}`,
       );
       setRelatedProducts(data?.products);
     } catch (error) {
@@ -46,117 +54,200 @@ const ProductDetails = () => {
     }
   };
 
+  const inr = (n) =>
+    Number(n || 0).toLocaleString("en-IN", {
+      style: "currency",
+      currency: "INR",
+      maximumFractionDigits: 0,
+    });
+
   const addItemToCart = () => {
-    const existingItem = cart.find((item) => item._id === product._id);
-    if (existingItem) {
-      const updatedCart = cart.map((item) =>
-        item._id === existingItem._id
-          ? { ...item, quantity: item.quantity + 1 }
-          : item
-      );
-      setCart(updatedCart);
+    setCart((prevCart) => {
+      const existingItem = prevCart.find((item) => item._id === product._id);
+      let updatedCart;
+      if (existingItem) {
+        updatedCart = prevCart.map((item) =>
+          item._id === existingItem._id
+            ? { ...item, quantity: item.quantity + qty }
+            : item,
+        );
+      } else {
+        updatedCart = [...prevCart, { ...product, quantity: qty }];
+      }
       localStorage.setItem("cart", JSON.stringify(updatedCart));
-    } else {
-      setCart([...cart, { ...product, quantity: 1 }]);
-      localStorage.setItem("cart", JSON.stringify([...cart, { ...product, quantity: 1 }]));
-    }
-    toast.success("Item Added to cart");
-    setItemAdded(true); // Set itemAdded to true
+      return updatedCart;
+    });
+    toast.success("Item added to cart");
+    setItemAdded(true);
   };
 
   return (
-    <Layout>
-     <div className="row container product-details">
-  <div className="col-md-6 d-flex justify-content-center align-items-center">
-    <img
-      src={`${process.env.REACT_APP_API}/api/v1/product/product-photo/${product._id}`}
-      className="product-image"
-      alt={product.name}
-    />
-  </div>
-  <div className="col-md-6 product-details-info">
-    <h1 className="text-center">Product Details</h1>
-    <hr />
-    <h4>{product?.name}</h4>
-    <h6>{product?.description}</h6>
-    <h2>
-  <strong>
-    {Number(product?.price || 0).toLocaleString("en-IN", {
-      style: "currency",
-      currency: "INR",
-    })}
-  </strong>
-</h2>
+    <Layout title={product?.name || "Product Details"}>
+      <div className={`pd-page ${darkMode ? "dark-mode" : ""}`}>
+        {/* Breadcrumb */}
+        <div className="pd-breadcrumb">
+          <span onClick={() => navigate("/")}>Home</span>
+          <span className="sep">/</span>
+          <span onClick={() => navigate("/allproduct")}>Products</span>
+          <span className="sep">/</span>
+          {product?.name}
+        </div>
 
-    {/* <h6><strong>Category:</strong> {product?.category?.name}</h6> */}
+        {/* Main */}
+        <div className="pd-main">
+          <motion.div
+            className="pd-gallery"
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            <img
+              src={`${process.env.REACT_APP_API}/api/v1/product/product-photo/${product._id}`}
+              alt={product?.name}
+            />
+          </motion.div>
 
-    {itemAdded ? (
-      <motion.button
-        className="btn btn-success ms-1"
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
-        onClick={() => navigate("/cart")}
-      >
-        <PiShoppingCartFill /> GO TO CART
-      </motion.button>
-    ) : (
-      <motion.button
-      className="btn ms-1 btn-custom"
-      whileHover={{ scale: 1.1 }}
-      whileTap={{ scale: 0.9 }}
-      onClick={addItemToCart}
-    >
-      <FaCartArrowDown /> ADD TO CART
-    </motion.button>
-    
-    )}
-  </div>
-</div>
+          <motion.div
+            className="pd-info"
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+          >
+            {product?.category?.name && (
+              <span className="pd-cat">{product.category.name}</span>
+            )}
+            <h1 className="pd-name">{product?.name}</h1>
 
-      <hr />
-      <div className="row container similar-products">
-        <h4>Similar Products ➡️</h4>
-        {relatedProducts.length < 1 && (
-          <p className="text-center">No Similar Products found</p>
-        )}
-        <div className="d-flex flex-wrap">
-          {relatedProducts?.map((p) => (
-            <motion.div
-              key={p._id}
-              className="card m-2"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <img
-                src={`${process.env.REACT_APP_API}/api/v1/product/product-photo/${p._id}`}
-                className="card-img-top"
-                alt={p.name}
-              />
-              <div className="card-body">
-                <div className="card-name-price">
-                  <h5 className="card-title">{p.name}</h5>
-                  <h5 className="card-title card-price">
-                    {(p.price * exchangeRate).toLocaleString("en-IN", {
-                      style: "currency",
-                      currency: "INR",
-                    })}
-                  </h5>
-                </div>
-                <p className="card-text ">
-                  {p.description.substring(0, 60)}...
-                </p>
-                <div className="card-name-price">
-                  <button
-                    className="btn btn-info ms-1"
-                    onClick={() => navigate(`/product/${p.slug}`)}
-                  >
-                    <CgDetailsMore />
-                    More Details
-                  </button>
-                </div>
+            {product?.rating ? (
+              <div className="pd-rating">
+                <span className="stars">
+                  {"\u2605".repeat(Math.round(product.rating))}
+                  {"\u2606".repeat(5 - Math.round(product.rating))}
+                </span>
+                {product?.numReviews ? (
+                  <span>({product.numReviews} reviews)</span>
+                ) : null}
               </div>
-            </motion.div>
-          ))}
+            ) : null}
+
+            <h2 className="pd-price">{inr(product?.price)}</h2>
+            <p className="pd-price-note">Inclusive of all taxes</p>
+
+            <hr className="pd-divider" />
+
+            <div className="pd-desc-label">Description</div>
+            <p className="pd-desc">{product?.description}</p>
+
+            {/* Quantity + add to cart */}
+            <div className="pd-buy-row">
+              <div className="pd-qty">
+                <button
+                  onClick={() => setQty((q) => Math.max(1, q - 1))}
+                  aria-label="Decrease"
+                >
+                  −
+                </button>
+                <span>{qty}</span>
+                <button
+                  onClick={() => setQty((q) => q + 1)}
+                  aria-label="Increase"
+                >
+                  +
+                </button>
+              </div>
+
+              {itemAdded ? (
+                <motion.button
+                  className="pd-btn pd-btn-go"
+                  whileTap={{ scale: 0.96 }}
+                  onClick={() => navigate("/cart")}
+                >
+                  <PiShoppingCartFill /> Go to cart
+                </motion.button>
+              ) : (
+                <motion.button
+                  className="pd-btn pd-btn-add"
+                  whileTap={{ scale: 0.96 }}
+                  onClick={addItemToCart}
+                >
+                  <FaCartArrowDown /> Add to cart
+                </motion.button>
+              )}
+            </div>
+
+            {/* Trust strip */}
+            <div className="pd-trust">
+              <div>
+                <span className="ti">
+                  <TbTruckDelivery />
+                </span>{" "}
+                Free shipping over ₹999
+              </div>
+              <div>
+                <span className="ti">
+                  <TbArrowBackUp />
+                </span>{" "}
+                30-day returns
+              </div>
+              <div>
+                <span className="ti">
+                  <TbLock />
+                </span>{" "}
+                Secure checkout
+              </div>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Similar products */}
+        <div className="pd-similar">
+          <div className="pd-similar-head">
+            <div>
+              <span className="pd-similar-kicker">You may also like</span>
+              <h4>Similar Products</h4>
+            </div>
+          </div>
+
+          {relatedProducts.length < 1 && (
+            <p className="pd-empty">No similar products found.</p>
+          )}
+
+          <div className="pd-grid">
+            {relatedProducts?.map((p) => (
+              <motion.div
+                key={p._id}
+                className="pd-card"
+                whileHover={{ y: -6 }}
+                transition={{ type: "spring", stiffness: 300, damping: 22 }}
+                onClick={() => navigate(`/product/${p.slug}`)}
+              >
+                <div className="pd-card-media">
+                  <img
+                    src={`${process.env.REACT_APP_API}/api/v1/product/product-photo/${p._id}`}
+                    alt={p.name}
+                  />
+                </div>
+                <div className="pd-card-body">
+                  <h5 className="pd-card-name">{p.name}</h5>
+                  <p className="pd-card-text">
+                    {p.description?.substring(0, 60)}...
+                  </p>
+                  <div className="pd-card-foot">
+                    <span className="pd-card-price">{inr(p.price)}</span>
+                    <button
+                      className="pd-card-btn"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        navigate(`/product/${p.slug}`);
+                      }}
+                    >
+                      <CgDetailsMore /> Details
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </div>
     </Layout>
