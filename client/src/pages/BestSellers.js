@@ -6,9 +6,11 @@ import toast from "react-hot-toast";
 import { useCart } from "../context/cart";
 import { AiOutlineReload } from "react-icons/ai";
 import "../styles/BestSellers.css";
-import { FaCartArrowDown } from "react-icons/fa";
-import { PiShoppingCartFill } from "react-icons/pi";
+import { FaCartArrowDown, FaFire } from "react-icons/fa";
+import { PiShoppingCartFill, PiHeartBold } from "react-icons/pi";
 import { useTheme } from "../pages/Themes/ThemeContext";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const BestSellers = () => {
   const [products, setProducts] = useState([]);
@@ -21,6 +23,10 @@ const BestSellers = () => {
   const { darkMode } = useTheme();
 
   useEffect(() => {
+    AOS.init({ duration: 800, once: true });
+  }, []);
+
+  useEffect(() => {
     getAllProducts();
     getTotal();
   }, [page]);
@@ -30,7 +36,6 @@ const BestSellers = () => {
       setLoading(true);
       const { data } = await axios.get(
         `${process.env.REACT_APP_API}/api/v1/product/product-list/${page}`
-
       );
       setLoading(false);
       setProducts(data.products);
@@ -52,79 +57,112 @@ const BestSellers = () => {
   };
 
   const addItemToCart = (product) => {
-    const existingItem = cart.find((item) => item._id === product._id);
-    if (existingItem) {
-      const updatedCart = cart.map((item) =>
-        item._id === existingItem._id
-          ? { ...item, quantity: item.quantity + 1 }
-          : item
-      );
-      setCart(updatedCart);
+    setCart((prevCart) => {
+      const existingItem = prevCart.find((item) => item._id === product._id);
+      let updatedCart;
+      if (existingItem) {
+        updatedCart = prevCart.map((item) =>
+          item._id === existingItem._id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        );
+      } else {
+        updatedCart = [...prevCart, { ...product, quantity: 1 }];
+      }
       localStorage.setItem("cart", JSON.stringify(updatedCart));
-    } else {
-      setCart([...cart, { ...product, quantity: 1 }]);
-      localStorage.setItem("cart", JSON.stringify([...cart, { ...product, quantity: 1 }]));
-    }
-    toast.success("Item Added to Cart");
+      return updatedCart;
+    });
     setItemAdded((prev) => ({ ...prev, [product._id]: true }));
+    toast.success("Item added to cart");
   };
 
-  return (
-    <div className={darkMode ? "dark-mode" : ""}>
-    <Layout title="Best Sellers">
-      <div className={`container ${darkMode ? "dark-mode" : ""}`}>
-        <h2 className="text-center mb-4">🔥 Best Sellers 🔥</h2>
+  const formatPrice = (price) =>
+    Number(price || 0).toLocaleString("en-IN", {
+      style: "currency",
+      currency: "INR",
+      maximumFractionDigits: 0,
+    });
 
-      <div className="product-list">
-              {products.map((p) => (
-                <div className="product-item" key={p._id} data-aos="fade-up">
-                  
-                  {/* ✅ Product Image */}
-                  <div className="product-image-container">
-                    <img
-                      src={`${process.env.REACT_APP_API}/api/v1/product/product-photo/${p._id}`}
-                      className="product-image"
-                      alt={p.name}
-                      onClick={() => navigate(`/product/${p.slug}`)}
-                    />
+  return (
+    <Layout title="Best Sellers">
+      <div className={`best-sellers-page ${darkMode ? "dark" : ""}`}>
+        {/* Header */}
+        <header className="bs-header" data-aos="fade-up">
+          <span className="bs-kicker">Customer favourites</span>
+          <h1 className="bs-title">Best Sellers</h1>
+          <p className="bs-sub">
+            <b>{total}</b> most-loved pieces
+          </p>
+        </header>
+
+        {/* Grid */}
+        <div className="bs-grid">
+          {products.map((p, i) => (
+            <article
+              className="bs-card"
+              key={p._id}
+              data-aos="fade-up"
+              data-aos-delay={(i % 4) * 60}
+            >
+              <div className="bs-media">
+                <span className="bs-badge">
+                  <FaFire size={11} /> Best seller
+                </span>
+                {i < 3 && <span className="bs-rank">{i + 1}</span>}
+                <button className="bs-wish" aria-label="Add to wishlist">
+                  <PiHeartBold size={15} />
+                </button>
+                <img
+                  src={`${process.env.REACT_APP_API}/api/v1/product/product-photo/${p._id}`}
+                  alt={p.name}
+                  onClick={() => navigate(`/product/${p.slug}`)}
+                />
+              </div>
+
+              <div className="bs-body">
+                {p?.rating && (
+                  <div className="bs-rating">
+                    {"\u2605".repeat(Math.round(p.rating))}
+                    {"\u2606".repeat(5 - Math.round(p.rating))}
+                    {p?.numReviews ? <small>({p.numReviews})</small> : null}
                   </div>
-    
-                  {/* ✅ Product Details */}
-                  <div className="product-details">
-                    <h3 className="product-name">{p.name}</h3>
-                    <p className="product-description">{p.description.substring(0, 150)}...</p>
-                    <h4 className="product-price">
-                      {Number(p?.price || 0).toLocaleString("en-IN", {
-                        style: "currency",
-                        currency: "INR",
-                      })}
-                    </h4>
-    
-                    {/* ✅ Add to Cart Button */}
-                    {itemAdded[p._id] ? (
-                      <button className="btn btn-success btn-cart" onClick={() => navigate("/cart")}>
-                        <PiShoppingCartFill /> GO TO CART
-                      </button>
-                    ) : (
-                      <button className="btn btn-custom btn-cart" onClick={() => addItemToCart(p)}>
-                        <FaCartArrowDown /> ADD TO CART
-                      </button>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-        {/* Load More Button */}
+                )}
+                <h3 className="bs-name" onClick={() => navigate(`/product/${p.slug}`)}>
+                  {p.name}
+                </h3>
+                <p className="bs-desc">{p.description?.substring(0, 80)}...</p>
+                <div className="bs-price">{formatPrice(p?.price)}</div>
+
+                {itemAdded[p._id] ? (
+                  <button className="bs-cta bs-cta-go" onClick={() => navigate("/cart")}>
+                    <PiShoppingCartFill /> Go to cart
+                  </button>
+                ) : (
+                  <button className="bs-cta bs-cta-add" onClick={() => addItemToCart(p)}>
+                    <FaCartArrowDown /> Add to cart
+                  </button>
+                )}
+              </div>
+            </article>
+          ))}
+        </div>
+
+        {/* Load more */}
         {products.length < total && (
-          <div className="text-center mt-4">
-            <button className="btn load-more" onClick={() => setPage(page + 1)}>
-              {loading ? "Loading..." : <>Load More <AiOutlineReload /></>}
+          <div className="bs-loadmore">
+            <button className="load-more" onClick={() => setPage(page + 1)}>
+              {loading ? (
+                "Loading…"
+              ) : (
+                <>
+                  Load more <AiOutlineReload />
+                </>
+              )}
             </button>
           </div>
         )}
       </div>
     </Layout>
-    </div>
   );
 };
 

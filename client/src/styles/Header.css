@@ -1,169 +1,152 @@
-/* * Navbar styles */ 
-/* Navbar styles */
-.navbar {
-  background-color: black; /* Transparent background */
+/* ============================================================
+   Header.css — Navbar redesign (works WITH Bootstrap, not against it)
+   Self-contained: own tokens + fonts. Restyles appearance only;
+   leaves Bootstrap's flex/collapse/dropdown mechanics intact.
+   ============================================================ */
+
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap");
+
+.site-header{
+  --bg:#faf7f2; --surface:#fff; --ink:#1a1714; --ink-soft:#6b6258; --line:#e8e1d6;
+  --accent:#c2562f; --accent-soft:#f3e3da;
+  --shadow:0 1px 2px rgba(26,23,20,.04),0 8px 24px rgba(26,23,20,.06);
+  --fd:"Fraunces",Georgia,serif; --fb:"Hanken Grotesk",system-ui,sans-serif;
+
+  position:sticky; top:0; z-index:1030;
+  background:var(--surface);
+  border-bottom:1px solid var(--line);
+  font-family:var(--fb);
+}
+@supports (backdrop-filter:blur(10px)){
+  .site-header{background:rgba(255,247,242,.85);backdrop-filter:blur(12px)}
+}
+.site-header.dark{
+  --bg:#16130f; --surface:#1d1813; --ink:#f3ede4; --ink-soft:#a89e90; --line:#322a22;
+  --accent:#e0784f; --accent-soft:#3a261c;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.4);
+}
+@supports (backdrop-filter:blur(10px)){
+  .site-header.dark{background:rgba(22,19,15,.85)}
 }
 
-/* Navbar brand */
-.navbar-brand {
-  color: black;
-  font-size: 24px;
-  transition: color 0.2s ease; /* Quick transition for text color */
+/* Keep Bootstrap's own container flex; just widen + pad */
+.site-header .container-fluid{max-width:1460px;margin:0 auto;padding:12px 24px}
+
+/* ---------- Brand ---------- */
+.site-header .navbar-brand{
+  display:inline-flex;align-items:center;gap:9px;
+  font-family:var(--fd);font-weight:600;font-size:1.5rem;letter-spacing:-.02em;
+  color:var(--ink) !important;
+}
+.site-header .navbar-brand svg{color:var(--accent);font-size:1.35rem}
+
+/* ---------- Search ---------- */
+.site-header .header-search{flex:1 1 auto;max-width:360px;margin-right:12px}
+.site-header .header-search input,
+.site-header .header-search .form-control{
+  width:100%;padding:10px 18px;border-radius:999px;
+  border:1px solid var(--line);background:var(--bg);color:var(--ink);
+  font-family:var(--fb);font-size:.92rem;outline:none;transition:border-color .2s;
+}
+.site-header .header-search input:focus,
+.site-header .header-search .form-control:focus{border-color:var(--accent);box-shadow:none}
+.site-header .header-search .btn{
+  border-radius:999px;background:var(--accent);color:#fff;border:none;font-weight:600;
 }
 
-/* Navbar links */
-.navbar-nav .nav-link {
-  color: black;
-  transition: color 0.2s ease; /* Quick transition for text color */
-  font-size: 16px; /* Initial font size */
+/* ---------- Nav links ---------- */
+.site-header .navbar-nav{gap:2px}
+.site-header .nav-link{
+  position:relative;color:var(--ink) !important;font-weight:500;font-size:.95rem;
+  padding:9px 14px !important;transition:color .2s;
+}
+.site-header .nav-link::after{
+  content:"";position:absolute;left:14px;right:14px;bottom:5px;height:2px;
+  background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .25s;
+}
+.site-header .nav-link:hover{color:var(--accent) !important}
+.site-header .nav-link:hover::after{transform:scaleX(1)}
+.site-header .nav-link.active{color:var(--accent) !important;font-weight:600}
+.site-header .dropdown-toggle::after{vertical-align:middle;margin-left:6px;opacity:.6}
+
+/* ---------- Dropdowns ---------- */
+.site-header .dropdown-menu{
+  background:var(--surface);border:1px solid var(--line);border-radius:14px;
+  box-shadow:var(--shadow);padding:8px;margin-top:6px;min-width:200px;
+}
+/* Invisible bridge: keeps the hover area continuous across the gap
+   between the menu button and the dropdown, so it doesn't close
+   while the mouse travels down to it. */
+.site-header .nav-item.dropdown .dropdown-menu::before{
+  content:"";position:absolute;left:0;right:0;top:-12px;height:12px;background:transparent;
+}
+.site-header .dropdown-item{
+  color:var(--ink) !important;border-radius:9px;padding:10px 14px;
+  font-size:.92rem;font-weight:500;transition:.15s;white-space:nowrap;
+}
+.site-header .dropdown-item:hover,
+.site-header .dropdown-item:focus{background:var(--accent-soft);color:var(--accent) !important}
+
+/* ---------- Auth buttons ---------- */
+.site-header .btn-auth,
+.site-header .btn-auth-primary{
+  font-family:var(--fb);font-weight:600;font-size:.88rem;border-radius:999px;
+  padding:9px 18px;display:inline-flex;align-items:center;gap:7px;
+  text-decoration:none;border:1px solid transparent;line-height:1.2;
+  transition:transform .2s,background .2s,color .2s,border-color .2s;margin:0 3px;
+}
+.site-header .btn-auth{background:transparent;color:var(--ink) !important;border-color:var(--ink)}
+.site-header .btn-auth:hover{background:var(--ink);color:var(--bg) !important}
+.site-header .btn-auth-primary{background:var(--accent);color:#fff !important}
+.site-header .btn-auth-primary:hover{transform:translateY(-1px);filter:brightness(1.05)}
+
+/* ---------- User avatar dropdown ---------- */
+.site-header .user-toggle{display:inline-flex !important;align-items:center;gap:8px}
+.site-header .user-avatar{
+  width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;
+  display:inline-grid;place-items:center;font-weight:700;font-size:.82rem;
 }
 
-/* Navbar link hover effect */
-.navbar-nav .nav-link:hover {
-  text-decoration: underline;
+/* ---------- Cart ---------- */
+.site-header .cart-item{display:flex;align-items:center;margin-left:6px}
+.site-header .cart-link{
+  display:inline-grid !important;place-items:center;
+  width:42px;height:42px;border-radius:50%;
+  border:1px solid var(--line);background:var(--surface);color:var(--ink) !important;
+  font-size:18px;transition:.2s;padding:0 !important;
+}
+.site-header .cart-link::after{display:none}
+.site-header .cart-link:hover{background:var(--accent);color:#fff !important;border-color:var(--accent)}
+.site-header .ant-badge-count{
+  background:var(--accent);color:#fff;box-shadow:0 0 0 2px var(--surface);
+  font-family:var(--fb);font-weight:700;
 }
 
-/* Navbar link active state */
-.navbar-nav .nav-item.active .nav-link,
-.navbar-nav .nav-item .nav-link.active {
-  color: black; /* Set text color for active state */
-  font-weight: bold; /* Make active link bold */
+/* ---------- Mobile toggler ---------- */
+.site-header .navbar-toggler{border:1px solid var(--line);border-radius:12px;padding:8px 10px;box-shadow:none}
+.site-header .navbar-toggler:focus{box-shadow:none}
+.site-header .navbar-toggler-icon{
+  background-image:none;position:relative;width:20px;height:2px;background:var(--ink);
 }
-
-/* Navbar link clicked animation */
-.navbar-nav .nav-link:active {
-  transform: scale(0.95); /* Scale down on click */
+.site-header .navbar-toggler-icon::before,
+.site-header .navbar-toggler-icon::after{
+  content:"";position:absolute;left:0;width:20px;height:2px;background:var(--ink);
 }
+.site-header .navbar-toggler-icon::before{top:-6px}
+.site-header .navbar-toggler-icon::after{top:6px}
 
-/* Navbar link focus state */
-.navbar-nav .nav-link:focus {
-  color: black; /* Set text color for focus state */
-}
-
-/* Animation for Navbar links */
-.navbar-nav .nav-link {
-  transition: all 0.3s ease; /* Add transition for all properties */
-}
-
-/* Animation for Navbar links on hover */
-.navbar-nav .nav-link:hover {
-  font-size: 18px; /* Increase font size on hover */
-}
-
-
-/* Responsive styles */
-@media (max-width: 768px) {
-  /* Center the navbar content */
-  .navbar-collapse {
-    text-align: center;
-    background-color: white; /* Ensure background color is consistent */
-    position: absolute; /* Position the collapsed menu */
-    top: 56px; /* Adjust the top position to accommodate the navbar height */
-    left: 0;
-    width: 100%; /* Take up full width */
-    z-index: 1000; /* Ensure it appears above other content */
-    padding-top: 15px; /* Add padding to the top */
+/* ---------- Mobile collapsed menu ---------- */
+@media(max-width:991px){
+  .site-header .navbar-collapse{
+    background:var(--surface);border-top:1px solid var(--line);
+    margin-top:12px;padding:14px 0;
   }
-
-  /* Ensure the collapsed menu is visible */
-  .navbar-collapse.show {
-    display: block !important; /* Important to override Bootstrap styles */
-  }
-
-  /* Adjust navbar toggler icon for collapsed menu */
-  .navbar-toggler-icon {
-    background-color: black; /* Set background color of toggler icon */
-    width: 30px; /* Set width */
-    height: 3px; /* Set height */
-    border-radius: 3px; /* Add some rounded corners */
-    position: relative; /* Set position to enable absolute positioning of inner spans */
-  }
-  
-  /* Add the lines for the toggler icon */
-  .navbar-toggler-icon::before,
-  .navbar-toggler-icon::after {
-    content: "";
-    background-color: black;
-    width: 100%;
-    height: 3px;
-    border-radius: 3px;
-    position: absolute;
-    left: 0;
-    transition: transform 0.2s ease; /* Add transition for animation */
-  }
-  
-  /* Position the top line of the toggler icon */
-  .navbar-toggler-icon::before {
-    top: -8px;
-  }
-  
-  /* Position the bottom line of the toggler icon */
-  .navbar-toggler-icon::after {
-    bottom: -8px;
-  }
-  
-  /* Rotate and animate the lines for the toggler icon when menu is opened */
-  .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon::before {
-    transform: rotate(45deg) translate(6px, 6px);
-  }
-  
-  .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon::after {
-    transform: rotate(-45deg) translate(6px, -6px);
-  }
-  
-
-  /* Make the collapsed menu links black */
-  .navbar-collapse .nav-link {
-    color: black;
-    display: block; /* Ensure links are displayed as block elements */
-    padding: 10px 0; /* Add padding to the links */
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Add bottom border to separate links */
-  }
-
-  /* Style for the last link */
-  .navbar-collapse .nav-link:last-child {
-    border-bottom: none; /* Remove bottom border from the last link */
-  }
+  .site-header .header-search{order:-1;max-width:none;width:100%;margin:0 0 10px}
+  .site-header .navbar-nav{align-items:stretch}
+  .site-header .nav-link{padding:13px 8px !important;border-bottom:1px solid var(--line)}
+  .site-header .nav-link::after{display:none}
+  .site-header .dropdown-menu{box-shadow:none;border:none;border-radius:0;padding:0 0 0 12px;margin-top:0;background:transparent}
+  .site-header .btn-auth,
+  .site-header .btn-auth-primary{display:flex;justify-content:center;margin:8px 8px 0}
+  .site-header .cart-item{padding:12px 8px 0}
 }
-
-
-.shopstar-text {
-  color: #333; /* Choose your desired color */
-  font-size: 24px; /* Adjust the font size as needed */
-  font-weight: bold; /* Make the text bold if desired */
-  margin-left: 10px; /* Adjust the spacing between the icon and the text */
-}
-
-
-
-
-
-
-
-/* Header.css */
-
-.navbar-dark.bg-dark {
-  background-color:#000 !important; /* Change text color to black */
-}
-
-.navbar-dark.bg-dark .navbar-brand,
-.navbar-dark.bg-dark .navbar-nav .nav-link,
-.navbar-dark.bg-dark .navbar-toggler-icon {
-  color:#ffcc00 !important;
-
-
-}
-/* Header.css */
-.navbar-dark .dropdown-menu {
-  background-color: #000; /* Set background color for dropdown menu */
-  border: none; /* Remove border */
-}
-
-.navbar-dark .dropdown-menu a {
-  color: #ffcc00 !important; /* Set text color for dropdown items */
-}
-
-.navbar-dark .dropdown-menu a:hover {
-  background-color: #222; /* Change background color on hover */
-}
-

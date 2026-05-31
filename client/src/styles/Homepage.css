@@ -1,819 +1,242 @@
-/* Homepage.css */
-.hero-section {
-  position: relative;
-  width: 100%;
-  overflow: hidden; /* Ensure no overflow */
-}
-
-.hero-image {
-  width: 100%;
-  height: auto; /* Ensure image scales properly */
-  display: block;
-}
-
-.slick-prev,
-.slick-next {
-  background: transparent;
-  border: none;
-  color: #333; /* Adjust color if needed */
-  cursor: pointer;
-  outline: none;
-  z-index: 1;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 24px; /* Adjust size if needed */
-}
-
-.slick-prev {
-  left: 10px; /* Adjust as needed */
-}
-
-.slick-next {
-  right: 10px; /* Adjust as needed */
-}
-
-
-/* Section Titles */
-.section-title {
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 20px;
-}
-
-/* Product Grid */
-.product-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 15px;
-}
-
-/* Product Card */
-.product-card {
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  overflow: hidden;
-  background-color: #fff;
-  transition: box-shadow 0.3s ease;
-}
-
-.product-card:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.card-img-top {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-}
-
-.card-body {
-  padding: 15px;
-}
-
-.card-title {
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.card-price {
-  font-size: 16px;
-  color: #28a745;
-  margin-bottom: 10px;
-}
-
-.card-text {
-  font-size: 14px;
-  color: #666;
-  margin-bottom: 15px;
-}
-
-/* Buttons */
-.btn-info {
-  background-color: #17a2b8;
-  color: #fff;
-}
-
-.btn-warning {
-  background-color: #ffc107;
-  color: #333;
-}
-
-.btn-dark {
-  background-color: #343a40;
-  color: #fff;
-}
-
-.btn-info:hover {
-  background-color: #138496;
-}
-
-.btn-warning:hover {
-  background-color: #e0a800;
-}
-
-.btn-dark:hover {
-  background-color: #23272b;
-}
-
-/* Slick Carousel Arrow Buttons */
-.slick-prev,
-.slick-next {
-  width: 30px;
-  height: 30px;
-  background-color: #333;
-  border-radius: 50%;
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  z-index: 1;
-}
-
-.slick-prev {
-  left: 10px;
-}
-
-.slick-next {
-  right: 10px;
-}
-
-.slick-prev:hover,
-.slick-next:hover {
-  background-color: #555;
-}
-
-
-/* Responsive Design */
-@media (max-width: 992px) {
-  .card-img-top {
-    height: 160px;
-  }
-}
-
-@media (max-width: 768px) {
-  .card-img-top {
-    height: 140px;
-  }
-}
-
-@media (max-width: 576px) {
-  .card-img-top {
-    height: 120px;
-  }
-}
-
-
-
-
-
-/* Homepage.css */
-
-/* Container for the popular products slider */
-.popular-products {
-  position: relative; /* Needed to position arrows */
-}
-
-/* Custom Arrow Buttons */
-.slick-prev,
-.slick-next {
-  background: transparent;
-  border: none;
-  color: #333; /* Adjust color if needed */
-  cursor: pointer;
-  outline: none;
-  z-index: 1;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 24px; /* Adjust size if needed */
-}
-
-/* Position the previous arrow on the left */
-.slick-prev {
-  left: 10px; /* Adjust as needed */
-}
-
-/* Position the next arrow on the right */
-.slick-next {
-  right: 10px; /* Adjust as needed */
-}
-
-/* Ensure the slider container is positioned relatively to contain the arrows */
-.slick-slider {
-  position: relative;
-}
-
-/* Style for the product cards */
-.product-card {
-  margin: 0 5px; /* Adjust as needed for spacing between cards */
-  box-sizing: border-box;
-  padding: 10px; /* Add padding if needed */
-  border: 1px solid #ddd; /* Optional: Border to better distinguish product cards */
-  border-radius: 8px; /* Optional: Rounded corners */
-  background-color: #fff; /* Optional: Background color */
-}
-
-/* Make sure images fit well within the card */
-.card-img-top {
-  width: 100%;
-  height: auto;
-  display: block;
-  max-height: 150px; /* Limit the height of the images to keep them small */
-  object-fit: cover; /* Ensure images cover the space */
-}
-
-/* Responsive adjustments */
-@media (max-width: 576px) {
-  .slick-slide {
-    display: flex;
-    justify-content: center;
-    /* Allow space around the card and control how many cards fit */
-  }
-
-  .slick-slide .product-card {
-    margin: 0 10px; /* Add margin for spacing between cards */
-    width: 90%; /* Adjust width to fit more cards and ensure spacing */
-    max-width: 150px; /* Set a max width for the product cards to ensure they are small */
-  }
-
-  .slick-prev,
-  .slick-next {
-    font-size: 20px; /* Smaller arrows for small screens */
-  }
-}
-
-
-
-
-.special-offers {
-  position: relative;
-  padding: 0 10px; /* Add padding around the section */
-}
-
-.offer-item {
-  padding: 0 5px; /* Add padding between items */
-  box-sizing: border-box; /* Ensure padding is included in width */
-}
-
-.offer-image {
-  width: 100%; /* Ensure image scales with its container */
-  height: auto; /* Maintain aspect ratio */
-  display: block; /* Remove extra space below images */
-}
-
-.slick-prev,
-.slick-next {
-  background: transparent;
-  border: none;
-  color: #333; /* Adjust color if needed */
-  cursor: pointer;
-  outline: none;
-  z-index: 1;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 24px; /* Adjust size if needed */
-}
-
-.slick-prev {
-  left: 10px; /* Adjust as needed */
-}
-
-.slick-next {
-  right: 10px; /* Adjust as needed */
-}
-
-/* Additional media queries for better responsiveness */
-@media (max-width: 1200px) {
-  .slick-slide {
-    padding: 0 10px; /* Adjust padding */
-  }
-}
-
-@media (max-width: 768px) {
-  .slick-slide {
-    padding: 0 8px; /* Adjust padding */
-  }
-}
-
-@media (max-width: 576px) {
-  .slick-slide {
-    padding: 0 4px; /* Reduce padding */
-  }
-
-  .offer-item {
-    padding: 0; /* Remove padding */
-  }
-
-  .slick-prev,
-  .slick-next {
-    font-size: 18px; /* Adjust arrow size */
-  }
-}
-
-
-
-
-
-/* Main container - ensures scrolling only applies to the product list */
-.home-page {
-  display: flex;
-  height: 100vh; /* Full screen height */
-  overflow: hidden; /* Prevents the entire page from scrolling */
-}
-
-/* Filters Section - Stays Fixed */
-.filters {
-  position: sticky;
-  top: 0;
-  height: 100vh; /* Full height */
-  overflow-y: auto; /* Allows scrolling inside filters if needed */
-  padding: 15px;
-  background: #fff; /* Keeps a clean background */
-  border-right: 1px solid #ddd;
-}
-
-/* Product List - This is the only section that scrolls */
-.product-section {
-  flex: 1; /* Takes up remaining space */
-  height: 100vh; /* Full height */
-  overflow-y: auto; /* Enables vertical scrolling for products */
-  padding: 20px;
-}
-
-/* Product List Item - Layout Improvement */
-.product-list-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  max-width: 1200px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  margin: 15px 0;
-  background: white;
-  transition: transform 0.3s ease;
-}
-
-.product-list-item:hover {
-  transform: scale(1.02);
-}
-
-/* Responsive Design */
-@media (max-width: 1024px) {
-  .home-page {
-    flex-direction: column; /* Stacks filters on top for small screens */
-    height: auto; /* Removes fixed height */
-  }
-
-  .filters {
-    position: static; /* Disables sticky on small screens */
-    height: auto;
-    width: 100%;
-    border-right: none;
-  }
-
-  .product-section {
-    height: auto; /* Enables full content display */
-    overflow-y: visible; /* Allows normal scrolling */
-  }
-}
-
-
-
-
-
-
-
-
-/* ✅ Improved Button Styling */
-.btn-cart {
-  width: 100%;
-  font-size: 16px;
-  padding: 10px;
-  font-weight: bold;
-}
-
-
-
-
-
-/* Header Styling */
-.ecom-header {
-  position: relative;
-  text-align: center;
-  font-size: 2rem; /* Large size */
-  font-weight: 700;
-  text-transform: uppercase;
-  background: linear-gradient(45deg, #000000, #070707);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent; /* Gradient text */
-  letter-spacing: 2px;
-  margin-bottom: 40px;
-  cursor: pointer;
-  transition: all 0.3s ease-in-out;
-}
-
-/* Underline Animation */
-.ecom-header::after {
-  content: "";
-  display: block;
-  width: 80px;
-  height: 4px;
-  background: #111010;
-  margin: 10px auto 0;
-  transition: width 0.3s ease-in-out;
-}
-
-.ecom-header:hover::after {
-  width: 120px; /* Expands underline on hover */
-}
-
-/* Hover Glow Effect */
-.ecom-header:hover {
-  text-shadow: 0px 0px 15px rgba(255, 244, 95, 0.8);
-}
-
-/* ✅ Mobile View (up to 768px) */
-@media (max-width: 768px) {
-  /* ✅ Hero Section - Make it More Responsive */
-  .hero-section {
-      text-align: center;
-  }
-
-  .hero-image {
-      max-height: 250px; /* Adjust hero image size */
-      object-fit: cover;
-  }
-
-  /* ✅ Product Grid - Adjust Column Layout */
-  .product-grid {
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); /* Smaller columns */
-      gap: 10px;
-  }
-
-  /* ✅ Product Card - Reduce Padding & Font Size */
-  .product-card {
-      padding: 8px;
-      border-radius: 6px;
-  }
-
-  .card-title {
-      font-size: 16px;
-  }
-
-  .card-price {
-      font-size: 14px;
-  }
-
-  .card-text {
-      font-size: 12px;
-  }
-
-  /* ✅ Image Size Adjustments */
-  .card-img-top {
-      height: 130px; /* Reduce image height */
-  }
-
-  /* ✅ Button Styling */
-  .btn-cart {
-      font-size: 14px;
-      padding: 8px;
-  }
-
-  /* ✅ Slick Slider Adjustments */
-  .slick-prev,
-  .slick-next {
-      font-size: 20px;
-      width: 25px;
-      height: 25px;
-  }
-}
-
-/* ✅ Small Mobile Screens (up to 480px) */
-@media (max-width: 480px) {
-  /* ✅ Adjust Hero Image */
-  .hero-image {
-      max-height: 200px;
-  }
-
-  /* ✅ Product Grid - Single Column for Better Visibility */
-  .product-grid {
-      grid-template-columns: 1fr;
-  }
-
-  /* ✅ Reduce Product Card Spacing */
-  .product-card {
-      padding: 6px;
-  }
-
-  /* ✅ Reduce Text Sizes */
-  .card-title {
-      font-size: 14px;
-  }
-
-  .card-price {
-      font-size: 13px;
-  }
-
-  .card-text {
-      font-size: 11px;
-  }
-
-  /* ✅ Reduce Image Height Further */
-  .card-img-top {
-      height: 110px;
-  }
-
-  /* ✅ Buttons - Adjust for Small Screens */
-  .btn-cart {
-      font-size: 12px;
-      padding: 6px;
-  }
-
-  /* ✅ Slick Slider Arrows - Make them Smaller */
-  .slick-prev,
-  .slick-next {
-      font-size: 16px;
-      width: 20px;
-      height: 20px;
-  }
-
-  /* ✅ Adjust Special Offers Section */
-  .offer-image {
-      max-height: 150px;
-  }
-}
-
-
-/* Popular Products - Improve Mobile View */
-.popular-products {
-  position: relative;
-  padding: 10px;
-}
-
-/* Ensure proper spacing around carousel */
-.popular-products .slick-slider {
-  padding: 5px 0;
-}
-
-/* Adjust product card spacing inside the carousel */
-.popular-products .product-card {
-  margin: 10px;
-  padding: 10px;
-  border-radius: 8px;
-  text-align: center;
-}
-
-/* Make images fit better */
-.popular-products .card-img-top {
-  width: 100%;
-  height: 140px; /* Adjust height for better fit */
-  object-fit: cover;
-  border-radius: 6px;
-}
-
-/* Responsive Adjustments */
-@media (max-width: 992px) {
-  .popular-products .product-card {
-    margin: 8px;
-    padding: 8px;
-  }
-
-  .popular-products .card-img-top {
-    height: 130px;
-  }
-}
-
-@media (max-width: 768px) {
-  .popular-products .slick-slider {
-    padding: 0; /* Remove extra padding */
-  }
-
-  .popular-products .slick-slide {
-    display: flex;
-    justify-content: center;
-  }
-
-  .popular-products .product-card {
-    width: 95%; /* Adjust width for better spacing */
-    max-width: 220px;
-    margin: 5px auto; /* Center the cards */
-  }
-
-  .popular-products .card-img-top {
-    height: 120px;
-  }
-}
-
-@media (max-width: 576px) {
-  .popular-products .slick-slider {
-    padding: 0;
-  }
-
-  .popular-products .slick-slide {
-    display: flex;
-    justify-content: center;
-  }
-
-  .popular-products .product-card {
-    width: 90%;
-    max-width: 200px;
-    margin: 5px auto;
-  }
-
-  .popular-products .card-img-top {
-    height: 110px;
-  }
-
-  .slick-prev,
-  .slick-next {
-    font-size: 18px;
-    width: 25px;
-    height: 25px;
-  }
-}
-
-@media (max-width: 400px) {
-  .popular-products .product-card {
-    width: 100%;
-    max-width: 180px;
-  }
-
-  .popular-products .card-img-top {
-    height: 100px;
-  }
-
-  .slick-prev,
-  .slick-next {
-    font-size: 16px;
-    width: 20px;
-    height: 20px;
-  }
-}
-
-
-
-/* Dark Mode for Global Background and Text */
-.dark-mode {
-  background-color: #121212; /* Dark background for entire page */
-  color: #e0e0e0; /* Lighter text for better contrast */
-}
-
-/* Dark Mode for Header Section */
-.dark-mode .ecom-header {
-  color: #ffffff; /* White text for header */
-}
-
-/* Dark Mode for Filters Section */
-.dark-mode .filters {
-  background-color: #1f1f1f; /* Darker background for filter section */
-  color: #fff; /* White text */
-  border-radius: 5px;
-  padding: 15px;
-}
-
-.dark-mode .filters .ant-collapse-header {
-  background-color: #333; /* Dark background for collapse headers */
-  color: #fff; /* White text */
-}
-
-.dark-mode .filters .ant-checkbox-wrapper {
-  color: #fff; /* White text for checkbox label */
-}
-
-.dark-mode .filters .ant-checkbox-inner {
-  border-color: #444; /* Lighter border for checkboxes */
-}
-
-.dark-mode .filters .ant-radio-inner {
-  border-color: #444; /* Lighter border for radio buttons */
-}
-
-.dark-mode .filters .ant-radio-checked .ant-radio-inner {
-  background-color: #28a745; /* Green color for checked radio button */
-  border-color: #28a745; /* Green border */
-}
-
-.dark-mode .filters .ant-checkbox-checked .ant-checkbox-inner {
-  background-color: #28a745; /* Green color for checked checkbox */
-  border-color: #28a745; /* Green border */
-}
-
-.dark-mode .filters button {
-  background-color: #c82333; /* Red background for reset button */
-  color: #fff; /* White text */
-  border: none;
-  padding: 10px 20px;
-  cursor: pointer;
-  border-radius: 5px; /* Rounded corners */
-}
-
-.dark-mode .filters button:hover {
-  background-color: #a71d2a; /* Darker red on hover */
-  opacity: 0.9; /* Slight opacity on hover */
-}
-
-/* Dark Mode for Product Section */
-.dark-mode .product-section {
-  background-color: #1f1f1f; /* Dark background for product section */
-  padding: 20px; /* Padding for spacing */
-}
-
-.dark-mode .product-list-item {
-  background-color: #292929; /* Dark background for product items */
-  color: #fff; /* White text for product details */
-  border: 1px solid #444; /* Light border for product items */
-  margin-bottom: 15px; /* Margin for spacing */
-}
-
-.dark-mode .product-info {
-  color: #fff; /* White text for product details */
-}
-
-.dark-mode .product-name {
-  color: #ffffff; /* Ensure product name is white */
-  font-weight: bold; /* Make product name bold */
-}
-
-.dark-mode .product-description {
-  color: #bbb; /* Lighter text for description */
-}
-
-.dark-mode .product-price {
-  color: #f0f0f0; /* Lighter text for price */
-  font-weight: bold;
-}
-
-.dark-mode .btn-custom,
-.dark-mode .btn-cart {
-  background-color: #333; /* Dark background for buttons */
-  color: #fff; /* White text */
-}
-
-.dark-mode .btn-success {
-  background-color: #28a745;
-  color: #fff;
-}
-
-.dark-mode .btn-primary {
-  background-color: #007bff;
-  color: #fff;
-}
-
-.dark-mode .btn-custom:hover,
-.dark-mode .btn-cart:hover,
-.dark-mode .btn-success:hover,
-.dark-mode .btn-primary:hover {
-  opacity: 0.8;
-}
-
-/* Dark Mode for Product Image */
-.dark-mode .product-image-container img {
-  border-radius: 8px; /* Add rounded corners to product images */
-  border: 1px solid #444; /* Light border around images */
-}
-
-/* Dark Mode for Load More Button */
-.dark-mode .btn-primary {
-  background-color: #007bff;
-  color: #fff;
-}
-
-.dark-mode .btn-primary:hover {
-  opacity: 0.8;
-}
-
-/* Adjust body background and text color */
-.dark-mode body {
-  background-color: #121212; /* Dark background for the whole body */
-  color: #e0e0e0; /* Light text color */
-}
-
-/* Specific styles for the active category */
-.dark-mode .active-category {
-  color: #28a745; /* Green text for active category */
-}
-
-/* Ensure sidebar and page layout are consistent */
-.dark-mode .container-fluid {
-  background-color: #121212; /* Dark background for the container */
-  color: #e0e0e0; /* Light text color */
-}
-
-.dark-mode .ant-collapse-content {
-  background-color: #222; /* Dark content background */
-}
-
-.dark-mode .ant-collapse-item {
-  border-color: #444; /* Dark border for items */
-}
-
-.dark-mode .ant-collapse-content-box {
-  padding: 10px; /* Adjust padding for content */
+/* ============================================================
+   Homepage.css — Professional / trending e-commerce redesign
+   Drop-in replacement. Light + dark mode.
+   ============================================================ */
+
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap");
+
+:root {
+  --bg:#faf7f2; --surface:#fff; --ink:#1a1714; --ink-soft:#6b6258; --line:#e8e1d6;
+  --accent:#c2562f; --accent-soft:#f3e3da; --gold:#d9a441;
+  --shadow:0 1px 2px rgba(26,23,20,.04),0 10px 30px rgba(26,23,20,.07);
+  --shadow-lg:0 18px 50px rgba(26,23,20,.16);
+  --radius:18px;
+  --fd:"Fraunces",Georgia,serif; --fb:"Hanken Grotesk",system-ui,sans-serif;
+}
+.dark-mode{
+  --bg:#16130f; --surface:#211c17; --ink:#f3ede4; --ink-soft:#a89e90; --line:#322a22;
+  --accent:#e0784f; --accent-soft:#3a261c;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.4);
+  --shadow-lg:0 18px 50px rgba(0,0,0,.55);
+  background-color:var(--bg); color:var(--ink);
+}
+
+/* ---------- BUTTON SYSTEM ---------- */
+.btn{font-family:var(--fb);font-weight:600;font-size:.95rem;border:1px solid transparent;border-radius:999px;cursor:pointer;padding:13px 28px;display:inline-flex;align-items:center;gap:9px;justify-content:center;line-height:1;text-decoration:none;transition:transform .22s,background .22s,color .22s,border-color .22s,box-shadow .22s}
+.btn:active{transform:translateY(1px) scale(.99)}
+.btn-primary{background:var(--ink);color:var(--bg)}
+.btn-primary:hover{background:var(--accent);color:#fff;transform:translateY(-2px);box-shadow:0 10px 24px rgba(194,86,47,.35)}
+.btn-accent{background:var(--accent);color:#fff}
+.btn-accent:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(194,86,47,.42);filter:brightness(1.05)}
+.btn-outline{background:transparent;color:var(--ink);border-color:var(--ink)}
+.btn-outline:hover{background:var(--ink);color:var(--bg);transform:translateY(-2px)}
+.btn-ghost{background:var(--accent-soft);color:var(--accent)}
+.btn-ghost:hover{background:var(--accent);color:#fff}
+.btn-sm{padding:9px 18px;font-size:.85rem}
+.btn-lg{padding:16px 36px;font-size:1rem}
+.btn-icon{width:46px;height:46px;padding:0;border-radius:50%;background:rgba(255,255,255,.92);color:var(--ink);backdrop-filter:blur(6px)}
+.btn-icon:hover{background:var(--accent);color:#fff;transform:rotate(8deg)}
+.btn-block{width:100%}
+
+/* ---------- SECTION RHYTHM ---------- */
+.special-offers,.new-arrivals,.best-sellers,.popular-products,
+.home-categories,.home-features,.promo-banner,.home-newsletter{
+  max-width:1280px;margin:0 auto;padding:80px 24px;font-family:var(--fb);color:var(--ink);
+}
+.section-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:40px}
+.section-kicker{display:inline-block;font-size:.72rem;letter-spacing:.24em;text-transform:uppercase;font-weight:600;color:var(--accent);margin-bottom:10px}
+.section-title{font-family:var(--fd);font-weight:500;font-size:clamp(2rem,4.2vw,3rem);line-height:1.04;letter-spacing:-.015em;margin:0}
+.section-title::after{content:"";display:block;width:52px;height:3px;background:var(--accent);border-radius:2px;margin-top:16px}
+
+/* ---------- TICKER ---------- */
+.home-ticker{background:var(--ink);color:var(--bg);overflow:hidden;white-space:nowrap;font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;font-weight:600}
+.ticker-track{display:inline-block;padding:11px 0;animation:tickerScroll 26s linear infinite}
+.ticker-track span{margin:0 28px;opacity:.92}
+.ticker-track span::before{content:"\2726";margin-right:28px;color:var(--accent)}
+@keyframes tickerScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ---------- HERO ---------- */
+.hero-section{position:relative;max-width:1460px;margin:0 auto;padding:20px 16px 36px}
+.hero-slide{position:relative;border-radius:26px;overflow:hidden}
+.hero-image{width:100%;height:clamp(360px,48vw,600px);object-fit:cover;display:block;cursor:pointer;transition:transform 6s ease}
+.hero-slide:hover .hero-image{transform:scale(1.04)}
+.hero-overlay{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:clamp(32px,6vw,80px);max-width:640px;color:#fff;text-shadow:0 2px 18px rgba(0,0,0,.4);pointer-events:none}
+.hero-kicker{font-size:.75rem;letter-spacing:.24em;text-transform:uppercase;font-weight:600;opacity:.92}
+.hero-heading{font-family:var(--fd);font-weight:500;font-size:clamp(2rem,5.4vw,4rem);line-height:1.02;margin:12px 0 16px}
+.hero-sub{font-size:1.06rem;opacity:.92;margin-bottom:28px;max-width:430px}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;pointer-events:auto}
+.hero-btns .btn-outline{color:#fff;border-color:rgba(255,255,255,.55)}
+.hero-btns .btn-outline:hover{background:#fff;color:var(--ink);border-color:#fff}
+
+/* ---------- FEATURES / TRUST BAR ---------- */
+.home-features{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;padding-top:8px;padding-bottom:8px;max-width:1460px}
+.feature-item{display:flex;gap:14px;align-items:center;padding:22px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+.feature-ico{width:46px;height:46px;flex-shrink:0;border-radius:13px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-size:21px}
+.feature-item h4{font-size:.96rem;margin:0 0 2px}
+.feature-item p{font-size:.8rem;color:var(--ink-soft);margin:0}
+
+/* ---------- BENTO CATEGORIES ---------- */
+.bento-grid{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:200px;gap:18px}
+.cat-tile{position:relative;border-radius:var(--radius);overflow:hidden;cursor:pointer;display:flex;align-items:flex-end;padding:24px;color:#fff;box-shadow:var(--shadow)}
+.cat-tile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .55s ease}
+.cat-tile:hover img{transform:scale(1.08)}
+.cat-tile::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.62),transparent 62%)}
+.cat-tile-text{position:relative;z-index:2}
+.cat-name{font-family:var(--fd);font-size:1.5rem;font-weight:600;display:block}
+.cat-count{font-size:.82rem;opacity:.88}
+.cat-tile.feat{grid-column:span 2;grid-row:span 2}
+.cat-tile.feat .cat-name{font-size:2.2rem}
+.cat-arrow{position:absolute;top:22px;right:22px;z-index:2;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.18);backdrop-filter:blur(4px);display:grid;place-items:center;font-size:18px;transition:background .25s,transform .25s}
+.cat-tile:hover .cat-arrow{background:#fff;color:var(--ink);transform:rotate(-45deg)}
+/* gradient fallbacks when a category has no image */
+.cat-tile.g1{background:linear-gradient(140deg,#7a4a30,#c2562f)}
+.cat-tile.g2{background:linear-gradient(140deg,#34514f,#5f8f7d)}
+.cat-tile.g3{background:linear-gradient(140deg,#574766,#8b6aa0)}
+.cat-tile.g4{background:linear-gradient(140deg,#6a5734,#bda158)}
+.cat-tile.g5{background:linear-gradient(140deg,#3c3a4f,#6f6a86)}
+
+/* ---------- PRODUCT GRID + CARDS ---------- */
+.product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:28px}
+.product-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transition:transform .38s cubic-bezier(.22,1,.36,1),box-shadow .38s;display:flex;flex-direction:column}
+.product-card:hover{transform:translateY(-7px);box-shadow:var(--shadow-lg)}
+.product-media{position:relative;overflow:hidden;aspect-ratio:4/5;background:var(--accent-soft)}
+.card-img-top{width:100%;height:100%;object-fit:cover;cursor:pointer;transition:transform .65s cubic-bezier(.22,1,.36,1)}
+.product-card:hover .card-img-top{transform:scale(1.07)}
+.product-badge{position:absolute;top:14px;left:14px;z-index:2;background:var(--ink);color:var(--bg);font-size:.66rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;padding:6px 12px;border-radius:999px}
+.wish-btn{position:absolute;top:12px;right:12px;z-index:2;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.92);border:none;cursor:pointer;display:grid;place-items:center;font-size:16px;color:var(--ink);transition:.2s}
+.wish-btn:hover{background:var(--accent);color:#fff;transform:scale(1.1)}
+.product-actions{position:absolute;left:12px;right:12px;bottom:12px;display:flex;gap:8px;transform:translateY(150%);opacity:0;transition:transform .38s cubic-bezier(.22,1,.36,1),opacity .3s}
+.product-card:hover .product-actions{transform:translateY(0);opacity:1}
+.action-cart{flex:1}
+.action-details{flex-shrink:0}
+.card-body{padding:18px;display:flex;flex-direction:column;gap:5px;flex:1}
+.card-rating{font-size:.82rem;color:var(--gold);letter-spacing:1px}
+.card-rating small{color:var(--ink-soft);margin-left:5px;letter-spacing:0}
+.card-title{font-family:var(--fb);font-weight:600;font-size:1.04rem;color:var(--ink);margin:0;cursor:pointer;line-height:1.3;transition:color .2s}
+.card-title:hover{color:var(--accent)}
+.card-text{font-size:.85rem;color:var(--ink-soft);margin:0;line-height:1.5;flex:1}
+.card-footer-row{margin-top:12px;display:flex;align-items:baseline;gap:9px}
+.card-price{font-family:var(--fd);font-weight:600;font-size:1.3rem;color:var(--ink);margin:0}
+
+/* ---------- OFFERS CAROUSEL ---------- */
+.offer-item{padding:0 12px}
+.offer-image{width:100%;height:280px;object-fit:cover;border-radius:var(--radius);cursor:pointer;box-shadow:var(--shadow);transition:transform .4s}
+.offer-image:hover{transform:scale(1.02)}
+
+/* ---------- POPULAR CAROUSEL ---------- */
+.popular-products .carousel-card-wrap{padding:12px}
+.popular-products .product-card{height:100%}
+
+/* ---------- PROMO BANNER ---------- */
+.promo-banner{max-width:1460px}
+.promo-inner{border-radius:26px;overflow:hidden;position:relative;background:linear-gradient(120deg,#1f1a16,#5a3424 58%,#c2562f);padding:clamp(44px,7vw,84px);display:flex;flex-direction:column;align-items:center;text-align:center;color:#fff}
+.promo-inner::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 20% 15%,rgba(255,255,255,.13),transparent 40%)}
+.promo-inner>*{position:relative;z-index:2}
+.promo-kicker{color:#f3c9b6;font-size:.75rem;letter-spacing:.22em;text-transform:uppercase;font-weight:600}
+.promo-inner h2{font-family:var(--fd);font-weight:500;font-size:clamp(2rem,5vw,3.4rem);line-height:1.04;max-width:720px;margin:12px 0}
+.promo-inner p{opacity:.9;margin-bottom:28px;font-size:1.05rem}
+
+/* ---------- NEWSLETTER ---------- */
+.home-newsletter{padding-top:16px}
+.news-card{background:var(--surface);border:1px solid var(--line);border-radius:26px;padding:clamp(40px,6vw,68px);text-align:center;box-shadow:var(--shadow)}
+.news-card h2{font-family:var(--fd);font-weight:500;font-size:clamp(1.9rem,4vw,2.7rem);margin:0 0 10px}
+.news-card p{color:var(--ink-soft);margin:0 0 28px}
+.news-form{display:flex;gap:10px;max-width:480px;margin:0 auto}
+.news-form input{flex:1;padding:14px 22px;border-radius:999px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-family:var(--fb);font-size:.95rem;outline:none;transition:border-color .2s}
+.news-form input:focus{border-color:var(--accent)}
+
+/* ---------- SLICK ARROWS + DOTS ---------- */
+.slick-prev,.slick-next{z-index:5;width:46px !important;height:46px !important;background:var(--surface) !important;border:1px solid var(--line) !important;border-radius:50% !important;display:inline-flex !important;align-items:center;justify-content:center;color:var(--ink) !important;box-shadow:var(--shadow);transition:background .2s,color .2s,transform .2s}
+.slick-prev:hover,.slick-next:hover{background:var(--accent) !important;color:#fff !important;transform:scale(1.06)}
+.slick-prev::before,.slick-next::before{display:none}
+.slick-prev{left:14px}
+.slick-next{right:14px}
+.slick-dots li button::before{font-size:9px;color:var(--ink-soft);opacity:.4}
+.slick-dots li.slick-active button::before{color:var(--accent);opacity:1}
+
+/* ---------- RESPONSIVE ---------- */
+@media(max-width:900px){
+  .home-features{grid-template-columns:repeat(2,1fr)}
+  .bento-grid{grid-template-columns:repeat(2,1fr)}
+  .cat-tile.feat{grid-column:span 2}
+}
+@media(max-width:768px){
+  .special-offers,.new-arrivals,.best-sellers,.popular-products,
+  .home-categories,.promo-banner{padding:52px 18px}
+  .product-grid{grid-template-columns:repeat(2,1fr);gap:14px}
+  .card-body{padding:13px}
+  .product-actions{transform:translateY(0);opacity:1;position:static;margin-top:12px;padding:0 13px 13px}
+  .product-media{aspect-ratio:1/1}
+  .news-form{flex-direction:column}
+  .bento-grid{grid-auto-rows:150px}
+}
+@media(max-width:600px){
+  .home-features{grid-template-columns:1fr}
+}
+
+/* ============================================================
+   ALL PRODUCTS / SHOP PAGE  (shares the homepage design system)
+   ============================================================ */
+.shop-page{max-width:1380px;margin:0 auto;padding:32px 24px 90px;font-family:var(--fb);color:var(--ink)}
+
+.shop-header{margin:14px 0 28px}
+.shop-title{font-family:var(--fd);font-weight:500;font-size:clamp(2.2rem,5vw,3.4rem);line-height:1.02;letter-spacing:-.015em;margin:0}
+.shop-toolbar{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;margin-top:18px;padding-bottom:18px;border-bottom:1px solid var(--line)}
+.shop-results{font-size:.92rem;color:var(--ink-soft)}
+.shop-results b{color:var(--ink);font-weight:600}
+.shop-toolbar-right{display:flex;gap:10px;align-items:center}
+.shop-sort{font-family:var(--fb);font-size:.9rem;padding:10px 16px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;outline:none}
+.mobile-filter-btn{display:none}
+
+.shop-layout{display:grid;grid-template-columns:280px 1fr;gap:32px;align-items:start;margin-top:28px}
+.shop-main{min-width:0}
+
+/* ----- Filter sidebar ----- */
+.filters{position:sticky;top:24px;height:auto;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);overflow:visible}
+.filters-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.filters-head h3{font-family:var(--fd);font-size:1.3rem;font-weight:600;margin:0}
+.filter-reset{background:none;border:none;color:var(--accent);font-family:var(--fb);font-weight:600;font-size:.84rem;cursor:pointer;display:inline-flex;gap:5px;align-items:center;padding:0}
+.filter-reset:hover{text-decoration:underline}
+
+/* ----- Ant Design overrides to match the theme ----- */
+.filters .ant-collapse{background:transparent;border:none}
+.filters .ant-collapse > .ant-collapse-item{border-top:1px solid var(--line);border-bottom:none}
+.filters .ant-collapse > .ant-collapse-item:first-child{border-top:none}
+.filters .ant-collapse-header{padding:18px 0 !important;font-family:var(--fb);font-size:.78rem !important;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft) !important;font-weight:600}
+.filters .ant-collapse-content{background:transparent;border-top:none}
+.filters .ant-collapse-content-box{padding:0 0 18px !important}
+.filters .ant-checkbox-wrapper,.filters .ant-radio-wrapper{color:var(--ink);font-family:var(--fb);font-size:.95rem;padding:7px 0;margin-left:0}
+.filters .ant-checkbox-inner,.filters .ant-radio-inner{border-color:var(--line);background:var(--surface);width:19px;height:19px}
+.filters .ant-checkbox-checked .ant-checkbox-inner,
+.filters .ant-radio-checked .ant-radio-inner{background:var(--accent);border-color:var(--accent)}
+.filters .ant-radio-checked .ant-radio-inner::after{background:#fff}
+.filters .ant-checkbox-wrapper:hover .ant-checkbox-inner,
+.filters .ant-radio-wrapper:hover .ant-radio-inner{border-color:var(--accent)}
+.filters .ant-checkbox-checked::after{border-color:var(--accent)}
+.filters .active-category{color:var(--accent);font-weight:600}
+.filters .ant-divider{border-color:var(--line);margin:0}
+
+/* ----- Shop product card (reuses .product-card design) ----- */
+.shop-page .product-grid{grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:24px}
+.shop-card .card-body{gap:5px}
+.shop-card-cta{margin-top:4px}
+
+.shop-loadmore{display:flex;justify-content:center;margin-top:44px}
+
+/* ----- Empty / loading state ----- */
+.shop-empty{padding:60px 0;text-align:center;color:var(--ink-soft);font-size:1.05rem}
+
+/* ----- Mobile: filters become a slide-in drawer ----- */
+.filters-backdrop{display:none}
+@media(max-width:860px){
+  .shop-layout{grid-template-columns:1fr}
+  .mobile-filter-btn{display:inline-flex}
+  .filters{position:fixed;top:0;right:0;bottom:0;left:auto;width:min(340px,86vw);border-radius:0;z-index:60;transform:translateX(100%);transition:transform .3s ease;overflow-y:auto}
+  .filters.open{transform:translateX(0)}
+  .filters-backdrop{display:block;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:59;opacity:0;pointer-events:none;transition:opacity .3s}
+  .filters-backdrop.show{opacity:1;pointer-events:auto}
+}
+@media(max-width:560px){
+  .shop-page{padding:24px 16px 70px}
+  .shop-page .product-grid{grid-template-columns:repeat(2,1fr);gap:14px}
 }

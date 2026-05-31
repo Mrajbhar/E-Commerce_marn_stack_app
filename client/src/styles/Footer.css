@@ -1,81 +1,110 @@
-.footer-container {
-  background-color: #333;
-  color: #fff;
-  padding: 20px 10px; /* Reduced padding for small screens */
-  text-align: center;
-  position: relative;
-  width: 100%;
+/* ============================================================
+   Footer.css — Redesigned footer (matches the store system)
+   Self-contained tokens + fonts. Light + dark via `.dark` class.
+   ============================================================ */
+
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap");
+
+.footer-container{
+  --f-bg:#faf3ec; --f-panel:#fff; --f-ink:#1a1714; --f-soft:#6b6258; --f-line:#e3dccf;
+  --f-accent:#c2562f; --f-accent-soft:#f3e3da;
+  --fd:"Fraunces",Georgia,serif; --fb:"Hanken Grotesk",system-ui,sans-serif;
+
+  position:relative;background:var(--f-bg);color:var(--f-ink);
+  font-family:var(--fb);overflow:hidden;border-top:1px solid var(--f-line);
+  transition:background .4s,color .4s;width:100%;
+}
+.footer-container.dark{
+  --f-bg:#16130f; --f-panel:#1d1813; --f-ink:#f3ede4; --f-soft:#a89e90; --f-line:#2b241d;
+  --f-accent:#e0784f; --f-accent-soft:#3a261c;
 }
 
-.footer-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 10px;
+/* Animated accent bar */
+.footer-accent{
+  height:4px;width:100%;
+  background:linear-gradient(90deg,var(--f-accent),#e8a06f,var(--f-accent),#e8a06f);
+  background-size:300% 100%;animation:footerShimmer 6s linear infinite;
+}
+@keyframes footerShimmer{to{background-position:300% 0}}
+
+/* Top grid */
+.footer-top{
+  max-width:1280px;margin:0 auto;padding:64px 24px 40px;
+  display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:40px;
 }
 
-/* Footer text adjustments */
-.footer-text {
-  font-size: 14px; /* Reduce font size for better readability on mobile */
-  margin-bottom: 8px;
+/* Brand */
+.footer-brand-logo{
+  display:inline-flex;align-items:center;gap:9px;
+  font-family:var(--fd);font-weight:600;font-size:1.7rem;letter-spacing:-.02em;
+  color:var(--f-ink);text-decoration:none;
+}
+.footer-brand-logo .bag{color:var(--f-accent)}
+.footer-tagline{color:var(--f-soft);margin:14px 0 22px;max-width:300px;line-height:1.6;font-size:.95rem}
+
+/* Social pills */
+.footer-socials{display:flex;gap:10px}
+.footer-socials .social{
+  width:42px;height:42px;border-radius:50%;border:1px solid var(--f-line);
+  background:var(--f-panel);color:var(--f-ink);display:grid;place-items:center;
+  font-size:17px;text-decoration:none;
+  transition:transform .25s,background .25s,color .25s,border-color .25s;
+}
+.footer-socials .social:hover{
+  background:var(--f-accent);color:#fff;border-color:var(--f-accent);
+  transform:translateY(-4px) rotate(-6deg);
 }
 
-/* Footer links */
-.footer-links {
-  display: flex;
-  flex-wrap: wrap;  /* Ensure wrapping for smaller screens */
-  align-items: center;
-  justify-content: center;
-  gap: 5px; /* Reduce gap for mobile */
+/* Link columns */
+.footer-col h5{
+  font-family:var(--fb);font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--f-soft);margin-bottom:18px;font-weight:600;
+}
+.footer-col a{
+  display:flex;align-items:center;gap:6px;color:var(--f-ink);text-decoration:none;
+  padding:7px 0;font-size:.95rem;font-weight:500;width:fit-content;
+  transition:color .2s,transform .2s;
+}
+.footer-col a .dot{width:0;overflow:hidden;color:var(--f-accent);font-weight:700;transition:width .25s}
+.footer-col a:hover{color:var(--f-accent);transform:translateX(4px)}
+.footer-col a:hover .dot{width:16px}
+
+/* Bottom bar */
+.footer-bottom{
+  border-top:1px solid var(--f-line);max-width:1280px;margin:0 auto;
+  padding:22px 24px;display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:14px;
+}
+.footer-copy{color:var(--f-soft);font-size:.88rem;margin:0}
+.footer-copy b{color:var(--f-ink);font-weight:600}
+.footer-legal{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.footer-legal a{color:var(--f-soft);text-decoration:none;font-size:.88rem;font-weight:500;transition:color .2s}
+.footer-legal a:hover{color:var(--f-accent)}
+.footer-legal .sep{color:var(--f-line)}
+.footer-toggle{display:inline-flex;align-items:center;margin-left:6px}
+
+/* Back to top */
+.back-to-top{
+  position:absolute;right:24px;top:24px;width:44px;height:44px;border-radius:50%;
+  border:1px solid var(--f-line);background:var(--f-panel);color:var(--f-ink);
+  cursor:pointer;font-size:16px;display:grid;place-items:center;
+  transition:transform .25s,background .25s,color .25s,border-color .25s;
+}
+.back-to-top:hover{
+  background:var(--f-accent);color:#fff;border-color:var(--f-accent);transform:translateY(-4px);
 }
 
-/* Footer links styling */
-.footer-link {
-  color: #fff;
-  text-decoration: none;
-  padding: 5px;
-  transition: color 0.3s ease, transform 0.3s ease;
-  font-size: 14px; /* Reduce font size on mobile */
-}
+/* Entrance animation */
+.footer-brand,.footer-col{animation:footerFadeUp .7s cubic-bezier(.22,1,.36,1) both}
+.footer-col:nth-of-type(2){animation-delay:.06s}
+.footer-col:nth-of-type(3){animation-delay:.12s}
+.footer-col:nth-of-type(4){animation-delay:.18s}
+@keyframes footerFadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
 
-.footer-link:hover {
-  color: #ffd700;
-  transform: scale(1.1);
-}
-
-/* Divider adjustments */
-.divider {
-  color: #fff;
-  margin: 0 5px;
-  font-size: 14px;
-}
-
-/* Ensure ToggleButton stays aligned */
-.footer-links .toggle-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Responsive Design */
-@media screen and (max-width: 600px) {
-  .footer-container {
-    padding: 15px 5px; /* Reduce padding on small screens */
-  }
-
-  .footer-content {
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .footer-links {
-    flex-direction: column;
-    gap: 5px;
-  }
-
-  .footer-link,
-  .divider {
-    font-size: 12px; /* Further reduce font size on very small screens */
-  }
+/* Responsive */
+@media(max-width:860px){.footer-top{grid-template-columns:1fr 1fr;gap:32px}}
+@media(max-width:520px){
+  .footer-top{grid-template-columns:1fr;padding:48px 20px 32px}
+  .footer-bottom{flex-direction:column;text-align:center;justify-content:center}
+  .back-to-top{top:16px;right:16px}
 }

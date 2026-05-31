@@ -11,8 +11,9 @@ import "../../styles/Homepage.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useTheme } from "../Themes/ThemeContext";
-import { PiShoppingCartFill } from "react-icons/pi";
+import { PiShoppingCartFill, PiHeartBold } from "react-icons/pi";
 import { FaCartArrowDown } from "react-icons/fa";
+import { CgDetailsMore } from "react-icons/cg";
 
 const { Panel } = Collapse;
 
@@ -30,34 +31,27 @@ const AllProducts = () => {
   const [priceOpen, setPriceOpen] = useState(true);
   const [categoryOpen, setCategoryOpen] = useState(true);
   const [itemAdded, setItemAdded] = useState({});
+  const [filtersOpen, setFiltersOpen] = useState(false); // mobile drawer
   const { darkMode } = useTheme();
-  const exchangeRate = 83.61;
-
 
   useEffect(() => {
     localStorage.setItem("darkMode", darkMode);
     document.documentElement.classList.toggle("dark", darkMode);
-    document.body.classList.toggle("dark-mode", darkMode);  // Apply to body
+    document.body.classList.toggle("dark-mode", darkMode);
   }, [darkMode]);
 
-
-  // Fetch categories
   const getAllCategory = useCallback(async () => {
     try {
       const { data } = await axios.get(
         `${process.env.REACT_APP_API}/api/v1/category/get-category`
       );
-
-      if (data?.success) {
-        setCategories(data?.category);
-      }
+      if (data?.success) setCategories(data?.category);
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong in getting category");
     }
   }, []);
 
-  // Fetch products
   const getAllProducts = useCallback(async () => {
     try {
       setLoading(true);
@@ -77,39 +71,32 @@ const AllProducts = () => {
       const { data } = await axios.get(
         `${process.env.REACT_APP_API}/api/v1/product/product-count`
       );
-      setTotal(data?.total || 0); // Ensure total is set correctly
+      setTotal(data?.total || 0);
     } catch (error) {
       console.log(error);
     }
   }, []);
 
   const loadMore = useCallback(async () => {
-    if (loading || products.length >= total) return; // Prevent unnecessary calls
-
+    if (loading || products.length >= total) return;
     try {
       setLoading(true);
       const { data } = await axios.get(
         `${process.env.REACT_APP_API}/api/v1/product/product-list/${page}`
       );
       setLoading(false);
-
-      setProducts((prevProducts) => [...new Set([...prevProducts, ...data.products])]); // Prevent duplicates
+      setProducts((prev) => [...new Set([...prev, ...data.products])]);
     } catch (error) {
       console.log(error);
       setLoading(false);
     }
   }, [page, total, loading, products]);
 
-
-  // Filter products
   const filterProducts = useCallback(async () => {
     try {
       const { data } = await axios.post(
         `${process.env.REACT_APP_API}/api/v1/product/product-filters`,
-        {
-          checked,
-          radio,
-        }
+        { checked, radio }
       );
       setProducts(data?.products);
     } catch (error) {
@@ -129,27 +116,19 @@ const AllProducts = () => {
   }, [page, loadMore]);
 
   useEffect(() => {
-    if (!checked.length && !radio.length) {
-      getAllProducts();
-    } else {
-      filterProducts();
-    }
+    if (!checked.length && !radio.length) getAllProducts();
+    else filterProducts();
   }, [checked, radio, filterProducts, getAllProducts]);
 
   const handleCategoryFilter = (value, id) => {
     let all = [...checked];
-    if (value) {
-      all.push(id);
-    } else {
-      all = all.filter((c) => c !== id);
-    }
+    if (value) all.push(id);
+    else all = all.filter((c) => c !== id);
     setChecked(all);
     setActiveCategory(id);
   };
 
-  const handlePriceFilter = (value) => {
-    setRadio(value);
-  };
+  const handlePriceFilter = (value) => setRadio(value);
 
   const clearFilters = () => {
     setChecked([]);
@@ -161,36 +140,75 @@ const AllProducts = () => {
   const addItemToCart = (product) => {
     setCart((prevCart) => {
       const existingItem = prevCart.find((item) => item._id === product._id);
-
       let updatedCart;
       if (existingItem) {
         updatedCart = prevCart.map((item) =>
-          item._id === existingItem._id ? { ...item, quantity: item.quantity + 1 } : item
+          item._id === existingItem._id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
         );
       } else {
         updatedCart = [...prevCart, { ...product, quantity: 1 }];
       }
-
       localStorage.setItem("cart", JSON.stringify(updatedCart));
       return updatedCart;
     });
-
-    setItemAdded((prev) => ({ ...prev, [product._id]: true })); // Ensure correct button rendering
-    toast.success("Item Added to cart");
+    setItemAdded((prev) => ({ ...prev, [product._id]: true }));
+    toast.success("Item added to cart");
   };
+
+  const formatPrice = (price) =>
+    Number(price || 0).toLocaleString("en-IN", {
+      style: "currency",
+      currency: "INR",
+      maximumFractionDigits: 0,
+    });
 
   return (
     <Layout title={"All Products - Best Offers"}>
-      <div className={`container-fluid mt-3 home-page ${darkMode ? "dark-mode" : ""}`}>
-        <div className="row">
-          {/* Filters Section (Left Sidebar) */}
-          <div className="col-lg-3 col-md-4 filters">
-            <Collapse activeKey={categoryOpen ? "category" : []} onChange={() => setCategoryOpen(!categoryOpen)}>
-              <Panel header="Select Category" key="category" showArrow={false}>
+      <div className={`shop-page ${darkMode ? "dark-mode" : ""}`}>
+        {/* Page header */}
+        <header className="shop-header">
+          <span className="section-kicker">Shop</span>
+          <h1 className="shop-title">All Products</h1>
+          <div className="shop-toolbar">
+            <span className="shop-results">
+              <b>{total}</b> items found
+            </span>
+            <div className="shop-toolbar-right">
+              <button
+                className="btn btn-outline btn-sm mobile-filter-btn"
+                onClick={() => setFiltersOpen(true)}
+              >
+                ☰ Filters
+              </button>
+            </div>
+          </div>
+        </header>
+
+        <div className="shop-layout">
+          {/* Filters sidebar */}
+          <aside className={`filters ${filtersOpen ? "open" : ""}`}>
+            <div className="filters-head">
+              <h3>Filters</h3>
+              <button className="filter-reset" onClick={clearFilters}>
+                <AiOutlineReload /> Reset
+              </button>
+            </div>
+
+            <Collapse
+              ghost
+              activeKey={categoryOpen ? "category" : []}
+              onChange={() => setCategoryOpen(!categoryOpen)}
+            >
+              <Panel header="Category" key="category" showArrow={false}>
                 <div className="d-flex flex-column">
                   {categories?.map((c) => (
-                    <Checkbox key={c._id} onChange={(e) => handleCategoryFilter(e.target.checked, c._id)}
-                      className={activeCategory === c._id ? "active-category" : ""}>
+                    <Checkbox
+                      key={c._id}
+                      onChange={(e) => handleCategoryFilter(e.target.checked, c._id)}
+                      className={activeCategory === c._id ? "active-category" : ""}
+                    >
                       {c.name}
                     </Checkbox>
                   ))}
@@ -198,10 +216,12 @@ const AllProducts = () => {
               </Panel>
             </Collapse>
 
-            <Divider />
-
-            <Collapse activeKey={priceOpen ? "price" : []} onChange={() => setPriceOpen(!priceOpen)}>
-              <Panel header="Select Price" key="price" showArrow={false}>
+            <Collapse
+              ghost
+              activeKey={priceOpen ? "price" : []}
+              onChange={() => setPriceOpen(!priceOpen)}
+            >
+              <Panel header="Price" key="price" showArrow={false}>
                 <div className="d-flex flex-column">
                   <Radio.Group onChange={(e) => handlePriceFilter(e.target.value)}>
                     {Prices?.map((p) => (
@@ -213,85 +233,93 @@ const AllProducts = () => {
                 </div>
               </Panel>
             </Collapse>
+          </aside>
 
-            <Divider />
+          {/* Backdrop for mobile drawer */}
+          <div
+            className={`filters-backdrop ${filtersOpen ? "show" : ""}`}
+            onClick={() => setFiltersOpen(false)}
+          />
 
-            <div className="d-flex flex-column mt-3">
-              <button className="btn btn-danger" onClick={clearFilters}>
-                <AiOutlineReload /> RESET FILTERS
-              </button>
-            </div>
-          </div>
-
-          {/* Products Section (Right Side) */}
-          <div className="col-lg-9 col-md-8 product-section">
-            <h1 className="ecom-header">
-              <span>All Products</span>
-            </h1>
-
-            <span className="d-block mb-4">{total} items</span>
-
-            <div className="d-flex flex-wrap justify-content-center">
-              {products?.map((p) => (
-                <div className="product-list-item" key={p._id}>
-                  {/* Product Image */}
-                  <div className="product-image-container">
-                    <img
-                      src={`${process.env.REACT_APP_API}/api/v1/product/product-photo/${p._id}`}
-                      className="product-image"
-                      alt={p.name}
-                      onClick={() => navigate(`/product/${p.slug}`)}
-                      style={{ cursor: "pointer" }}
-                    />
-                  </div>
-
-                  {/* Product Details */}
-                  <div className="product-info">
-                    <h4 className="product-name">{p.name}</h4>
-                    <p className="product-description">
-                      {p.description.substring(0, 100)}...
-                    </p>
-                    <h5 className="product-price">
-                      {Number(p?.price || 0).toLocaleString("en-IN", {
-                        style: "currency",
-                        currency: "INR",
-                      })}
-                    </h5>
-
-                    {/* Add to Cart Button */}
-                    {itemAdded[p._id] ? (
-                      <button className="btn btn-success btn-cart" onClick={() => navigate("/cart")}>
-                        <PiShoppingCartFill /> GO TO CART
+          {/* Product grid */}
+          <main className="shop-main">
+            {products?.length === 0 && !loading ? (
+              <div className="shop-empty">No products match your filters.</div>
+            ) : (
+              <div className="product-grid">
+                {products?.map((p) => (
+                  <article className="product-card shop-card" key={p._id}>
+                    <div className="product-media">
+                      <button className="wish-btn" aria-label="Add to wishlist">
+                        <PiHeartBold size={15} />
                       </button>
-                    ) : (
-                      <button className="btn btn-custom btn-cart" onClick={() => addItemToCart(p)}>
-                        <FaCartArrowDown /> ADD TO CART
-                      </button>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
+                      <img
+                        src={`${process.env.REACT_APP_API}/api/v1/product/product-photo/${p._id}`}
+                        className="card-img-top"
+                        alt={p.name}
+                        onClick={() => navigate(`/product/${p.slug}`)}
+                      />
+                    </div>
+                    <div className="card-body">
+                      {p?.rating && (
+                        <div className="card-rating">
+                          {"\u2605".repeat(Math.round(p.rating))}
+                          {"\u2606".repeat(5 - Math.round(p.rating))}
+                          {p?.numReviews ? <small>({p.numReviews})</small> : null}
+                        </div>
+                      )}
+                      <h5
+                        className="card-title"
+                        onClick={() => navigate(`/product/${p.slug}`)}
+                      >
+                        {p.name}
+                      </h5>
+                      <p className="card-text">
+                        {p.description?.substring(0, 70)}...
+                      </p>
+                      <div className="card-footer-row">
+                        <span className="card-price">{formatPrice(p?.price)}</span>
+                      </div>
+                      {itemAdded[p._id] ? (
+                        <button
+                          className="btn btn-accent btn-sm btn-block shop-card-cta"
+                          onClick={() => navigate("/cart")}
+                        >
+                          <PiShoppingCartFill /> Go to cart
+                        </button>
+                      ) : (
+                        <button
+                          className="btn btn-primary btn-sm btn-block shop-card-cta"
+                          onClick={() => addItemToCart(p)}
+                        >
+                          <FaCartArrowDown /> Add to cart
+                        </button>
+                      )}
+                    </div>
+                  </article>
+                ))}
+              </div>
+            )}
 
-            {/* Load More Button */}
-            {/* Load More Button */}
-            <div className="d-flex justify-content-center mt-4">
+            {/* Load more */}
+            <div className="shop-loadmore">
               {products && products.length < total && (
-                <button className="btn btn-primary" onClick={(e) => {
-                  e.preventDefault();
-                  setPage(page + 1);
-                }}>
-                  {loading ? "Loading..." : "Load More"}
+                <button
+                  className="btn btn-primary"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setPage(page + 1);
+                  }}
+                >
+                  {loading ? "Loading..." : "Load more"}
                 </button>
               )}
             </div>
-
-          </div>
+          </main>
         </div>
       </div>
     </Layout>
   );
-
 };
 
 export default AllProducts;

@@ -7,7 +7,7 @@ import { useCart } from "../context/cart";
 import { AiOutlineReload } from "react-icons/ai";
 import "../styles/NewArrivals.css";
 import { FaCartArrowDown } from "react-icons/fa";
-import { PiShoppingCartFill } from "react-icons/pi";
+import { PiShoppingCartFill, PiHeartBold } from "react-icons/pi";
 import { useTheme } from "../pages/Themes/ThemeContext";
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -23,7 +23,7 @@ const NewArrivals = () => {
   const { darkMode } = useTheme();
 
   useEffect(() => {
-    AOS.init({ duration: 800 }); 
+    AOS.init({ duration: 800, once: true });
     getProducts();
     getTotal();
   }, []);
@@ -75,89 +75,107 @@ const NewArrivals = () => {
   const addItemToCart = (product) => {
     setCart((prevCart) => {
       const existingItem = prevCart.find((item) => item._id === product._id);
-      
       let updatedCart;
       if (existingItem) {
         updatedCart = prevCart.map((item) =>
-          item._id === existingItem._id ? { ...item, quantity: item.quantity + 1 } : item
+          item._id === existingItem._id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
         );
       } else {
         updatedCart = [...prevCart, { ...product, quantity: 1 }];
       }
-  
       localStorage.setItem("cart", JSON.stringify(updatedCart));
       return updatedCart;
     });
-  
-    setItemAdded((prev) => ({ ...prev, [product._id]: true })); // Ensure correct button rendering
-    toast.success("Item Added to cart");
+    setItemAdded((prev) => ({ ...prev, [product._id]: true }));
+    toast.success("Item added to cart");
   };
-  
+
+  const formatPrice = (price) =>
+    Number(price || 0).toLocaleString("en-IN", {
+      style: "currency",
+      currency: "INR",
+      maximumFractionDigits: 0,
+    });
 
   return (
-    <div className={darkMode ? "dark-mode" : ""}>
-
     <Layout title="New Arrivals">
-<div className={`container new-arrivals-container ${darkMode ? "dark-mode" : ""}`}>
-        
-        {/* ✅ Heading */}
-        <h2 className="new-arrivals-heading">✨ New Arrivals ✨</h2>
+      <div className={`new-arrivals-page ${darkMode ? "dark" : ""}`}>
+        {/* Header */}
+        <header className="na-header" data-aos="fade-up">
+          <span className="na-kicker">Just landed</span>
+          <h1 className="na-title">New Arrivals</h1>
+          <p className="na-sub">
+            <b>{total}</b> fresh pieces, just added
+          </p>
+        </header>
 
-        {/* ✅ Product List */}
-        <div className="product-list">
-          {products.map((p) => (
-            <div className="product-item" key={p._id} data-aos="fade-up">
-              
-              {/* ✅ Product Image */}
-              <div className="product-image-container">
+        {/* Grid */}
+        <div className="na-grid">
+          {products.map((p, i) => (
+            <article
+              className="na-card"
+              key={p._id}
+              data-aos="fade-up"
+              data-aos-delay={(i % 4) * 60}
+            >
+              <div className="na-media">
+                <span className="na-badge">New</span>
+                <button className="na-wish" aria-label="Add to wishlist">
+                  <PiHeartBold size={15} />
+                </button>
                 <img
                   src={`${process.env.REACT_APP_API}/api/v1/product/product-photo/${p._id}`}
-                  className="product-image"
                   alt={p.name}
                   onClick={() => navigate(`/product/${p.slug}`)}
                 />
               </div>
 
-              {/* ✅ Product Details */}
-              <div className="product-details">
-                <h3 className="product-name">{p.name}</h3>
-                <p className="product-description">{p.description.substring(0, 150)}...</p>
-                <h4 className="product-price">
-                  {Number(p?.price || 0).toLocaleString("en-IN", {
-                    style: "currency",
-                    currency: "INR",
-                  })}
-                </h4>
+              <div className="na-body">
+                {p?.rating && (
+                  <div className="na-rating">
+                    {"\u2605".repeat(Math.round(p.rating))}
+                    {"\u2606".repeat(5 - Math.round(p.rating))}
+                    {p?.numReviews ? <small>({p.numReviews})</small> : null}
+                  </div>
+                )}
+                <h3 className="na-name" onClick={() => navigate(`/product/${p.slug}`)}>
+                  {p.name}
+                </h3>
+                <p className="na-desc">{p.description?.substring(0, 80)}...</p>
+                <div className="na-price">{formatPrice(p?.price)}</div>
 
-                {/* ✅ Add to Cart Button */}
                 {itemAdded[p._id] ? (
-                  <button className="btn btn-success btn-cart" onClick={() => navigate("/cart")}>
-                    <PiShoppingCartFill /> GO TO CART
+                  <button className="na-cta na-cta-go" onClick={() => navigate("/cart")}>
+                    <PiShoppingCartFill /> Go to cart
                   </button>
                 ) : (
-                  <button className="btn btn-custom btn-cart" onClick={() => addItemToCart(p)}>
-                    <FaCartArrowDown /> ADD TO CART
+                  <button className="na-cta na-cta-add" onClick={() => addItemToCart(p)}>
+                    <FaCartArrowDown /> Add to cart
                   </button>
                 )}
               </div>
-            </div>
+            </article>
           ))}
         </div>
 
-        {/* ✅ Load More Button */}
-        <div className="text-center mt-4">
+        {/* Load more */}
+        <div className="na-loadmore">
           {products.length < total && (
-            <button
-              className="btn loadmore"
-              onClick={() => setPage(page + 1)}
-            >
-              {loading ? "Loading ..." : <> Load More <AiOutlineReload /> </>}
+            <button className="loadmore" onClick={() => setPage(page + 1)}>
+              {loading ? (
+                "Loading…"
+              ) : (
+                <>
+                  Load more <AiOutlineReload />
+                </>
+              )}
             </button>
           )}
         </div>
       </div>
     </Layout>
-    </div>
   );
 };
 

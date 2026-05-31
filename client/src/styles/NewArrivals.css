@@ -1,159 +1,86 @@
-/* ✅ Center the Heading at the Top */
-.new-arrivals-heading {
-    font-size: 28px;
-    font-weight: bold;
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  /* ✅ Product List - Ensures it Follows the Heading */
-  .product-list {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-  }
-  
-  /* ✅ Load More Button - Centered */
-  .text-center .loadmore {
-    background-color: #007bff;
-    color: white;
-    font-weight: bold;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    transition: 0.3s ease-in-out;
-  }
-  
-  .text-center .loadmore:hover {
-    background-color: #0056b3;
-    transform: scale(1.05);
-  }
-  
+/* ============================================================
+   NewArrivals.css — matches the store design system.
+   Fully scoped under .new-arrivals-page so it won't collide
+   with Homepage.css / shop styles. Light + dark via .dark class.
+   ============================================================ */
 
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap");
 
+.new-arrivals-page{
+  --bg:#faf7f2; --surface:#fff; --ink:#1a1714; --ink-soft:#6b6258; --line:#e8e1d6;
+  --accent:#c2562f; --accent-soft:#f3e3da; --gold:#d9a441;
+  --shadow:0 1px 2px rgba(26,23,20,.04),0 10px 30px rgba(26,23,20,.07);
+  --shadow-lg:0 18px 50px rgba(26,23,20,.16);
+  --radius:18px; --fd:"Fraunces",Georgia,serif; --fb:"Hanken Grotesk",system-ui,sans-serif;
 
-  /* ✅ Mobile View Adjustments (for screens up to 768px) */
-@media (max-width: 768px) {
-  /* Center the heading and adjust font size */
-  .new-arrivals-heading {
-      font-size: 24px;
-      margin-bottom: 15px;
-  }
-
-  /* ✅ Make the product list a single column */
-  .product-list {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-  }
-
-  /* ✅ Adjust product item width */
-  .product-item {
-      width: 90%;
-      max-width: 350px;
-      padding: 12px;
-  }
-
-  /* ✅ Ensure product images are fully responsive */
-  .product-image-container {
-      width: 100%;
-  }
-
-  .product-image {
-      width: 100%;
-      height: auto;
-  }
-
-  /* ✅ Adjust product name and description for readability */
-  .product-name {
-      font-size: 18px;
-  }
-
-  .product-description {
-      font-size: 14px;
-      line-height: 1.4;
-  }
-
-  /* ✅ Adjust product price font size */
-  .product-price {
-      font-size: 18px;
-  }
-
-  /* ✅ Resize buttons for better touch usability */
-  .btn-cart {
-      font-size: 14px;
-      padding: 10px;
-  }
-
-  /* ✅ Load More Button - Adjust for Mobile */
-  .text-center .loadmore {
-      width: 90%;
-      font-size: 14px;
-      padding: 10px;
-  }
+  background:var(--bg);color:var(--ink);font-family:var(--fb);
+  min-height:70vh;padding:40px 24px 90px;transition:background .4s,color .4s;
+}
+.new-arrivals-page.dark{
+  --bg:#16130f; --surface:#211c17; --ink:#f3ede4; --ink-soft:#a89e90; --line:#322a22;
+  --accent:#e0784f; --accent-soft:#3a261c;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.4);
+  --shadow-lg:0 18px 50px rgba(0,0,0,.55);
 }
 
-/* ✅ Small Mobile Screens (for screens up to 480px) */
-@media (max-width: 480px) {
-  /* Further adjust heading size */
-  .new-arrivals-heading {
-      font-size: 22px;
-  }
+/* ---------- Header ---------- */
+.na-header{max-width:1280px;margin:0 auto 36px;text-align:center}
+.na-kicker{display:inline-block;font-size:.72rem;letter-spacing:.24em;text-transform:uppercase;font-weight:600;color:var(--accent);margin-bottom:10px}
+.na-title{font-family:var(--fd);font-weight:500;font-size:clamp(2.2rem,5vw,3.4rem);line-height:1.02;letter-spacing:-.015em;margin:0}
+.na-sub{color:var(--ink-soft);margin-top:12px;font-size:.95rem}
+.na-sub b{color:var(--ink);font-weight:600}
 
-  /* Ensure product items take full width */
-  .product-item {
-      width: 95%;
-      padding: 10px;
-  }
-
-  /* Optimize button size for smaller screens */
-  .btn-cart {
-      font-size: 13px;
-      padding: 8px;
-  }
-
-  .text-center .loadmore {
-      font-size: 13px;
-      padding: 8px;
-  }
+/* ---------- Grid + cards ---------- */
+.na-grid{
+  max-width:1280px;margin:0 auto;display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:26px;
 }
+.na-card{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column;
+  transition:transform .38s cubic-bezier(.22,1,.36,1),box-shadow .38s;
+}
+.na-card:hover{transform:translateY(-7px);box-shadow:var(--shadow-lg)}
 
+.na-media{position:relative;aspect-ratio:4/5;overflow:hidden;background:var(--accent-soft)}
+.na-media img{width:100%;height:100%;object-fit:cover;cursor:pointer;transition:transform .65s cubic-bezier(.22,1,.36,1)}
+.na-card:hover .na-media img{transform:scale(1.07)}
+.na-badge{position:absolute;top:14px;left:14px;z-index:2;background:var(--ink);color:var(--bg);font-size:.66rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;padding:6px 12px;border-radius:999px}
+.na-wish{position:absolute;top:12px;right:12px;z-index:2;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.92);border:none;cursor:pointer;display:grid;place-items:center;font-size:15px;color:#1a1714;transition:.2s}
+.na-wish:hover{background:var(--accent);color:#fff;transform:scale(1.1)}
 
-/* Apply dark mode styles globally */
-.dark-mode {
-    background-color: #181818;  /* Dark background for the whole page */
-    color: white;  /* Light text color */
-  }
-  
-  /* Specific dark mode styles for product container */
-  .dark-mode .new-arrivals-container {
-    background-color: #181818;  /* Ensure the container itself has a dark background */
-  }
-  
-  /* Ensure product item and other elements follow the same theme */
-  .dark-mode .product-item {
-    background-color: #2d2d2d; /* Dark background for product items */
-    border: 1px solid #444; /* Border color */
-  }
-  
-  .dark-mode .product-name, 
-  .dark-mode .product-description, 
-  .dark-mode .product-price {
-    color: #f1f1f1; /* Light text for product details */
-  }
-  
-  .dark-mode .btn-cart {
-    background-color: #333; /* Dark button background */
-    color: white; /* Button text color */
-  }
-  
-  .dark-mode .btn-cart:hover {
-    background-color: #555; /* Lighter button background on hover */
-  }
-  
-  /* Additional dark mode styling for the rest of the layout */
-  .dark-mode .new-arrivals-heading {
-    color: #f1f1f1; /* Lighter color for the heading */
-  }
-  
+.na-body{padding:18px;display:flex;flex-direction:column;gap:5px;flex:1}
+.na-rating{font-size:.82rem;color:var(--gold);letter-spacing:1px}
+.na-rating small{color:var(--ink-soft);margin-left:5px;letter-spacing:0}
+.na-name{font-family:var(--fb);font-weight:600;font-size:1.04rem;color:var(--ink);margin:0;cursor:pointer;line-height:1.3;transition:color .2s}
+.na-name:hover{color:var(--accent)}
+.na-desc{font-size:.85rem;color:var(--ink-soft);margin:0;line-height:1.5;flex:1}
+.na-price{font-family:var(--fd);font-weight:600;font-size:1.3rem;color:var(--ink);margin:8px 0 12px}
+
+/* ---------- Buttons ---------- */
+.na-cta{
+  width:100%;font-family:var(--fb);font-weight:600;font-size:.9rem;border:none;cursor:pointer;
+  border-radius:999px;padding:11px 16px;display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  transition:transform .2s,background .2s,color .2s,box-shadow .2s;
+}
+.na-cta-add{background:var(--ink);color:var(--bg)}
+.na-cta-add:hover{background:var(--accent);color:#fff;transform:translateY(-2px);box-shadow:0 10px 24px rgba(194,86,47,.35)}
+.na-cta-go{background:var(--accent);color:#fff}
+.na-cta-go:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(194,86,47,.4);filter:brightness(1.05)}
+
+/* ---------- Load more ---------- */
+.na-loadmore{display:flex;justify-content:center;margin-top:48px}
+.na-loadmore .loadmore{
+  font-family:var(--fb);font-weight:600;font-size:.95rem;border:1px solid var(--ink);
+  background:transparent;color:var(--ink);border-radius:999px;padding:13px 30px;cursor:pointer;
+  display:inline-flex;align-items:center;gap:9px;transition:transform .2s,background .2s,color .2s;
+}
+.na-loadmore .loadmore:hover{background:var(--ink);color:var(--bg);transform:translateY(-2px)}
+
+/* ---------- Responsive ---------- */
+@media(max-width:600px){
+  .new-arrivals-page{padding:28px 16px 70px}
+  .na-grid{grid-template-columns:repeat(2,1fr);gap:14px}
+  .na-body{padding:13px}
+  .na-media{aspect-ratio:1/1}
+}
