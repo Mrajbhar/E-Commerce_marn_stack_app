@@ -6,6 +6,8 @@ import axios from "axios";
 import CategoryForm from "../../components/Form/CategoryForm";
 import { TbCategoryFilled } from "react-icons/tb";
 import { Modal } from "antd";
+import { useTheme } from "../Themes/ThemeContext";
+import "../../styles/Dashboard.css";
 
 const CreateCategory = () => {
   const [categories, setCategories] = useState([]);
@@ -13,6 +15,7 @@ const CreateCategory = () => {
   const [visible, setVisible] = useState(false);
   const [selected, setSelected] = useState(null);
   const [updatedName, setUpdateName] = useState("");
+  const { darkMode } = useTheme();
 
   // Handle Form Submit
   const handleSubmit = async (e) => {
@@ -83,7 +86,7 @@ const CreateCategory = () => {
         `${process.env.REACT_APP_API}/api/v1/category/delete-category/${pid}`
       );
       if (data.success) {
-        toast.success(`${name} is Deleted`);
+        toast.success(`Category is Deleted`);
         getAllCategory();
       } else {
         toast.error(data.message);
@@ -95,20 +98,24 @@ const CreateCategory = () => {
   };
 
   return (
-    <Layout title={"Dashboard - Create Category"} style={{ background: "#f5f5f5" }}>
-      <div className="container-fluid m-3 p-3">
-        <div className="row">
-          <div className="col-md-3">
+    <Layout title={"Dashboard - Create Category"}>
+      <div className={`dashboard-page ${darkMode ? "dark-mode" : ""}`}>
+        <div className="dash-layout">
+          {/* Sidebar */}
+          <aside className="dash-sidebar">
             <AdminMenu />
-          </div>
+          </aside>
 
-          <div className="col-md-9">
-            <h1 className="heading animated-heading" style={{ color: "#333", marginBottom: "20px" }}>
-              <TbCategoryFilled style={{ marginRight: "10px" }} />
-              Manage Category
+          {/* Main */}
+          <main>
+            <h1 className="dash-heading">
+              <TbCategoryFilled />
+              Manage Categories
             </h1>
 
-            <div className="p-3 w-50">
+            {/* Create form */}
+            <div className="dash-form-card">
+              <h3>Add a new category</h3>
               <CategoryForm
                 handleSubmit={handleSubmit}
                 value={name}
@@ -116,46 +123,59 @@ const CreateCategory = () => {
               />
             </div>
 
-            <div className="w-75">
-              <table className="table">
+            {/* List */}
+            <div className="dash-table-card">
+              <table className="dash-table">
                 <thead>
                   <tr>
-                    <th scope="col">Name</th>
-                    <th scope="col">Actions</th>
+                    <th>Name</th>
+                    <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {categories?.map((c) => (
-                    <tr key={c._id}>
-                      <td>{c.name}</td>
-                      <td>
-                        <button
-                          className="btn btn-primary ms-2"
-                          onClick={() => {
-                            setVisible(true);
-                            setUpdateName(c.name);
-                            setSelected(c);
-                          }}
-                        >
-                          Edit
-                        </button>
-                        <button
-                          className="btn btn-danger ms-2"
-                          onClick={() => handleDelete(c._id)}
-                        >
-                          Delete
-                        </button>
+                  {categories?.length ? (
+                    categories.map((c) => (
+                      <tr key={c._id}>
+                        <td className="dash-cell-name">{c.name}</td>
+                        <td>
+                          <div className="dash-actions-cell">
+                            <button
+                              className="dash-btn-sm dash-btn-edit"
+                              onClick={() => {
+                                setVisible(true);
+                                setUpdateName(c.name);
+                                setSelected(c);
+                              }}
+                            >
+                              Edit
+                            </button>
+                            <button
+                              className="dash-btn-sm dash-btn-delete"
+                              onClick={() => handleDelete(c._id)}
+                            >
+                              Delete
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td className="dash-empty-row" colSpan={2}>
+                        No categories yet — add one above.
                       </td>
                     </tr>
-                  ))}
+                  )}
                 </tbody>
               </table>
             </div>
 
+            {/* Edit modal */}
             <Modal
               onCancel={() => setVisible(false)}
               footer={null}
-              visible={visible}
+              open={visible}
+              wrapClassName="dash-modal"
             >
               <CategoryForm
                 value={updatedName}
@@ -163,7 +183,7 @@ const CreateCategory = () => {
                 handleSubmit={handleUpdate}
               />
             </Modal>
-          </div>
+          </main>
         </div>
       </div>
     </Layout>

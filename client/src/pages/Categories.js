@@ -23,6 +23,16 @@ const categoryImages = {
     "https://img.freepik.com/premium-vector/bestseller-badge-stamp-sign-vector-design_569027-280.jpg",
   "Women's wear":
     "https://img.freepik.com/premium-photo/cheerful-beautiful-young-women-having-party_93675-76766.jpg",
+   Apparel:
+    "https://img.magnific.com/premium-photo/customer-browsing-through-display-colorful-athletic-apparel-modern-sportswear-shop-ar-32-v_630290-37415.jpg",
+      Footwear:
+    "https://img.magnific.com/premium-photo/row-shoes-display-store_1288816-4083.jpg",
+    Accessories:
+    "https://img.magnific.com/premium-photo/luxurious-3d-fashion-accessories-sleek-flat-surface_1313031-300.jpg",
+    Beauty:
+    "https://img.magnific.com/premium-photo/purple-pink-beauty-products-flowers-pink-background_14117-859094.jpg",
+    "Beauty Essentials":
+    "https://img.magnific.com/free-photo/model-career-kit-still-life_23-2150217985.jpg",
 };
 
 // soft tint applied to the overlay on hover (per tile)

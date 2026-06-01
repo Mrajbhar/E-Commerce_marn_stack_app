@@ -1,51 +1,70 @@
-.admin-menu-container {
-    width: 250px;
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-  }
-  
-  .admin-menu-header {
-    padding: 20px;
-    border-bottom: 1px solid #f0f0f0;
-    text-align: center;
-  }
-  
-  .admin-menu-header h4 {
-    color: #333333;
-    font-size: 20px;
-  }
-  
-  .admin-menu-items {
-    padding: 0;
-  }
-  
-  .admin-menu-item {
-    display: block;
-    padding: 15px 20px;
-    text-align: center;
-    color: #666666;
-    font-size: 16px;
-    text-decoration: none;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    animation: slideIn 0.5s ease-out forwards; /* Apply animation */
-    opacity: 0; /* Initially hide menu items */
-  }
-  
-  .admin-menu-item:hover {
-    background-color: #f5f5f5;
-    color: #333333;
-  }
-  
-  @keyframes slideIn {
-    from {
-      transform: translateX(-100%);
-      opacity: 0;
-    }
-    to {
-      transform: translateX(0);
-      opacity: 1;
-    }
-  }
-  
+/* ============================================================
+   Adminmenu.css — sidebar menu, matches the store design.
+   Scoped under .admin-menu-container. Light + dark.
+   ============================================================ */
+
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap");
+
+.admin-menu-container{
+  --surface:#fff; --ink:#1a1714; --ink-soft:#6b6258; --line:#e8e1d6;
+  --accent:#c2562f; --accent-soft:#f3e3da; --bg:#faf7f2;
+  --shadow:0 1px 2px rgba(26,23,20,.04),0 10px 30px rgba(26,23,20,.07);
+  --radius:18px; --fd:"Fraunces",Georgia,serif; --fb:"Hanken Grotesk",system-ui,sans-serif;
+
+  width:100%;background:var(--surface);border:1px solid var(--line);
+  border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);
+  font-family:var(--fb);
+}
+/* dark mode — works whether .dark-mode is on the menu or an ancestor */
+.dark-mode .admin-menu-container,
+.admin-menu-container.dark-mode{
+  --surface:#211c17; --ink:#f3ede4; --ink-soft:#a89e90; --line:#322a22;
+  --accent:#e0784f; --accent-soft:#3a261c; --bg:#16130f;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.4);
+}
+
+/* ---------- Header ---------- */
+.admin-menu-header{
+  padding:20px;border-bottom:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;
+}
+.admin-menu-header h4{
+  display:flex;align-items:center;gap:9px;margin:0;
+  font-family:var(--fd);font-weight:600;font-size:1.15rem;color:var(--ink);
+}
+.admin-menu-header h4 svg{color:var(--accent);font-size:1.3rem}
+
+/* ---------- Items ---------- */
+.admin-menu-items{padding:8px}
+.admin-menu-item{
+  display:flex;align-items:center;gap:11px;
+  padding:12px 16px;margin:2px 0;border-radius:11px;
+  color:var(--ink);font-size:.95rem;font-weight:500;text-decoration:none;
+  transition:background .2s,color .2s,padding-left .2s;
+  opacity:0;animation:adminSlideIn .45s cubic-bezier(.22,1,.36,1) forwards;
+}
+.admin-menu-ico{
+  width:32px;height:32px;flex-shrink:0;border-radius:9px;
+  background:var(--accent-soft);color:var(--accent);
+  display:grid;place-items:center;font-size:16px;transition:background .2s,color .2s;
+}
+.admin-menu-item:hover{background:var(--accent-soft);color:var(--accent);padding-left:20px}
+
+/* active route (NavLink adds .active automatically) */
+.admin-menu-item.active{
+  background:var(--accent);color:#fff;font-weight:600;
+}
+.admin-menu-item.active .admin-menu-ico{background:rgba(255,255,255,.22);color:#fff}
+
+/* staggered entrance */
+.admin-menu-item:nth-child(1){animation-delay:.04s}
+.admin-menu-item:nth-child(2){animation-delay:.09s}
+.admin-menu-item:nth-child(3){animation-delay:.14s}
+.admin-menu-item:nth-child(4){animation-delay:.19s}
+.admin-menu-item:nth-child(5){animation-delay:.24s}
+.admin-menu-item:nth-child(6){animation-delay:.29s}
+
+@keyframes adminSlideIn{
+  from{transform:translateX(-14px);opacity:0}
+  to{transform:translateX(0);opacity:1}
+}

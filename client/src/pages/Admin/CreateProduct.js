@@ -5,11 +5,15 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { Select } from "antd";
 import { MdCreateNewFolder } from "react-icons/md";
+import { TbCloudUpload } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "../Themes/ThemeContext";
+import "../../styles/Dashboard.css";
 const { Option } = Select;
 
 const CreateProduct = () => {
   const navigate = useNavigate();
+  const { darkMode } = useTheme();
   const [categories, setCategories] = useState([]);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -19,17 +23,18 @@ const CreateProduct = () => {
   const [shipping, setShipping] = useState("");
   const [photo, setPhoto] = useState("");
 
-  //get all category
+  // get all category
   const getAllCategory = async () => {
     try {
       const { data } = await axios.get(
-        `${process.env.REACT_APP_API}/api/v1/category/get-category`);
+        `${process.env.REACT_APP_API}/api/v1/category/get-category`
+      );
       if (data?.success) {
         setCategories(data?.category);
       }
     } catch (error) {
       console.log(error);
-      toast.error("Something wwent wrong in getting catgeory");
+      toast.error("Something went wrong in getting category");
     }
   };
 
@@ -37,7 +42,7 @@ const CreateProduct = () => {
     getAllCategory();
   }, []);
 
-  //create product function
+  // create product function
   const handleCreate = async (e) => {
     e.preventDefault();
     try {
@@ -48,14 +53,16 @@ const CreateProduct = () => {
       productData.append("quantity", quantity);
       productData.append("photo", photo);
       productData.append("category", category);
-      const { data } = axios.post(`${process.env.REACT_APP_API}/api/v1/product/create-product`,
+      productData.append("shipping", shipping);
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_API}/api/v1/product/create-product`,
         productData
       );
       if (data?.success) {
-        toast.error(data?.message);
-      } else {
         toast.success("Product Created Successfully");
         navigate("/dashboard/admin/products");
+      } else {
+        toast.error(data?.message);
       }
     } catch (error) {
       console.log(error);
@@ -65,113 +72,138 @@ const CreateProduct = () => {
 
   return (
     <Layout title={"Dashboard - Create Product"}>
-      <div className="container-fluid m-3 p-3 dashboard">
-        <div className="row">
-          <div className="col-md-3">
+      <div className={`dashboard-page ${darkMode ? "dark-mode" : ""}`}>
+        <div className="dash-layout">
+          {/* Sidebar */}
+          <aside className="dash-sidebar">
             <AdminMenu />
-          </div>
-          <div className="col-md-9">
-            <h1 className="animated-heading"><MdCreateNewFolder /> Create Product</h1>
-            <div className="m-1 w-75">
-              <Select
-                bordered={false}
-                placeholder="Select a category"
-                size="large"
-                showSearch
-                className="form-select mb-3"
-                onChange={(value) => {
-                  setCategory(value);
-                }}
-              >
-                {categories?.map((c) => (
-                  <Option key={c._id} value={c._id}>
-                    {c.name}
-                  </Option>
-                ))}
-              </Select>
-              <div className="mb-3">
-                <label className="btn btn-outline-secondary col-md-12">
-                  {photo ? photo.name : "Upload Photo"}
-                  <input
-                    type="file"
-                    name="photo"
-                    accept="image/*"
-                    onChange={(e) => setPhoto(e.target.files[0])}
-                    hidden
-                  />
-                </label>
-              </div>
-              <div className="mb-3">
-                {photo && (
-                  <div className="text-center">
-                    <img
-                      src={URL.createObjectURL(photo)}
-                      alt="product_photo"
-                      height={"200px"}
-                      className="img img-responsive"
-                    />
-                  </div>
-                )}
-              </div>
-              <div className="mb-3">
-                <input
-                  type="text"
-                  value={name}
-                  placeholder="write a name"
-                  className="form-control"
-                  onChange={(e) => setName(e.target.value)}
-                />
-              </div>
-              <div className="mb-3">
-                <textarea
-                  type="text"
-                  value={description}
-                  placeholder="write a description"
-                  className="form-control"
-                  onChange={(e) => setDescription(e.target.value)}
-                />
-              </div>
+          </aside>
 
-              <div className="mb-3">
-                <input
-                  type="number"
-                  value={price}
-                  placeholder="write a Price"
-                  className="form-control"
-                  onChange={(e) => setPrice(e.target.value)}
-                />
-              </div>
-              <div className="mb-3">
-                <input
-                  type="number"
-                  value={quantity}
-                  placeholder="write a quantity"
-                  className="form-control"
-                  onChange={(e) => setQuantity(e.target.value)}
-                />
-              </div>
-              <div className="mb-3">
-                <Select
-                  bordered={false}
-                  placeholder="Select Shipping "
-                  size="large"
-                  showSearch
-                  className="form-select mb-3"
-                  onChange={(value) => {
-                    setShipping(value);
-                  }}
-                >
-                  <Option value="0">No</Option>
-                  <Option value="1">Yes</Option>
-                </Select>
-              </div>
-              <div className="mb-3">
-                <button className="btn btn-primary" onClick={handleCreate}>
-                  CREATE PRODUCT
-                </button>
+          {/* Main */}
+          <main>
+            <h1 className="dash-heading">
+              <MdCreateNewFolder />
+              Create Product
+            </h1>
+
+            <div className="dash-form-card" style={{ maxWidth: "100%" }}>
+              <div className="dash-form-grid">
+                {/* Category */}
+                <div className="dash-field">
+                  <label className="dash-label">Category</label>
+                  <Select
+                    bordered={false}
+                    placeholder="Select a category"
+                    size="large"
+                    showSearch
+                    className="dash-select"
+                    popupClassName="dash-select-dropdown"
+                    onChange={(value) => setCategory(value)}
+                  >
+                    {categories?.map((c) => (
+                      <Option key={c._id} value={c._id}>
+                        {c.name}
+                      </Option>
+                    ))}
+                  </Select>
+                </div>
+
+                {/* Shipping */}
+                <div className="dash-field">
+                  <label className="dash-label">Shipping</label>
+                  <Select
+                    bordered={false}
+                    placeholder="Select shipping"
+                    size="large"
+                    className="dash-select"
+                    popupClassName="dash-select-dropdown"
+                    onChange={(value) => setShipping(value)}
+                  >
+                    <Option value="0">No</Option>
+                    <Option value="1">Yes</Option>
+                  </Select>
+                </div>
+
+                {/* Upload */}
+                <div className="dash-field full">
+                  <label className="dash-label">Product photo</label>
+                  <label className={`dash-upload ${photo ? "has-file" : ""}`}>
+                    <TbCloudUpload />
+                    <span className="dash-upload-title">
+                      {photo ? photo.name : "Click to upload an image"}
+                    </span>
+                    <span className="dash-upload-hint">PNG or JPG, up to ~2MB</span>
+                    <input
+                      type="file"
+                      name="photo"
+                      accept="image/*"
+                      onChange={(e) => setPhoto(e.target.files[0])}
+                      hidden
+                    />
+                  </label>
+                  {photo && (
+                    <div className="dash-preview">
+                      <img src={URL.createObjectURL(photo)} alt="product_photo" />
+                    </div>
+                  )}
+                </div>
+
+                {/* Name */}
+                <div className="dash-field full">
+                  <label className="dash-label">Name</label>
+                  <input
+                    type="text"
+                    value={name}
+                    placeholder="Product name"
+                    className="dash-input"
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                </div>
+
+                {/* Description */}
+                <div className="dash-field full">
+                  <label className="dash-label">Description</label>
+                  <textarea
+                    value={description}
+                    placeholder="Write a short description"
+                    className="dash-input"
+                    onChange={(e) => setDescription(e.target.value)}
+                  />
+                </div>
+
+                {/* Price */}
+                <div className="dash-field">
+                  <label className="dash-label">Price (₹)</label>
+                  <input
+                    type="number"
+                    value={price}
+                    placeholder="0"
+                    className="dash-input"
+                    onChange={(e) => setPrice(e.target.value)}
+                  />
+                </div>
+
+                {/* Quantity */}
+                <div className="dash-field">
+                  <label className="dash-label">Quantity</label>
+                  <input
+                    type="number"
+                    value={quantity}
+                    placeholder="0"
+                    className="dash-input"
+                    onChange={(e) => setQuantity(e.target.value)}
+                  />
+                </div>
+
+                {/* Submit */}
+                <div className="dash-field full dash-submit-row">
+                  <button className="dash-btn-create" onClick={handleCreate}>
+                    <MdCreateNewFolder /> Create Product
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
+          </main>
         </div>
       </div>
     </Layout>
