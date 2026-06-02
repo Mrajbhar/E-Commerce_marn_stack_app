@@ -7,6 +7,7 @@ import connectdb from "./config/db.js";
 import authRoutes from "./routes/authRoute.js";
 import categoryRoutees from "./routes/categoryRoutes.js";
 import productRoutes from "./routes/productRouters.js";
+import bannerRoutes from "./routes/bannerRoute.js";
 import cors from "cors";
 import path from "path";
 
@@ -63,6 +64,8 @@ mongoose.connection.once("open", async () => {
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/category", categoryRoutees);
 app.use("/api/v1/product", productRoutes);
+app.use("/api/v1/banner", bannerRoutes);
+
 
 app.get("/", (req, res) => {
   res.send("<h1>Welcome to the e-commerce app</h1>");

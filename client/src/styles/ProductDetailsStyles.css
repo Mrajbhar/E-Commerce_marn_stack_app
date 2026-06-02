@@ -1,5 +1,5 @@
 /* ============================================================
-   ProductDetailsStyles.css â€” matches the store design system.
+   ProductDetailsStyles.css — matches the store design system.
    Scoped under .pd-page. Light + dark via .dark-mode class.
    ============================================================ */
 
@@ -14,9 +14,8 @@
   --accent: #c2562f;
   --accent-soft: #f3e3da;
   --gold: #d9a441;
-  --shadow:
-    0 1px 2px rgba(26, 23, 20, 0.04), 0 10px 30px rgba(26, 23, 20, 0.07);
-  --shadow-lg: 0 18px 50px rgba(26, 23, 20, 0.16);
+  --shadow: 0 1px 2px rgba(26,23,20,.04), 0 10px 30px rgba(26,23,20,.07);
+  --shadow-lg: 0 18px 50px rgba(26,23,20,.16);
   --radius: 18px;
   --fd: "Fraunces", Georgia, serif;
   --fb: "Hanken Grotesk", system-ui, sans-serif;
@@ -26,9 +25,7 @@
   font-family: var(--fb);
   min-height: 70vh;
   padding: 36px 24px 80px;
-  transition:
-    background 0.4s,
-    color 0.4s;
+  transition: background .4s, color .4s;
 }
 .pd-page.dark-mode {
   --bg: #16130f;
@@ -38,30 +35,29 @@
   --line: #322a22;
   --accent: #e0784f;
   --accent-soft: #3a261c;
-  --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 10px 30px rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 18px 50px rgba(0, 0, 0, 0.55);
+  --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  --shadow-lg: 0 18px 50px rgba(0,0,0,.55);
 }
 
-/* ---------- Breadcrumb ---------- */
+/* ============================================================
+   BREADCRUMB
+   ============================================================ */
 .pd-breadcrumb {
   max-width: 1200px;
   margin: 0 auto 24px;
-  font-size: 0.85rem;
+  font-size: .85rem;
   color: var(--ink-soft);
 }
 .pd-breadcrumb span {
   cursor: pointer;
-  transition: color 0.2s;
+  transition: color .2s;
 }
-.pd-breadcrumb span:hover {
-  color: var(--accent);
-}
-.pd-breadcrumb .sep {
-  margin: 0 8px;
-  opacity: 0.5;
-}
+.pd-breadcrumb span:hover { color: var(--accent); }
+.pd-breadcrumb .sep { margin: 0 8px; opacity: .5; }
 
-/* ---------- Main layout ---------- */
+/* ============================================================
+   MAIN LAYOUT — gallery (left) + info (right)
+   ============================================================ */
 .pd-main {
   max-width: 1200px;
   margin: 0 auto;
@@ -71,34 +67,90 @@
   align-items: start;
 }
 
-/* gallery */
+/* ============================================================
+   GALLERY — wrapper column holding main image + thumbnail strip
+   ============================================================ */
 .pd-gallery {
+  /* Plain column container: NOT a fixed square, NOT clipped.
+     The square is on the inner .pd-gallery-main instead. */
   position: relative;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  overflow: hidden;
-  box-shadow: var(--shadow);
-  aspect-ratio: 1/1;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
-.pd-gallery img {
+
+/* main image area — this is the 1:1 square */
+.pd-gallery-main {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: var(--accent-soft);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--line);
+}
+.pd-gallery-main img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform .6s cubic-bezier(.22,1,.36,1);
+  display: block;
 }
-.pd-gallery:hover img {
-  transform: scale(1.04);
+.pd-gallery-main:hover img { transform: scale(1.04); }
+
+/* sale badge over the main image */
+.pd-sale-badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 2;
+  background: var(--accent);
+  color: #fff;
+  font-family: var(--fb);
+  font-weight: 700;
+  font-size: .78rem;
+  letter-spacing: .1em;
+  padding: 7px 14px;
+  border-radius: 999px;
 }
 
-/* info */
-.pd-info {
-  padding-top: 6px;
+/* thumbnail strip — only renders when there are 2+ photos */
+.pd-thumbs {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 4px;
 }
+.pd-thumb {
+  flex: 0 0 76px;
+  width: 76px;
+  height: 76px;
+  border: 2px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--surface);
+  cursor: pointer;
+  padding: 0;
+  transition: border-color .2s, transform .2s;
+}
+.pd-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.pd-thumb:hover { transform: translateY(-2px); }
+.pd-thumb.active { border-color: var(--accent); }
+
+/* ============================================================
+   INFO COLUMN
+   ============================================================ */
+.pd-info { padding-top: 6px; }
+
 .pd-cat {
   display: inline-block;
-  font-size: 0.72rem;
-  letter-spacing: 0.2em;
+  font-size: .72rem;
+  letter-spacing: .2em;
   text-transform: uppercase;
   font-weight: 600;
   color: var(--accent);
@@ -109,41 +161,99 @@
   font-weight: 500;
   font-size: clamp(1.9rem, 4vw, 3rem);
   line-height: 1.05;
-  letter-spacing: -0.015em;
-  margin: 0 0 14px;
+  letter-spacing: -.015em;
+  margin: 0 0 8px;
+}
+.pd-sku {
+  font-size: .78rem;
+  color: var(--ink-soft);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 12px;
 }
 .pd-rating {
   display: flex;
   align-items: center;
   gap: 8px;
   margin-bottom: 18px;
-  font-size: 0.9rem;
+  font-size: .9rem;
   color: var(--ink-soft);
 }
-.pd-rating .stars {
-  color: var(--gold);
-  letter-spacing: 2px;
+.pd-rating .stars { color: var(--gold); letter-spacing: 2px; }
+
+/* price row: current price + struck original + savings chip */
+.pd-price-row {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 14px;
 }
 .pd-price {
   font-family: var(--fd);
   font-weight: 600;
   font-size: clamp(1.8rem, 3vw, 2.4rem);
   color: var(--ink);
-  margin: 0 0 6px;
+  margin: 0;
+}
+.pd-price-original {
+  font-family: var(--fb);
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--ink-soft);
+  text-decoration: line-through;
+  text-decoration-thickness: 1.5px;
+}
+.pd-discount-chip {
+  font-family: var(--fb);
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .05em;
+  background: var(--accent-soft);
+  color: var(--accent);
+  padding: 5px 12px;
+  border-radius: 999px;
 }
 .pd-price-note {
-  font-size: 0.85rem;
+  font-size: .85rem;
   color: var(--ink-soft);
-  margin-bottom: 22px;
+  margin: 6px 0 14px;
 }
+
+/* stock pill */
+.pd-stock {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--fb);
+  font-weight: 600;
+  font-size: .86rem;
+  padding: 7px 14px;
+  border-radius: 999px;
+  margin-bottom: 4px;
+}
+.pd-stock .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.pd-stock-in_stock    { background: rgba(60,125,90,.15);  color: #3c7d5a; }
+.pd-stock-low_stock   { background: rgba(217,164,65,.18); color: #a07a1f; }
+.pd-stock-out_of_stock{ background: rgba(192,57,43,.15);  color: #c0392b; }
+.pd-page.dark-mode .pd-stock-in_stock    { background: rgba(80,170,120,.18); color: #6fcf97; }
+.pd-page.dark-mode .pd-stock-low_stock   { background: rgba(230,180,90,.18); color: #e6b45a; }
+.pd-page.dark-mode .pd-stock-out_of_stock{ background: rgba(255,122,107,.18); color: #ff7a6b; }
+
+/* divider + description */
 .pd-divider {
   border: none;
   border-top: 1px solid var(--line);
   margin: 22px 0;
 }
 .pd-desc-label {
-  font-size: 0.74rem;
-  letter-spacing: 0.14em;
+  font-size: .74rem;
+  letter-spacing: .14em;
   text-transform: uppercase;
   color: var(--ink-soft);
   font-weight: 600;
@@ -156,7 +266,59 @@
   margin: 0 0 26px;
 }
 
-/* quantity + add row */
+/* specifications */
+.pd-specs-title {
+  font-family: var(--fd);
+  font-weight: 500;
+  font-size: 1.1rem;
+  margin: 0 0 10px;
+  color: var(--ink);
+}
+.pd-specs {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 6px 18px;
+  margin: 0 0 22px;
+  font-size: .92rem;
+}
+.pd-specs dt {
+  color: var(--ink-soft);
+  text-transform: capitalize;
+  font-weight: 600;
+}
+.pd-specs dd {
+  margin: 0;
+  color: var(--ink);
+  font-weight: 500;
+}
+
+/* tags */
+.pd-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 22px;
+}
+.pd-tag {
+  font-size: .78rem;
+  font-weight: 500;
+  color: var(--ink-soft);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  padding: 5px 11px;
+  border-radius: 999px;
+  transition: border-color .2s, color .2s, background .2s;
+  cursor: default;
+}
+.pd-tag:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+/* ============================================================
+   BUY ROW — quantity stepper + add to cart button
+   ============================================================ */
 .pd-buy-row {
   display: flex;
   align-items: center;
@@ -180,15 +342,17 @@
   color: var(--ink);
   font-size: 1.2rem;
   cursor: pointer;
-  transition:
-    background 0.2s,
-    color 0.2s;
+  transition: background .2s, color .2s;
   display: grid;
   place-items: center;
 }
-.pd-qty button:hover {
+.pd-qty button:hover:not(:disabled) {
   background: var(--accent);
   color: #fff;
+}
+.pd-qty button:disabled {
+  opacity: .4;
+  cursor: not-allowed;
 }
 .pd-qty span {
   min-width: 44px;
@@ -208,11 +372,7 @@
   align-items: center;
   justify-content: center;
   gap: 9px;
-  transition:
-    transform 0.2s,
-    background 0.2s,
-    color 0.2s,
-    box-shadow 0.2s;
+  transition: transform .2s, background .2s, color .2s, box-shadow .2s;
   flex: 1;
   min-width: 180px;
 }
@@ -223,18 +383,32 @@
 .pd-btn-add:hover {
   background: var(--accent);
   color: #fff;
-  box-shadow: 0 12px 28px rgba(194, 86, 47, 0.35);
+  box-shadow: 0 12px 28px rgba(194,86,47,.35);
 }
 .pd-btn-go {
   background: var(--accent);
   color: #fff;
 }
 .pd-btn-go:hover {
-  box-shadow: 0 12px 28px rgba(194, 86, 47, 0.4);
+  box-shadow: 0 12px 28px rgba(194,86,47,.4);
   filter: brightness(1.05);
 }
 
-/* trust strip */
+/* disabled state for sold-out */
+.pd-btn.is-disabled,
+.pd-btn:disabled {
+  background: var(--ink-soft) !important;
+  cursor: not-allowed;
+}
+.pd-btn.is-disabled:hover,
+.pd-btn:disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+/* ============================================================
+   TRUST STRIP
+   ============================================================ */
 .pd-trust {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -246,7 +420,7 @@
   display: flex;
   align-items: center;
   gap: 9px;
-  font-size: 0.84rem;
+  font-size: .84rem;
   color: var(--ink-soft);
 }
 .pd-trust .ti {
@@ -261,7 +435,9 @@
   flex-shrink: 0;
 }
 
-/* ---------- Similar products ---------- */
+/* ============================================================
+   SIMILAR PRODUCTS
+   ============================================================ */
 .pd-similar {
   max-width: 1200px;
   margin: 72px auto 0;
@@ -280,8 +456,8 @@
   margin: 0;
 }
 .pd-similar-kicker {
-  font-size: 0.72rem;
-  letter-spacing: 0.24em;
+  font-size: .72rem;
+  letter-spacing: .24em;
   text-transform: uppercase;
   font-weight: 600;
   color: var(--accent);
@@ -309,9 +485,14 @@
   display: flex;
   flex-direction: column;
   cursor: pointer;
+  transition: transform .35s cubic-bezier(.22,1,.36,1), box-shadow .35s;
+}
+.pd-card:hover {
+  box-shadow: var(--shadow-lg);
 }
 .pd-card-media {
-  aspect-ratio: 1/1;
+  position: relative;
+  aspect-ratio: 1 / 1;
   overflow: hidden;
   background: var(--accent-soft);
 }
@@ -319,17 +500,39 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform .6s cubic-bezier(.22,1,.36,1);
 }
-.pd-card:hover .pd-card-media img {
-  transform: scale(1.07);
+.pd-card:hover .pd-card-media img { transform: scale(1.07); }
+
+.pd-card-sale {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 2;
+  background: var(--accent);
+  color: #fff;
+  font-size: .66rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 999px;
 }
+
 .pd-card-body {
   padding: 16px;
   display: flex;
   flex-direction: column;
   gap: 5px;
   flex: 1;
+}
+.pd-card-brand {
+  font-size: .62rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--ink-soft);
+  margin-bottom: 3px;
 }
 .pd-card-name {
   font-family: var(--fb);
@@ -344,7 +547,7 @@
   overflow: hidden;
 }
 .pd-card-text {
-  font-size: 0.83rem;
+  font-size: .83rem;
   color: var(--ink-soft);
   margin: 0;
   line-height: 1.45;
@@ -361,16 +564,27 @@
   margin-top: 10px;
   gap: 10px;
 }
+.pd-card-prices {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+}
 .pd-card-price {
   font-family: var(--fd);
   font-weight: 600;
   font-size: 1.2rem;
   color: var(--ink);
 }
+.pd-card-original {
+  font-size: .82rem;
+  color: var(--ink-soft);
+  text-decoration: line-through;
+}
 .pd-card-btn {
   font-family: var(--fb);
   font-weight: 600;
-  font-size: 0.82rem;
+  font-size: .82rem;
   border: 1px solid var(--line);
   background: transparent;
   color: var(--ink);
@@ -380,10 +594,7 @@
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  transition:
-    background 0.2s,
-    color 0.2s,
-    border-color 0.2s;
+  transition: background .2s, color .2s, border-color .2s;
   white-space: nowrap;
 }
 .pd-card-btn:hover {
@@ -392,7 +603,9 @@
   border-color: var(--accent);
 }
 
-/* ---------- Responsive ---------- */
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
 @media (max-width: 860px) {
   .pd-main {
     grid-template-columns: 1fr;
@@ -401,22 +614,31 @@
   .pd-gallery {
     max-width: 480px;
     margin: 0 auto;
+    width: 100%;
   }
 }
-@media (max-width: 560px) {
-  .pd-page {
-    padding: 24px 16px 64px;
+@media (max-width: 768px) {
+  .pd-thumb {
+    flex: 0 0 60px;
+    width: 60px;
+    height: 60px;
   }
+  .pd-specs {
+    grid-template-columns: 1fr;
+    gap: 2px 0;
+  }
+  .pd-specs dt { margin-top: 8px; }
+  .pd-price-row { gap: 10px; }
+  .pd-price-original { font-size: 1rem; }
+}
+@media (max-width: 560px) {
+  .pd-page { padding: 24px 16px 64px; }
   .pd-buy-row {
     flex-direction: column;
     align-items: stretch;
   }
-  .pd-qty {
-    justify-content: center;
-  }
-  .pd-btn {
-    width: 100%;
-  }
+  .pd-qty { justify-content: center; }
+  .pd-btn { width: 100%; }
   .pd-trust {
     grid-template-columns: 1fr;
     gap: 10px;
@@ -425,72 +647,4 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 14px;
   }
-}
-
-
-
-/* ============================================================
-   PRODUCT DETAILS ADDITIONS — gallery, discount, stock, specs, tags
-   Append to ProductDetailsStyles.css
-   ============================================================ */
-
-/* Gallery layout: main image + thumbnail row */
-.pd-gallery-main{position:relative;aspect-ratio:1/1;overflow:hidden;border-radius:var(--radius);background:var(--accent-soft);box-shadow:var(--shadow)}
-.pd-gallery-main img{width:100%;height:100%;object-fit:cover}
-.pd-sale-badge{position:absolute;top:14px;left:14px;z-index:2;background:var(--accent);color:#fff;font-family:var(--fb);font-weight:700;font-size:.78rem;letter-spacing:.1em;padding:7px 14px;border-radius:999px}
-
-.pd-thumbs{display:flex;gap:10px;margin-top:14px;overflow-x:auto;padding-bottom:4px}
-.pd-thumb{flex-shrink:0;width:76px;height:76px;border:2px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface);cursor:pointer;padding:0;transition:border-color .2s,transform .2s}
-.pd-thumb img{width:100%;height:100%;object-fit:cover;display:block}
-.pd-thumb:hover{transform:translateY(-2px)}
-.pd-thumb.active{border-color:var(--accent)}
-
-/* SKU under product name */
-.pd-sku{font-size:.78rem;color:var(--ink-soft);letter-spacing:.1em;text-transform:uppercase;font-weight:600;margin-top:4px}
-
-/* Price row — current, original (struck), discount chip */
-.pd-price-row{display:flex;align-items:baseline;flex-wrap:wrap;gap:14px;margin-top:14px}
-.pd-price-original{font-family:var(--fb);font-size:1.1rem;font-weight:500;color:var(--ink-soft);text-decoration:line-through;text-decoration-thickness:1.5px}
-.pd-discount-chip{font-family:var(--fb);font-size:.78rem;font-weight:700;letter-spacing:.05em;background:var(--accent-soft);color:var(--accent);padding:5px 12px;border-radius:999px}
-
-/* Stock status pill */
-.pd-stock{display:inline-flex;align-items:center;gap:8px;font-family:var(--fb);font-weight:600;font-size:.86rem;padding:7px 14px;border-radius:999px;margin-top:14px}
-.pd-stock .dot{width:8px;height:8px;border-radius:50%;background:currentColor}
-.pd-stock-in_stock{background:rgba(60,125,90,.15);color:#3c7d5a}
-.pd-stock-low_stock{background:rgba(217,164,65,.18);color:#a07a1f}
-.pd-stock-out_of_stock{background:rgba(192,57,43,.15);color:#c0392b}
-.dark-mode .pd-stock-in_stock,.pd-page.dark-mode .pd-stock-in_stock{background:rgba(80,170,120,.18);color:#6fcf97}
-.dark-mode .pd-stock-low_stock,.pd-page.dark-mode .pd-stock-low_stock{background:rgba(230,180,90,.18);color:#e6b45a}
-.dark-mode .pd-stock-out_of_stock,.pd-page.dark-mode .pd-stock-out_of_stock{background:rgba(255,122,107,.18);color:#ff7a6b}
-
-/* Specifications table */
-.pd-specs-title{font-family:var(--fd);font-weight:500;font-size:1.1rem;margin:22px 0 10px;color:var(--ink)}
-.pd-specs{display:grid;grid-template-columns:auto 1fr;gap:6px 18px;margin:0 0 18px;font-size:.92rem}
-.pd-specs dt{color:var(--ink-soft);text-transform:capitalize;font-weight:600}
-.pd-specs dd{margin:0;color:var(--ink);font-weight:500}
-
-/* Tags */
-.pd-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
-.pd-tag{font-size:.78rem;font-weight:500;color:var(--ink-soft);background:var(--bg);border:1px solid var(--line);padding:5px 11px;border-radius:999px;transition:border-color .2s,color .2s,background .2s;cursor:default}
-.pd-tag:hover{color:var(--accent);border-color:var(--accent);background:var(--accent-soft)}
-
-/* Disabled add-to-cart for sold out */
-.pd-btn.is-disabled,.pd-btn:disabled{background:var(--ink-soft) !important;cursor:not-allowed}
-.pd-btn.is-disabled:hover,.pd-btn:disabled:hover{transform:none}
-.pd-qty button:disabled{opacity:.4;cursor:not-allowed}
-
-/* Related product cards — discount badge + brand */
-.pd-card-media{position:relative}
-.pd-card-sale{position:absolute;top:10px;left:10px;z-index:2;background:var(--accent);color:#fff;font-size:.66rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:999px}
-.pd-card-brand{font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:var(--ink-soft);margin-bottom:3px}
-.pd-card-prices{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
-.pd-card-original{font-size:.82rem;color:var(--ink-soft);text-decoration:line-through}
-
-/* Responsive: stack gallery + thumbs on mobile */
-@media(max-width:768px){
-  .pd-thumb{width:60px;height:60px}
-  .pd-specs{grid-template-columns:1fr;gap:2px 0}
-  .pd-specs dt{margin-top:8px}
-  .pd-price-row{gap:10px}
-  .pd-price-original{font-size:1rem}
 }

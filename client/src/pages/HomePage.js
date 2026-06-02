@@ -24,10 +24,12 @@ const HomePage = () => {
   const [popularProducts, setPopularProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [categoryCounts, setCategoryCounts] = useState({});
+  const [banners, setBanners] = useState([]);
 
   useEffect(() => {
     getSpecialProducts();
     getCategories();
+    getBanners();
   }, []);
 
   const getSpecialProducts = async () => {
@@ -45,7 +47,6 @@ const HomePage = () => {
     }
   };
 
-  // Pull live categories + counts so the bento section reflects real data
   const getCategories = async () => {
     try {
       const [catRes, countRes] = await Promise.all([
@@ -58,6 +59,34 @@ const HomePage = () => {
       console.log(error);
     }
   };
+
+  // Pull active banners from the API — fall back to static array on failure
+  const getBanners = async () => {
+    try {
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_API}/api/v1/banner/active`
+      );
+      if (data?.success && data.banners?.length) {
+        setBanners(data.banners);
+      }
+    } catch (error) {
+      console.log("banner fetch failed, falling back to static:", error?.message);
+    }
+  };
+
+  // Decide which slides the hero renders. If API gave us banners, use those.
+  // Otherwise fall back to the original hardcoded list so the page never breaks.
+  const heroSlides = banners.length
+    ? banners.map((b) => ({
+        image: `${process.env.REACT_APP_API}/api/v1/banner/photo/${b._id}`,
+        link: b.linkUrl || "/allproduct",
+        title: b.title,
+        subtitle: b.subtitle,
+        id: b._id,
+      }))
+    : mainCaroseldata.map((c, i) => ({
+        image: c.image, link: "/allproduct", id: `static-${i}`,
+      }));
 
   const tickerItems = [
     "Free shipping over \u20B9999",
@@ -73,7 +102,6 @@ const HomePage = () => {
     { icon: <TbHeadset />, title: "24/7 support", text: "Always here to help" },
   ];
 
-  // Bento layout — first category is the featured (2x2), the rest are normal
   const bento = categories.slice(0, 5);
   const tileCls = (i, c) =>
     i === 0 || c.featured ? "feat g1" : `g${(i % 4) + 2}`;
@@ -122,12 +150,24 @@ const HomePage = () => {
           </div>
         </div>
 
+        {/* Hero — dynamic banners with fallback */}
         <section className="hero-section">
           <Slider {...carouselSettings}>
-            {mainCaroseldata.map((item, index) => (
-              <div key={index} className="hero-slide">
-                <img src={item.image} className="hero-image" alt={`banner-${index}`}
-                  onClick={() => navigate(`/allproduct`)} />
+            {heroSlides.map((slide) => (
+              <div key={slide.id} className="hero-slide">
+                <img
+                  src={slide.image}
+                  className="hero-image"
+                  alt={slide.title || "banner"}
+                  onClick={() => navigate(slide.link)}
+                  onError={(e) => { e.target.style.opacity = 0.3; }}
+                />
+                {(slide.title || slide.subtitle) && (
+                  <div className="hero-caption">
+                    {slide.title && <h2>{slide.title}</h2>}
+                    {slide.subtitle && <p>{slide.subtitle}</p>}
+                  </div>
+                )}
               </div>
             ))}
           </Slider>
@@ -160,17 +200,11 @@ const HomePage = () => {
               {bento.map((c, i) => {
                 const count = categoryCounts[c._id] || 0;
                 return (
-                  <div
-                    className={`cat-tile ${tileCls(i, c)}`}
+                  <div className={`cat-tile ${tileCls(i, c)}`}
                     key={c._id}
-                    onClick={() => navigate(`/category/${c.slug}`)}
-                  >
-                    <img
-                      src={photoUrl(c._id)}
-                      alt={c.name}
-                      loading="lazy"
-                      onError={(e) => { e.target.style.display = "none"; }}
-                    />
+                    onClick={() => navigate(`/category/${c.slug}`)}>
+                    <img src={photoUrl(c._id)} alt={c.name} loading="lazy"
+                      onError={(e) => { e.target.style.display = "none"; }} />
                     <span className="cat-arrow">&#8599;</span>
                     <div className="cat-tile-text">
                       <span className="cat-name">{c.name}</span>

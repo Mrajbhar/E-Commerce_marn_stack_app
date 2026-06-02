@@ -1,39 +1,46 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import "../../styles/Adminmenu.css";
-import { CgProfile } from "react-icons/cg";
 import {
-  TbCategoryPlus,
+  TbLayoutDashboardFilled,
+  TbCategoryFilled,
   TbBox,
-  TbShoppingBag,
-  TbTruck,
+  TbBoxMultiple,
+  TbPhotoEdit,
+  TbReceipt,
   TbUsers,
 } from "react-icons/tb";
 
-const AdminMenu = () => {
-  const items = [
-    { to: "/dashboard/admin/create-category", icon: <TbCategoryPlus />, label: "Create Category" },
-    { to: "/dashboard/admin/create-product", icon: <TbBox />, label: "Create Product" },
-    { to: "/dashboard/admin/products", icon: <TbShoppingBag />, label: "Products" },
-    { to: "/dashboard/admin/orders", icon: <TbTruck />, label: "Orders" },
-    { to: "/dashboard/admin/users", icon: <TbUsers />, label: "Users" },
-  ];
+const items = [
+  { to: "/dashboard/admin", end: true, label: "Dashboard", icon: <TbLayoutDashboardFilled /> },
+  { to: "/dashboard/admin/create-category", label: "Create Category", icon: <TbCategoryFilled /> },
+  { to: "/dashboard/admin/create-product",  label: "Create Product",  icon: <TbBox /> },
+  { to: "/dashboard/admin/products",        label: "Products",        icon: <TbBoxMultiple /> },
+  { to: "/dashboard/admin/Banners",         label: "Banners",         icon: <TbPhotoEdit /> },
+  { to: "/dashboard/admin/orders",          label: "Orders",          icon: <TbReceipt /> },
+  { to: "/dashboard/admin/users",           label: "Users",           icon: <TbUsers /> },
+];
 
+const AdminMenu = () => {
   return (
-    <div className="admin-menu-container">
-      <div className="admin-menu-header">
-        <h4>
-          <CgProfile /> Admin Panel
-        </h4>
-      </div>
-      <div className="admin-menu-items">
-        {items.map((item) => (
-          <NavLink key={item.to} to={item.to} className="admin-menu-item">
-            <span className="admin-menu-ico">{item.icon}</span>
-            {item.label}
-          </NavLink>
-        ))}
-      </div>
+    <div className="list-group">
+      <h4>Admin Panel</h4>
+      {items.map((it) => (
+        <NavLink
+          key={it.to}
+          to={it.to}
+          end={it.end}
+          className={({ isActive }) =>
+            `list-group-item list-group-item-action ${isActive ? "active" : ""}`
+          }
+        >
+          <span style={{ display: "inline-flex", alignItems: "center", gap: 10 }}>
+            <span style={{ fontSize: 18, display: "grid", placeItems: "center" }}>
+              {it.icon}
+            </span>
+            {it.label}
+          </span>
+        </NavLink>
+      ))}
     </div>
   );
 };

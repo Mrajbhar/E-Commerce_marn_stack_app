@@ -37,6 +37,7 @@ const ProductDetails = () => {
       const { data } = await axios.get(
         `${process.env.REACT_APP_API}/api/v1/product/get-product/${params.slug}`,
       );
+      console.log("[ProductDetails] API response:", data?.product); // <-- debug
       setProduct(data?.product);
       if (data?.product?._id && data?.product?.category?._id) {
         getSimilarProduct(data.product._id, data.product.category._id);
@@ -62,8 +63,16 @@ const ProductDetails = () => {
       style: "currency", currency: "INR", maximumFractionDigits: 0,
     });
 
-  // Discount + stock + ratings derived
-  const photoCount = product?.photoCount || 1;
+  // Photo count detection — try multiple sources so it works regardless
+  // of which backend version is running:
+  //   1. product.photoCount (current backend)
+  //   2. product.photos?.length (older backend that didn't strip the array)
+  //   3. fall back to 1 (the legacy single .photo field)
+  const photoCount = Math.max(
+    1,
+    product?.photoCount || product?.photos?.length || 1
+  );
+
   const isSoldOut = product?.stockStatus === "out_of_stock";
   const isLowStock = product?.stockStatus === "low_stock";
   const discountPct =
@@ -75,7 +84,6 @@ const ProductDetails = () => {
   const rating = product?.ratings?.average || 0;
   const reviewCount = product?.ratings?.count || 0;
 
-  // Specs to render as a key-value table, skipping any blank
   const specEntries = Object.entries(product?.specifications || {})
     .filter(([, v]) => v);
 
@@ -105,7 +113,6 @@ const ProductDetails = () => {
   return (
     <Layout title={product?.name || "Product Details"}>
       <div className={`pd-page ${darkMode ? "dark-mode" : ""}`}>
-        {/* Breadcrumb */}
         <div className="pd-breadcrumb">
           <span onClick={() => navigate("/")}>Home</span>
           <span className="sep">/</span>
@@ -114,9 +121,7 @@ const ProductDetails = () => {
           {product?.name}
         </div>
 
-        {/* Main */}
         <div className="pd-main">
-          {/* Gallery */}
           <motion.div
             className="pd-gallery"
             initial={{ opacity: 0, scale: 0.98 }}
@@ -131,6 +136,7 @@ const ProductDetails = () => {
                 <img src={photoUrl(activePhoto)} alt={product?.name} />
               )}
             </div>
+
             {photoCount > 1 && (
               <div className="pd-thumbs">
                 {Array.from({ length: photoCount }).map((_, i) => (
@@ -140,21 +146,26 @@ const ProductDetails = () => {
                     className={`pd-thumb ${activePhoto === i ? "active" : ""}`}
                     onClick={() => setActivePhoto(i)}
                   >
-                    <img src={photoUrl(i)} alt={`view ${i + 1}`} />
+                    <img
+                      src={photoUrl(i)}
+                      alt={`view ${i + 1}`}
+                      onError={(e) => {
+                        // Hide the thumbnail if that photo index doesn't exist
+                        e.target.parentElement.style.display = "none";
+                      }}
+                    />
                   </button>
                 ))}
               </div>
             )}
           </motion.div>
 
-          {/* Info */}
           <motion.div
             className="pd-info"
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-            {/* Brand or category kicker */}
             {(product?.brand || product?.category?.name) && (
               <span className="pd-cat">
                 {product?.brand || product.category.name}
@@ -166,10 +177,8 @@ const ProductDetails = () => {
 
             <h1 className="pd-name">{product?.name}</h1>
 
-            {/* SKU under the name */}
             {product?.sku && <div className="pd-sku">SKU: {product.sku}</div>}
 
-            {/* Ratings */}
             {rating > 0 && (
               <div className="pd-rating">
                 <span className="stars">
@@ -181,7 +190,6 @@ const ProductDetails = () => {
               </div>
             )}
 
-            {/* Price block — discount aware */}
             <div className="pd-price-row">
               <h2 className="pd-price">{inr(product?.price)}</h2>
               {discountPct > 0 && (
@@ -193,7 +201,6 @@ const ProductDetails = () => {
             </div>
             <p className="pd-price-note">Inclusive of all taxes</p>
 
-            {/* Stock pill */}
             {product?.stockStatus && (
               <div className={`pd-stock pd-stock-${product.stockStatus}`}>
                 <span className="dot" />
@@ -207,11 +214,9 @@ const ProductDetails = () => {
 
             <hr className="pd-divider" />
 
-            {/* Description */}
             <div className="pd-desc-label">Description</div>
             <p className="pd-desc">{product?.description}</p>
 
-            {/* Specifications */}
             {specEntries.length > 0 && (
               <>
                 <div className="pd-specs-title">Specifications</div>
@@ -226,7 +231,6 @@ const ProductDetails = () => {
               </>
             )}
 
-            {/* Tags */}
             {product?.tags?.length > 0 && (
               <div className="pd-tags">
                 {product.tags.map((t) => (
@@ -235,18 +239,13 @@ const ProductDetails = () => {
               </div>
             )}
 
-            {/* Quantity + add to cart */}
             <div className="pd-buy-row">
               <div className="pd-qty">
-                <button
-                  onClick={() => setQty((q) => Math.max(1, q - 1))}
-                  aria-label="Decrease" disabled={isSoldOut}
-                >−</button>
+                <button onClick={() => setQty((q) => Math.max(1, q - 1))}
+                  aria-label="Decrease" disabled={isSoldOut}>−</button>
                 <span>{qty}</span>
-                <button
-                  onClick={() => setQty((q) => q + 1)}
-                  aria-label="Increase" disabled={isSoldOut}
-                >+</button>
+                <button onClick={() => setQty((q) => q + 1)}
+                  aria-label="Increase" disabled={isSoldOut}>+</button>
               </div>
 
               {itemAdded && !isSoldOut ? (
@@ -269,7 +268,6 @@ const ProductDetails = () => {
               )}
             </div>
 
-            {/* Trust strip */}
             <div className="pd-trust">
               <div><span className="ti"><TbTruckDelivery /></span> Free shipping over ₹999</div>
               <div><span className="ti"><TbArrowBackUp /></span> 30-day returns</div>
@@ -278,7 +276,6 @@ const ProductDetails = () => {
           </motion.div>
         </div>
 
-        {/* Similar products */}
         <div className="pd-similar">
           <div className="pd-similar-head">
             <div>
@@ -315,22 +312,15 @@ const ProductDetails = () => {
                   <div className="pd-card-body">
                     {p?.brand && <div className="pd-card-brand">{p.brand}</div>}
                     <h5 className="pd-card-name">{p.name}</h5>
-                    <p className="pd-card-text">
-                      {p.description?.substring(0, 60)}...
-                    </p>
+                    <p className="pd-card-text">{p.description?.substring(0, 60)}...</p>
                     <div className="pd-card-foot">
                       <div className="pd-card-prices">
                         <span className="pd-card-price">{inr(p.price)}</span>
-                        {rDisc > 0 && (
-                          <span className="pd-card-original">{inr(p.originalPrice)}</span>
-                        )}
+                        {rDisc > 0 && <span className="pd-card-original">{inr(p.originalPrice)}</span>}
                       </div>
                       <button
                         className="pd-card-btn"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          navigate(`/product/${p.slug}`);
-                        }}
+                        onClick={(e) => { e.stopPropagation(); navigate(`/product/${p.slug}`); }}
                       >
                         <CgDetailsMore /> Details
                       </button>

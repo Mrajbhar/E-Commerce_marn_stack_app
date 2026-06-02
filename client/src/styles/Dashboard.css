@@ -219,22 +219,45 @@
 }
 
 /* ============================================================
-   ADMIN PRODUCTS LIST — card grid
+   ADMIN PRODUCTS LIST — card grid (ENRICHED)
+   shows: photo, brand, name, description, discount badge, stock pill,
+   price (+ struck original), quantity, category chip, SKU chip
    ============================================================ */
 .dash-head-row{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:24px}
 .dash-count{font-size:.9rem;color:var(--ink-soft)}
 .dash-count b{color:var(--ink);font-weight:600}
 
-.dash-prod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:clamp(14px,2vw,22px)}
+.dash-prod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:clamp(14px,2vw,22px)}
+
 .dash-prod-card{
   display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);
   border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);text-decoration:none;
   transition:transform .35s cubic-bezier(.22,1,.36,1),box-shadow .35s,border-color .3s;
 }
 .dash-prod-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg);border-color:transparent}
+.dash-prod-card.is-soldout .dash-prod-media img{filter:grayscale(.7) brightness(.85)}
+
+/* media */
 .dash-prod-media{position:relative;aspect-ratio:1/1;overflow:hidden;background:var(--accent-soft)}
 .dash-prod-media img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.22,1,.36,1)}
-.dash-prod-card:hover .dash-prod-media img{transform:scale(1.07)}
+.dash-prod-card:hover .dash-prod-media img{transform:scale(1.06)}
+
+/* badges overlaid on the image */
+.dash-prod-discount{
+  position:absolute;top:10px;left:10px;z-index:2;
+  background:var(--accent);color:#fff;font-size:.65rem;font-weight:700;letter-spacing:.05em;
+  text-transform:uppercase;padding:4px 10px;border-radius:999px;box-shadow:0 2px 8px rgba(194,86,47,.3);
+}
+.dash-prod-stock{
+  position:absolute;bottom:10px;left:10px;z-index:2;display:inline-flex;align-items:center;gap:5px;
+  font-size:.66rem;font-weight:700;letter-spacing:.06em;padding:4px 10px;border-radius:999px;
+  background:rgba(255,255,255,.92);backdrop-filter:blur(3px);
+}
+.dash-prod-stock::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;display:inline-block}
+.dash-stock-in_stock{color:#3c7d5a}
+.dash-stock-low_stock{color:#a07a1f}
+.dash-stock-out_of_stock{color:#c0392b}
+
 .dash-prod-edit{
   position:absolute;top:10px;right:10px;z-index:2;display:inline-flex;align-items:center;gap:6px;
   background:rgba(255,255,255,.92);color:#1a1714;font-size:.74rem;font-weight:600;
@@ -243,12 +266,34 @@
 }
 .dash-prod-card:hover .dash-prod-edit{opacity:1;transform:translateY(0)}
 .dash-prod-edit:hover{background:var(--accent);color:#fff}
-.dash-prod-body{padding:clamp(12px,1.4vw,16px);display:flex;flex-direction:column;gap:5px;flex:1}
-.dash-prod-name{font-family:var(--fb);font-weight:600;font-size:1rem;color:var(--ink);margin:0;line-height:1.3;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
-.dash-prod-desc{font-size:.83rem;color:var(--ink-soft);margin:0;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+.dash-prod-soldout-overlay{
+  position:absolute;inset:0;z-index:3;display:grid;place-items:center;
+  background:rgba(26,23,20,.35);color:#fff;font-family:var(--fb);font-weight:700;font-size:.85rem;
+  letter-spacing:.18em;text-transform:uppercase;pointer-events:none;
+}
+
+/* body */
+.dash-prod-body{padding:clamp(12px,1.4vw,16px);display:flex;flex-direction:column;gap:6px;flex:1}
+.dash-prod-brand{font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:var(--ink-soft)}
+.dash-prod-name{font-family:var(--fb);font-weight:600;font-size:1.02rem;color:var(--ink);margin:0;line-height:1.3;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
+.dash-prod-desc{font-size:.82rem;color:var(--ink-soft);margin:0;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+/* meta strip: prices on the left, quantity on the right */
+.dash-prod-meta{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-top:8px;flex-wrap:wrap}
+.dash-prod-prices{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.dash-prod-price{font-family:var(--fd);font-weight:600;font-size:1.15rem;color:var(--ink)}
+.dash-prod-original{font-size:.82rem;color:var(--ink-soft);text-decoration:line-through;text-decoration-thickness:1.5px}
+.dash-prod-qty{font-size:.78rem;color:var(--ink-soft)}
+.dash-prod-qty b{color:var(--ink);font-weight:600}
+
+/* category + sku chips */
+.dash-prod-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;padding-top:10px;border-top:1px solid var(--line)}
+.dash-prod-chip{font-size:.7rem;font-weight:500;color:var(--ink-soft);background:var(--bg);border:1px solid var(--line);padding:3px 9px;border-radius:7px}
+.dash-prod-chip.mono{font-family:ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;letter-spacing:.02em}
 
 @media(max-width:768px){.dash-prod-grid{grid-template-columns:repeat(2,1fr);gap:14px}}
-@media(max-width:380px){.dash-prod-grid{grid-template-columns:1fr}}
+@media(max-width:420px){.dash-prod-grid{grid-template-columns:1fr}}
 
 /* ============================================================
    ADMIN ORDERS — order cards + line items + status pills

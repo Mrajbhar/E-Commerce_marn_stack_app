@@ -1,0 +1,80 @@
+
+/* ============================================================
+   BANNERS — admin list rows, drag handle, toggle switch
+   Append to Dashboard.css
+   ============================================================ */
+.banner-list{display:flex;flex-direction:column;gap:12px;margin-top:6px}
+
+.banner-row{
+  display:grid;grid-template-columns:32px 160px 1fr auto;gap:18px;align-items:center;
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:14px 18px;transition:border-color .2s,opacity .2s,transform .2s;
+}
+.banner-row.is-dragging{opacity:.5;border-color:var(--accent)}
+.banner-row.is-inactive{opacity:.7}
+.banner-row.is-inactive .banner-thumb img{filter:grayscale(.5) brightness(.9)}
+
+.banner-handle{
+  display:grid;place-items:center;cursor:grab;color:var(--ink-soft);
+  font-size:20px;padding:8px 4px;border-radius:8px;transition:background .15s,color .15s;
+}
+.banner-handle:hover{background:var(--accent-soft);color:var(--accent)}
+.banner-handle:active{cursor:grabbing}
+
+.banner-thumb{
+  width:160px;height:80px;border-radius:11px;overflow:hidden;
+  background:var(--accent-soft);border:1px solid var(--line);
+}
+.banner-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+
+.banner-meta{min-width:0;display:flex;flex-direction:column;gap:3px}
+.banner-title{font-family:var(--fd);font-weight:500;font-size:1.05rem;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.banner-untitled{color:var(--ink-soft);font-style:italic;font-weight:400;font-family:var(--fb)}
+.banner-sub{font-size:.86rem;color:var(--ink-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.banner-link{
+  font-size:.78rem;color:var(--accent);text-decoration:none;display:inline-flex;align-items:center;gap:5px;
+  font-family:ui-monospace,Menlo,Consolas,monospace;letter-spacing:.02em;width:fit-content;
+}
+.banner-link:hover{text-decoration:underline}
+
+.banner-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+
+/* iOS-style toggle */
+.banner-toggle{display:inline-flex;align-items:center;gap:10px;cursor:pointer;user-select:none}
+.banner-toggle input{position:absolute;opacity:0;width:0;height:0}
+.banner-toggle-track{
+  position:relative;width:42px;height:24px;background:var(--line);border-radius:999px;
+  transition:background .2s;flex-shrink:0;
+}
+.banner-toggle-knob{
+  position:absolute;top:2px;left:2px;width:20px;height:20px;background:#fff;border-radius:50%;
+  box-shadow:0 1px 3px rgba(0,0,0,.2);transition:transform .25s cubic-bezier(.22,1,.36,1);
+}
+.banner-toggle input:checked + .banner-toggle-track{background:var(--accent)}
+.banner-toggle input:checked + .banner-toggle-track .banner-toggle-knob{transform:translateX(18px)}
+.banner-toggle-label{font-size:.82rem;font-weight:600;color:var(--ink-soft);min-width:50px}
+.banner-toggle input:checked ~ .banner-toggle-label{color:var(--accent)}
+
+/* responsive: stack on small screens */
+@media(max-width:768px){
+  .banner-row{grid-template-columns:32px 1fr;grid-template-rows:auto auto;row-gap:12px}
+  .banner-thumb{grid-column:1 / -1;width:100%;height:120px}
+  .banner-actions{grid-column:1 / -1;justify-content:flex-end}
+}
+
+/* ============================================================
+   HERO CAPTION — optional title/subtitle overlay
+   Append to Homepage.css (NOT Dashboard.css)
+   ============================================================ */
+.hero-slide{position:relative}
+.hero-caption{
+  position:absolute;left:0;right:0;bottom:0;padding:clamp(20px,4vw,40px);
+  background:linear-gradient(to top,rgba(0,0,0,.6),rgba(0,0,0,.1) 60%,transparent);
+  color:#fff;pointer-events:none;
+}
+.hero-caption h2{
+  font-family:"Fraunces",Georgia,serif;font-weight:500;margin:0 0 6px;
+  font-size:clamp(1.4rem,3.5vw,2.4rem);line-height:1.1;letter-spacing:-.01em;
+  text-shadow:0 2px 14px rgba(0,0,0,.4);
+}
+.hero-caption p{margin:0;font-size:clamp(.9rem,1.4vw,1.05rem);opacity:.95;text-shadow:0 2px 10px rgba(0,0,0,.4)}
