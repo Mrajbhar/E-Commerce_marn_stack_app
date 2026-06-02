@@ -1063,3 +1063,40 @@
     gap: 14px;
   }
 }
+
+
+/* ============================================================
+   NEW PRODUCT-CARD ADDITIONS — brand label, original price (struck),
+   discount badge, sold-out overlay, low-stock badge.
+   Append to Homepage.css (it already contains the .product-card base).
+   ============================================================ */
+.card-brand{
+  font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;font-weight:700;
+  color:var(--ink-soft);margin-bottom:2px;
+}
+
+/* original price (struck through) appears next to the current price */
+.card-original-price{
+  font-family:var(--fb);font-size:.92rem;font-weight:500;color:var(--ink-soft);
+  text-decoration:line-through;text-decoration-thickness:1.5px;text-decoration-color:var(--ink-soft);
+  margin-left:8px;
+}
+
+/* badge variants */
+.product-badge-sale{background:var(--accent);color:#fff}
+.product-badge-lowstock{background:var(--gold);color:#1a1714}
+
+/* sold-out overlay & disabled card */
+.product-card.is-sold-out .card-img-top{filter:grayscale(.7) brightness(.85)}
+.product-soldout-overlay{
+  position:absolute;inset:0;z-index:3;display:grid;place-items:center;
+  background:rgba(26,23,20,.32);backdrop-filter:blur(2px);color:#fff;
+  font-family:var(--fb);font-weight:700;font-size:.95rem;letter-spacing:.2em;text-transform:uppercase;
+  pointer-events:none;
+}
+.product-card.is-sold-out .product-actions .action-cart{
+  background:var(--ink-soft) !important;cursor:not-allowed;
+}
+.product-card.is-sold-out .product-actions .action-cart:hover{
+  transform:none;background:var(--ink-soft) !important;box-shadow:none;
+}

@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
-import { Checkbox, Radio, Collapse, Divider } from "antd";
+import { Checkbox, Radio, Collapse } from "antd";
 import { Prices } from "../../components/Prices";
-import { useCart } from "../../context/cart";
 import axios from "axios";
 import toast from "react-hot-toast";
 import Layout from "../../components/Layout/Layout";
@@ -11,15 +9,11 @@ import "../../styles/Homepage.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useTheme } from "../Themes/ThemeContext";
-import { PiShoppingCartFill, PiHeartBold } from "react-icons/pi";
-import { FaCartArrowDown } from "react-icons/fa";
-import { CgDetailsMore } from "react-icons/cg";
+import ProductCard from "../../components/Product/ProductCard";
 
 const { Panel } = Collapse;
 
 const AllProducts = () => {
-  const navigate = useNavigate();
-  const [cart, setCart] = useCart();
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [checked, setChecked] = useState([]);
@@ -30,15 +24,8 @@ const AllProducts = () => {
   const [activeCategory, setActiveCategory] = useState(null);
   const [priceOpen, setPriceOpen] = useState(true);
   const [categoryOpen, setCategoryOpen] = useState(true);
-  const [itemAdded, setItemAdded] = useState({});
-  const [filtersOpen, setFiltersOpen] = useState(false); // mobile drawer
+  const [filtersOpen, setFiltersOpen] = useState(false);
   const { darkMode } = useTheme();
-
-  useEffect(() => {
-    localStorage.setItem("darkMode", darkMode);
-    document.documentElement.classList.toggle("dark", darkMode);
-    document.body.classList.toggle("dark-mode", darkMode);
-  }, [darkMode]);
 
   const getAllCategory = useCallback(async () => {
     try {
@@ -58,11 +45,11 @@ const AllProducts = () => {
       const { data } = await axios.get(
         `${process.env.REACT_APP_API}/api/v1/product/product-list/${page}`
       );
-      setLoading(false);
       setProducts(data.products);
     } catch (error) {
-      setLoading(false);
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   }, [page]);
 
@@ -84,13 +71,13 @@ const AllProducts = () => {
       const { data } = await axios.get(
         `${process.env.REACT_APP_API}/api/v1/product/product-list/${page}`
       );
-      setLoading(false);
-      setProducts((prev) => [...new Set([...prev, ...data.products])]);
+      setProducts((prev) => [...prev, ...data.products]);
     } catch (error) {
       console.log(error);
+    } finally {
       setLoading(false);
     }
-  }, [page, total, loading, products]);
+  }, [page, total, loading, products.length]);
 
   const filterProducts = useCallback(async () => {
     try {
@@ -128,8 +115,6 @@ const AllProducts = () => {
     setActiveCategory(id);
   };
 
-  const handlePriceFilter = (value) => setRadio(value);
-
   const clearFilters = () => {
     setChecked([]);
     setRadio([]);
@@ -137,37 +122,9 @@ const AllProducts = () => {
     getAllProducts();
   };
 
-  const addItemToCart = (product) => {
-    setCart((prevCart) => {
-      const existingItem = prevCart.find((item) => item._id === product._id);
-      let updatedCart;
-      if (existingItem) {
-        updatedCart = prevCart.map((item) =>
-          item._id === existingItem._id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        );
-      } else {
-        updatedCart = [...prevCart, { ...product, quantity: 1 }];
-      }
-      localStorage.setItem("cart", JSON.stringify(updatedCart));
-      return updatedCart;
-    });
-    setItemAdded((prev) => ({ ...prev, [product._id]: true }));
-    toast.success("Item added to cart");
-  };
-
-  const formatPrice = (price) =>
-    Number(price || 0).toLocaleString("en-IN", {
-      style: "currency",
-      currency: "INR",
-      maximumFractionDigits: 0,
-    });
-
   return (
     <Layout title={"All Products - Best Offers"}>
       <div className={`shop-page ${darkMode ? "dark-mode" : ""}`}>
-        {/* Page header */}
         <header className="shop-header">
           <span className="section-kicker">Shop</span>
           <h1 className="shop-title">All Products</h1>
@@ -187,7 +144,6 @@ const AllProducts = () => {
         </header>
 
         <div className="shop-layout">
-          {/* Filters sidebar */}
           <aside className={`filters ${filtersOpen ? "open" : ""}`}>
             <div className="filters-head">
               <h3>Filters</h3>
@@ -196,19 +152,14 @@ const AllProducts = () => {
               </button>
             </div>
 
-            <Collapse
-              ghost
-              activeKey={categoryOpen ? "category" : []}
-              onChange={() => setCategoryOpen(!categoryOpen)}
-            >
+            <Collapse ghost activeKey={categoryOpen ? "category" : []}
+              onChange={() => setCategoryOpen(!categoryOpen)}>
               <Panel header="Category" key="category" showArrow={false}>
                 <div className="d-flex flex-column">
                   {categories?.map((c) => (
-                    <Checkbox
-                      key={c._id}
+                    <Checkbox key={c._id}
                       onChange={(e) => handleCategoryFilter(e.target.checked, c._id)}
-                      className={activeCategory === c._id ? "active-category" : ""}
-                    >
+                      className={activeCategory === c._id ? "active-category" : ""}>
                       {c.name}
                     </Checkbox>
                   ))}
@@ -216,18 +167,13 @@ const AllProducts = () => {
               </Panel>
             </Collapse>
 
-            <Collapse
-              ghost
-              activeKey={priceOpen ? "price" : []}
-              onChange={() => setPriceOpen(!priceOpen)}
-            >
+            <Collapse ghost activeKey={priceOpen ? "price" : []}
+              onChange={() => setPriceOpen(!priceOpen)}>
               <Panel header="Price" key="price" showArrow={false}>
                 <div className="d-flex flex-column">
-                  <Radio.Group onChange={(e) => handlePriceFilter(e.target.value)}>
+                  <Radio.Group onChange={(e) => setRadio(e.target.value)}>
                     {Prices?.map((p) => (
-                      <div key={p._id}>
-                        <Radio value={p.array}>{p.name}</Radio>
-                      </div>
+                      <div key={p._id}><Radio value={p.array}>{p.name}</Radio></div>
                     ))}
                   </Radio.Group>
                 </div>
@@ -235,82 +181,23 @@ const AllProducts = () => {
             </Collapse>
           </aside>
 
-          {/* Backdrop for mobile drawer */}
           <div
             className={`filters-backdrop ${filtersOpen ? "show" : ""}`}
             onClick={() => setFiltersOpen(false)}
           />
 
-          {/* Product grid */}
           <main className="shop-main">
             {products?.length === 0 && !loading ? (
               <div className="shop-empty">No products match your filters.</div>
             ) : (
               <div className="product-grid">
-                {products?.map((p) => (
-                  <article className="product-card shop-card" key={p._id}>
-                    <div className="product-media">
-                      <button className="wish-btn" aria-label="Add to wishlist">
-                        <PiHeartBold size={15} />
-                      </button>
-                      <img
-                        src={`${process.env.REACT_APP_API}/api/v1/product/product-photo/${p._id}`}
-                        className="card-img-top"
-                        alt={p.name}
-                        onClick={() => navigate(`/product/${p.slug}`)}
-                      />
-                    </div>
-                    <div className="card-body">
-                      {p?.rating && (
-                        <div className="card-rating">
-                          {"\u2605".repeat(Math.round(p.rating))}
-                          {"\u2606".repeat(5 - Math.round(p.rating))}
-                          {p?.numReviews ? <small>({p.numReviews})</small> : null}
-                        </div>
-                      )}
-                      <h5
-                        className="card-title"
-                        onClick={() => navigate(`/product/${p.slug}`)}
-                      >
-                        {p.name}
-                      </h5>
-                      <p className="card-text">
-                        {p.description?.substring(0, 70)}...
-                      </p>
-                      <div className="card-footer-row">
-                        <span className="card-price">{formatPrice(p?.price)}</span>
-                      </div>
-                      {itemAdded[p._id] ? (
-                        <button
-                          className="btn btn-accent btn-sm btn-block shop-card-cta"
-                          onClick={() => navigate("/cart")}
-                        >
-                          <PiShoppingCartFill /> Go to cart
-                        </button>
-                      ) : (
-                        <button
-                          className="btn btn-primary btn-sm btn-block shop-card-cta"
-                          onClick={() => addItemToCart(p)}
-                        >
-                          <FaCartArrowDown /> Add to cart
-                        </button>
-                      )}
-                    </div>
-                  </article>
-                ))}
+                {products?.map((p) => <ProductCard key={p._id} p={p} />)}
               </div>
             )}
 
-            {/* Load more */}
             <div className="shop-loadmore">
               {products && products.length < total && (
-                <button
-                  className="btn btn-primary"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setPage(page + 1);
-                  }}
-                >
+                <button className="btn btn-primary" onClick={() => setPage(page + 1)}>
                   {loading ? "Loading..." : "Load more"}
                 </button>
               )}

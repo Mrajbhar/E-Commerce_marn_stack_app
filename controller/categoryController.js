@@ -2,7 +2,7 @@ import CategoryModel from "../models/CategoryModel.js";
 import ProductModel from "../models/productModel.js";
 import slugify from "slugify";
 import fs from "fs";
-
+import mongoose from "mongoose";
 // CREATE — accepts multipart/form-data with optional photo file + featured flag
 export const createCategoryController = async (req, res) => {
   try {
@@ -49,45 +49,89 @@ export const createCategoryController = async (req, res) => {
 };
 
 // UPDATE — also accepts multipart so admins can change image / featured flag
+
 export const updateCategoryController = async (req, res) => {
   try {
-    const { name, featured } = req.fields || req.body;
-    const { photo } = req.files || {};
+    console.log("Params:", req.params);
+    console.log("Fields:", req.fields);
+    console.log("Body:", req.body);
+    console.log("Files:", req.files);
+
     const { id } = req.params;
 
-    const update = {};
+    // Validate MongoDB ObjectId
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).send({
+        success: false,
+        message: "Invalid Category ID",
+      });
+    }
+
+    const name = req.fields?.name || req.body?.name;
+    const featured =
+      req.fields?.featured !== undefined
+        ? req.fields.featured
+        : req.body?.featured;
+
+    const photo = req.files?.photo;
+
+    const updateData = {};
+
     if (name) {
-      update.name = name;
-      update.slug = slugify(name);
+      updateData.name = name;
+      updateData.slug = slugify(name);
     }
+
     if (featured !== undefined) {
-      update.featured = featured === "true" || featured === true;
+      updateData.featured =
+        featured === true || featured === "true";
     }
 
-    const category = await CategoryModel.findByIdAndUpdate(id, update, {
-      new: true,
-    });
-
-    if (photo) {
-      if (photo.size > 1_000_000) {
-        return res.status(400).send({ message: "Photo should be less than 1MB" });
+    const category = await CategoryModel.findByIdAndUpdate(
+      id,
+      updateData,
+      {
+        new: true,
+        runValidators: true,
       }
+    );
+
+    if (!category) {
+      return res.status(404).send({
+        success: false,
+        message: "Category not found",
+      });
+    }
+
+    // Update image if provided
+    if (photo) {
+      if (photo.size > 1000000) {
+        return res.status(400).send({
+          success: false,
+          message: "Photo should be less than 1MB",
+        });
+      }
+
       category.photo.data = fs.readFileSync(photo.path);
       category.photo.contentType = photo.type;
       await category.save();
     }
 
-    res.status(200).send({
+    return res.status(200).send({
       success: true,
-      message: "Category Updated Successfully",
-      category: { ...category.toObject(), photo: undefined },
+      message: "Category updated successfully",
+      category: {
+        ...category.toObject(),
+        photo: undefined,
+      },
     });
   } catch (error) {
-    console.log(error);
-    res.status(500).send({
+    console.log("Update Category Error:", error);
+
+    return res.status(500).send({
       success: false,
-      error,
       message: "Error while updating category",
+      error: error.message,
     });
   }
 };

@@ -362,3 +362,54 @@
 
 .cat-row-thumb{width:54px;height:54px;border-radius:11px;overflow:hidden;background:var(--accent-soft);border:1px solid var(--line)}
 .cat-row-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+
+/* ============================================================
+   CREATE/UPDATE PRODUCT EXTRAS — section titles, photo slots,
+   tag chips
+   ============================================================ */
+.dash-section-title{font-family:var(--fd);font-weight:500;font-size:1.15rem;color:var(--ink);margin:26px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.dash-section-title:first-child{margin-top:0}
+.dash-section-hint{font-family:var(--fb);font-size:.78rem;font-weight:400;color:var(--ink-soft);text-transform:none;letter-spacing:0}
+.dash-tip{font-family:var(--fb);font-size:.7rem;font-weight:400;color:var(--ink-soft);text-transform:none;letter-spacing:0}
+
+/* Photo grid — 5 slots */
+.dash-photo-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.dash-photo-slot{
+  position:relative;aspect-ratio:1/1;border:1.5px dashed var(--line);border-radius:14px;
+  background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+  cursor:pointer;text-align:center;padding:8px;overflow:hidden;
+  transition:border-color .2s,background .2s;color:var(--ink-soft);
+}
+.dash-photo-slot:hover{border-color:var(--accent);color:var(--accent)}
+.dash-photo-slot svg{font-size:24px}
+.dash-photo-slot.has-file{border-style:solid;border-color:var(--accent)}
+.dash-photo-slot.main{border-width:2px}
+.dash-photo-slot.main::before{
+  content:"Main";position:absolute;top:6px;left:6px;z-index:3;background:var(--accent);color:#fff;
+  font-size:.58rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 7px;border-radius:999px;
+}
+.dash-photo-slot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.dash-photo-label{font-size:.74rem;font-weight:500;line-height:1.2}
+.dash-photo-existing{position:absolute;bottom:6px;left:6px;right:6px;background:rgba(0,0,0,.55);color:#fff;padding:4px 8px;border-radius:7px;font-size:.66rem;font-weight:600;letter-spacing:.05em}
+.dash-photo-remove{
+  position:absolute;top:6px;right:6px;z-index:3;width:24px;height:24px;border-radius:50%;
+  border:none;background:rgba(0,0,0,.6);color:#fff;display:grid;place-items:center;cursor:pointer;
+  font-size:14px;transition:background .2s;
+}
+.dash-photo-remove:hover{background:#c0392b}
+
+/* Tags */
+.dash-tag-input-wrap{background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:10px 12px;transition:border-color .2s}
+.dash-tag-input-wrap:focus-within{border-color:var(--accent)}
+.dash-tag-chips{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.dash-tag-chip{display:inline-flex;align-items:center;gap:6px;background:var(--accent-soft);color:var(--accent);padding:5px 10px 5px 12px;border-radius:999px;font-size:.82rem;font-weight:600}
+.dash-tag-chip button{background:transparent;border:none;color:inherit;cursor:pointer;display:grid;place-items:center;padding:0;opacity:.7;transition:opacity .15s}
+.dash-tag-chip button:hover{opacity:1}
+.dash-tag-input{flex:1;min-width:140px;border:none;outline:none;background:transparent;color:var(--ink);font-family:var(--fb);font-size:.92rem;padding:5px 4px}
+
+@media(max-width:680px){
+  .dash-photo-grid{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:460px){
+  .dash-photo-grid{grid-template-columns:repeat(2,1fr)}
+}

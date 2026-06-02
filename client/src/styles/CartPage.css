@@ -446,3 +446,67 @@
     margin-top: 2px;
   }
 }
+
+
+/* ============================================================
+   CART PAGE ADDITIONS — sold-out banner, brand label, stock chip,
+   discount (struck) price, savings summary row, free-ship hint
+   Append to CartPage.css
+   ============================================================ */
+
+/* sold-out warning banner above the items */
+.cart-soldout-banner{
+  max-width:1280px;margin:0 auto 22px;display:flex;align-items:center;justify-content:space-between;
+  gap:16px;flex-wrap:wrap;
+  background:rgba(192,57,43,.08);border:1px solid rgba(192,57,43,.3);color:#c0392b;
+  padding:14px 20px;border-radius:14px;font-size:.92rem;font-weight:500;
+}
+.dark-mode .cart-soldout-banner,.cart-page.dark-mode .cart-soldout-banner{background:rgba(255,122,107,.1);color:#ff7a6b;border-color:rgba(255,122,107,.35)}
+.cart-soldout-action{background:#c0392b;color:#fff;border:none;border-radius:999px;padding:8px 18px;font-family:var(--fb);font-weight:600;font-size:.84rem;cursor:pointer;transition:filter .2s,transform .2s}
+.cart-soldout-action:hover{filter:brightness(1.08);transform:translateY(-1px)}
+
+/* sold-out item overlay */
+.cart-item.is-soldout .cart-item-img img{filter:grayscale(.7) brightness(.85)}
+.cart-item-img{position:relative}
+.cart-item-soldout-overlay{
+  position:absolute;inset:0;z-index:2;display:grid;place-items:center;
+  background:rgba(26,23,20,.4);color:#fff;font-family:var(--fb);font-weight:700;font-size:.82rem;
+  letter-spacing:.16em;text-transform:uppercase;border-radius:inherit;pointer-events:none;
+}
+
+/* brand label above name */
+.cart-item-brand{
+  font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;font-weight:700;
+  color:var(--ink-soft);display:block;margin-bottom:3px;
+}
+
+/* stock chip on each item */
+.cart-stock-chip{
+  display:inline-flex;align-items:center;gap:6px;font-family:var(--fb);font-weight:600;font-size:.74rem;
+  padding:3px 10px;border-radius:999px;margin:6px 0;width:fit-content;
+}
+.cart-stock-chip::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;display:inline-block}
+.cart-stock-in_stock{background:rgba(60,125,90,.14);color:#3c7d5a}
+.cart-stock-low_stock{background:rgba(217,164,65,.18);color:#a07a1f}
+.cart-stock-out_of_stock{background:rgba(192,57,43,.14);color:#c0392b}
+.dark-mode .cart-stock-in_stock{background:rgba(80,170,120,.18);color:#6fcf97}
+.dark-mode .cart-stock-low_stock{background:rgba(230,180,90,.18);color:#e6b45a}
+.dark-mode .cart-stock-out_of_stock{background:rgba(255,122,107,.18);color:#ff7a6b}
+
+/* price row: current + struck original */
+.cart-price-row{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin:6px 0 10px}
+.cart-item-original{
+  font-family:var(--fb);font-size:.88rem;font-weight:500;color:var(--ink-soft);
+  text-decoration:line-through;text-decoration-thickness:1.5px;
+}
+
+/* quantity controls — disabled state */
+.quantity-controls button:disabled{opacity:.4;cursor:not-allowed}
+
+/* summary: savings row + free shipping hint */
+.summary-savings{color:#3c7d5a;font-weight:600}
+.dark-mode .summary-savings,.cart-page.dark-mode .summary-savings{color:#6fcf97}
+.summary-shipping-hint{font-size:.8rem;color:var(--accent);font-weight:500;margin:4px 0 0;padding:8px 12px;background:var(--accent-soft);border-radius:9px}
+
+/* pay button disabled when sold-out present */
+.cart-btn-pay:disabled{opacity:.55;cursor:not-allowed}

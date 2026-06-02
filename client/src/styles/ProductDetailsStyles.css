@@ -426,3 +426,71 @@
     gap: 14px;
   }
 }
+
+
+
+/* ============================================================
+   PRODUCT DETAILS ADDITIONS — gallery, discount, stock, specs, tags
+   Append to ProductDetailsStyles.css
+   ============================================================ */
+
+/* Gallery layout: main image + thumbnail row */
+.pd-gallery-main{position:relative;aspect-ratio:1/1;overflow:hidden;border-radius:var(--radius);background:var(--accent-soft);box-shadow:var(--shadow)}
+.pd-gallery-main img{width:100%;height:100%;object-fit:cover}
+.pd-sale-badge{position:absolute;top:14px;left:14px;z-index:2;background:var(--accent);color:#fff;font-family:var(--fb);font-weight:700;font-size:.78rem;letter-spacing:.1em;padding:7px 14px;border-radius:999px}
+
+.pd-thumbs{display:flex;gap:10px;margin-top:14px;overflow-x:auto;padding-bottom:4px}
+.pd-thumb{flex-shrink:0;width:76px;height:76px;border:2px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface);cursor:pointer;padding:0;transition:border-color .2s,transform .2s}
+.pd-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.pd-thumb:hover{transform:translateY(-2px)}
+.pd-thumb.active{border-color:var(--accent)}
+
+/* SKU under product name */
+.pd-sku{font-size:.78rem;color:var(--ink-soft);letter-spacing:.1em;text-transform:uppercase;font-weight:600;margin-top:4px}
+
+/* Price row — current, original (struck), discount chip */
+.pd-price-row{display:flex;align-items:baseline;flex-wrap:wrap;gap:14px;margin-top:14px}
+.pd-price-original{font-family:var(--fb);font-size:1.1rem;font-weight:500;color:var(--ink-soft);text-decoration:line-through;text-decoration-thickness:1.5px}
+.pd-discount-chip{font-family:var(--fb);font-size:.78rem;font-weight:700;letter-spacing:.05em;background:var(--accent-soft);color:var(--accent);padding:5px 12px;border-radius:999px}
+
+/* Stock status pill */
+.pd-stock{display:inline-flex;align-items:center;gap:8px;font-family:var(--fb);font-weight:600;font-size:.86rem;padding:7px 14px;border-radius:999px;margin-top:14px}
+.pd-stock .dot{width:8px;height:8px;border-radius:50%;background:currentColor}
+.pd-stock-in_stock{background:rgba(60,125,90,.15);color:#3c7d5a}
+.pd-stock-low_stock{background:rgba(217,164,65,.18);color:#a07a1f}
+.pd-stock-out_of_stock{background:rgba(192,57,43,.15);color:#c0392b}
+.dark-mode .pd-stock-in_stock,.pd-page.dark-mode .pd-stock-in_stock{background:rgba(80,170,120,.18);color:#6fcf97}
+.dark-mode .pd-stock-low_stock,.pd-page.dark-mode .pd-stock-low_stock{background:rgba(230,180,90,.18);color:#e6b45a}
+.dark-mode .pd-stock-out_of_stock,.pd-page.dark-mode .pd-stock-out_of_stock{background:rgba(255,122,107,.18);color:#ff7a6b}
+
+/* Specifications table */
+.pd-specs-title{font-family:var(--fd);font-weight:500;font-size:1.1rem;margin:22px 0 10px;color:var(--ink)}
+.pd-specs{display:grid;grid-template-columns:auto 1fr;gap:6px 18px;margin:0 0 18px;font-size:.92rem}
+.pd-specs dt{color:var(--ink-soft);text-transform:capitalize;font-weight:600}
+.pd-specs dd{margin:0;color:var(--ink);font-weight:500}
+
+/* Tags */
+.pd-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.pd-tag{font-size:.78rem;font-weight:500;color:var(--ink-soft);background:var(--bg);border:1px solid var(--line);padding:5px 11px;border-radius:999px;transition:border-color .2s,color .2s,background .2s;cursor:default}
+.pd-tag:hover{color:var(--accent);border-color:var(--accent);background:var(--accent-soft)}
+
+/* Disabled add-to-cart for sold out */
+.pd-btn.is-disabled,.pd-btn:disabled{background:var(--ink-soft) !important;cursor:not-allowed}
+.pd-btn.is-disabled:hover,.pd-btn:disabled:hover{transform:none}
+.pd-qty button:disabled{opacity:.4;cursor:not-allowed}
+
+/* Related product cards — discount badge + brand */
+.pd-card-media{position:relative}
+.pd-card-sale{position:absolute;top:10px;left:10px;z-index:2;background:var(--accent);color:#fff;font-size:.66rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:999px}
+.pd-card-brand{font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:var(--ink-soft);margin-bottom:3px}
+.pd-card-prices{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.pd-card-original{font-size:.82rem;color:var(--ink-soft);text-decoration:line-through}
+
+/* Responsive: stack gallery + thumbs on mobile */
+@media(max-width:768px){
+  .pd-thumb{width:60px;height:60px}
+  .pd-specs{grid-template-columns:1fr;gap:2px 0}
+  .pd-specs dt{margin-top:8px}
+  .pd-price-row{gap:10px}
+  .pd-price-original{font-size:1rem}
+}
