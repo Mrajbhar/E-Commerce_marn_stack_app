@@ -2,13 +2,16 @@ import React, { useState, useEffect } from "react";
 import Layout from "../../components/Layout/Layout";
 import AdminMenu from "../../components/Layout/AdminMenu";
 import axios from "axios";
-import {toast } from "react-toastify";
+import { toast } from "react-toastify";
+import { TbUsers } from "react-icons/tb";
+import { useTheme } from "../Themes/ThemeContext";
+import "../../styles/Dashboard.css";
 
 const Users = () => {
   const [users, setUsers] = useState([]);
+  const { darkMode } = useTheme();
 
   useEffect(() => {
-    // Fetch user data when the component mounts
     fetchUsers();
   }, []);
 
@@ -29,18 +32,10 @@ const Users = () => {
         `${process.env.REACT_APP_API}/api/v1/auth/update-user/${userId}`,
         { role: newRole }
       );
-      
       const updatedUser = response.data.user;
-
-      const updatedUsers = users.map((user) => {
-        if (user._id === updatedUser._id) {
-          return updatedUser;
-        }
-        return user;
-        
-      });
-      setUsers(updatedUsers);
-
+      setUsers((prev) =>
+        prev.map((u) => (u._id === updatedUser._id ? updatedUser : u))
+      );
       toast.success("User role updated successfully");
     } catch (error) {
       console.error("Error updating user:", error);
@@ -48,76 +43,115 @@ const Users = () => {
     }
   };
 
-  const handleRoleChange = async (userId, newRole) => {
-    try {
-      const response = await axios.put(
-        `${process.env.REACT_APP_API}/api/v1/auth/update-user/${userId}`,
-        { role: newRole }
-      );
-      const updatedUser = response.data.user;
-      const updatedUsers = users.map((user) => {
-        if (user._id === updatedUser._id) {
-          return updatedUser;
-        }
-        return user;
-      });
-      setUsers(updatedUsers);
-      toast.success("User role updated successfully");
-    } catch (error) {
-      console.error("Error updating role:", error);
-      toast.error("Failed to update user role");
-    }
+  // Optimistic local change of the select so the user sees the new value
+  // immediately; the actual save happens on Update click.
+  const handleRoleChange = (userId, newRole) => {
+    setUsers((prev) =>
+      prev.map((u) => (u._id === userId ? { ...u, role: newRole } : u))
+    );
   };
+
+  const initialOf = (name) =>
+    (name?.trim()?.charAt(0) || "?").toUpperCase();
 
   return (
     <Layout title={"Dashboard - All Users"}>
-      <div className="container-fluid m-3 p-3">
-        <div className="row">
-          <div className="col-md-3">
+      <div className={`dashboard-page ${darkMode ? "dark-mode" : ""}`}>
+        <div className="dash-layout">
+          {/* Sidebar */}
+          <aside className="dash-sidebar">
             <AdminMenu />
-          </div>
-          <div className="col-md-9">
-            <h1>All Users</h1>
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Role</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {users.map((user, index) => (
-                  <tr key={user._id}>
-                    <td>{index + 1}</td>
-                    <td>{user.name}</td>
-                    <td>{user.email}</td>
-                    <td>
-                      <select
-                        value={user.role}
-                        onChange={(e) =>
-                          handleRoleChange(user._id, parseInt(e.target.value))
-                        }
-                      >
-                        <option value={0}>User</option>
-                        <option value={1}>Admin</option>
-                      </select>
-                    </td>
-                    <td>
-                      <button
-                        className="btn btn-primary"
-                        onClick={() => handleUpdateClick(user._id, user.role)}
-                      >
-                        Update
-                      </button>
-                    </td>
+          </aside>
+
+          {/* Main */}
+          <main>
+            <div className="dash-head-row">
+              <h1 className="dash-heading" style={{ margin: 0 }}>
+                <TbUsers />
+                All Users
+              </h1>
+              <span className="dash-count">
+                <b>{users.length}</b> user{users.length !== 1 ? "s" : ""}
+              </span>
+            </div>
+
+            <div className="dash-table-card">
+              <table className="dash-table">
+                <thead>
+                  <tr>
+                    <th style={{ width: 60 }}>#</th>
+                    <th>Name</th>
+                    <th className="col-hide-sm">Email</th>
+                    <th>Role</th>
+                    <th>Change role</th>
+                    <th>Action</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {users.length === 0 ? (
+                    <tr>
+                      <td className="dash-empty-row" colSpan={6}>
+                        No users yet.
+                      </td>
+                    </tr>
+                  ) : (
+                    users.map((user, index) => (
+                      <tr key={user._id}>
+                        <td className="dash-cell-num">{index + 1}</td>
+                        <td>
+                          <div className="dash-user-cell">
+                            <div className="dash-user-avatar">
+                              {initialOf(user.name)}
+                            </div>
+                            <span className="dash-user-name" title={user.name}>
+                              {user.name}
+                            </span>
+                          </div>
+                        </td>
+                        <td className="dash-cell-email col-hide-sm">
+                          {user.email}
+                        </td>
+                        <td>
+                          <span
+                            className={`dash-role-pill ${
+                              user.role === 1 ? "admin" : "user"
+                            }`}
+                          >
+                            {user.role === 1 ? "Admin" : "User"}
+                          </span>
+                        </td>
+                        <td>
+                          <select
+                            className="dash-native-select"
+                            value={user.role}
+                            onChange={(e) =>
+                              handleRoleChange(
+                                user._id,
+                                parseInt(e.target.value)
+                              )
+                            }
+                          >
+                            <option value={0}>User</option>
+                            <option value={1}>Admin</option>
+                          </select>
+                        </td>
+                        <td>
+                          <button
+                            className="dash-btn-sm dash-btn-edit"
+                            onClick={() =>
+                              handleUpdateClick(user._id, user.role)
+                            }
+                          >
+                            Update
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </main>
         </div>
       </div>
     </Layout>

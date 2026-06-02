@@ -1,41 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import useCategory from "../hooks/useCategory";
 import Layout from "../components/Layout/Layout";
 import { useTheme } from "../pages/Themes/ThemeContext";
 import "../styles/Categories.css";
 
-const categoryImages = {
-  "Smart Phones":
-    "https://img.freepik.com/premium-psd/iphone-mockup_373676-427.jpg",
-  Iphones:
-    "https://img.freepik.com/free-photo/elegant-smartphone-composition_23-2149437075.jpg",
-  "Mens wear":
-    "https://img.freepik.com/free-photo/still-life-with-classic-shirts-hanger_23-2150828578.jpg",
-  "Mens collections":
-    "https://img.freepik.com/premium-photo/man-trendy-fashion-clothes-collage-white_1199132-214720.jpg",
-  Mobiles:
-    "https://img.freepik.com/free-photo/elegant-smartphone-composition_23-2149437106.jpg",
-  Mens: "https://img.freepik.com/premium-photo/woman-wearing-watch-is-standing-front-gray-wall_687553-22695.jpg",
-  "new Arrivals":
-    "https://img.freepik.com/free-vector/new-arrival-modern-red-banner-design_1017-36760.jpg",
-  "Best Sellers":
-    "https://img.freepik.com/premium-vector/bestseller-badge-stamp-sign-vector-design_569027-280.jpg",
-  "Women's wear":
-    "https://img.freepik.com/premium-photo/cheerful-beautiful-young-women-having-party_93675-76766.jpg",
-   Apparel:
-    "https://img.magnific.com/premium-photo/customer-browsing-through-display-colorful-athletic-apparel-modern-sportswear-shop-ar-32-v_630290-37415.jpg",
-      Footwear:
-    "https://img.magnific.com/premium-photo/row-shoes-display-store_1288816-4083.jpg",
-    Accessories:
-    "https://img.magnific.com/premium-photo/luxurious-3d-fashion-accessories-sleek-flat-surface_1313031-300.jpg",
-    Beauty:
-    "https://img.magnific.com/premium-photo/purple-pink-beauty-products-flowers-pink-background_14117-859094.jpg",
-    "Beauty Essentials":
-    "https://img.magnific.com/free-photo/model-career-kit-still-life_23-2150217985.jpg",
-};
+// Six warm gradients used as fallbacks when a category has no uploaded image.
+const fallbackGradients = [
+  "linear-gradient(140deg, #7a4a30, #c2562f)",
+  "linear-gradient(140deg, #34514f, #5f8f7d)",
+  "linear-gradient(140deg, #574766, #8b6aa0)",
+  "linear-gradient(140deg, #6a5734, #bda158)",
+  "linear-gradient(140deg, #3c3a4f, #6f6a86)",
+  "linear-gradient(140deg, #7a4435, #b07258)",
+];
 
-// soft tint applied to the overlay on hover (per tile)
+// Soft hover-overlay tints (used as the bottom-fade color on hover).
 const hoverColors = [
   "rgba(194,86,47,.85)",
   "rgba(52,81,79,.85)",
@@ -48,11 +29,53 @@ const hoverColors = [
 const Categories = () => {
   const categories = useCategory();
   const { darkMode } = useTheme();
+  const [counts, setCounts] = useState({});
+  const [loading, setLoading] = useState(true);
+
+  // Fetch product counts per category once.
+  useEffect(() => {
+    let active = true;
+    (async () => {
+      try {
+        const { data } = await axios.get(
+          `${process.env.REACT_APP_API}/api/v1/category/category-counts`
+        );
+        if (active && data?.success) setCounts(data.counts || {});
+      } catch (err) {
+        console.log(err);
+      }
+    })();
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  // Show skeleton briefly so the page doesn't flicker on fast networks.
+  useEffect(() => {
+    if (categories && categories.length >= 0) {
+      const t = setTimeout(() => setLoading(false), 250);
+      return () => clearTimeout(t);
+    }
+  }, [categories]);
+
+  const photoUrl = (id) =>
+    `${process.env.REACT_APP_API}/api/v1/category/category-photo/${id}`;
+
+  // Parallax tilt — uses pointer position to rotate the card slightly.
+  const handleTilt = (e) => {
+    const el = e.currentTarget;
+    const r = el.getBoundingClientRect();
+    const px = (e.clientX - r.left) / r.width - 0.5;
+    const py = (e.clientY - r.top) / r.height - 0.5;
+    el.style.transform = `translateY(-6px) rotateX(${(-py * 4).toFixed(2)}deg) rotateY(${(px * 6).toFixed(2)}deg)`;
+  };
+  const resetTilt = (e) => {
+    e.currentTarget.style.transform = "";
+  };
 
   return (
     <Layout title={"All Categories"}>
       <div className={`categories-page ${darkMode ? "dark-mode" : ""}`}>
-        {/* Header */}
         <header className="cats-header">
           <span className="cats-kicker">Browse</span>
           <h1 className="cats-title">Shop by Category</h1>
@@ -61,35 +84,64 @@ const Categories = () => {
           </p>
         </header>
 
-        {/* Grid */}
-        {!categories || categories.length === 0 ? (
+        {loading ? (
+          <ul className="cats-grid">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <li key={i}>
+                <div className="cat-skeleton" />
+              </li>
+            ))}
+          </ul>
+        ) : !categories || categories.length === 0 ? (
           <div className="cats-empty">No categories available yet.</div>
         ) : (
           <ul className="cats-grid">
-            {categories.map((c, index) => (
-              <li key={c._id}>
-                <Link
-                  to={`/category/${c.slug}`}
-                  className="cat-link"
-                  style={{
-                    "--hover-color": hoverColors[index % hoverColors.length],
-                  }}
+            {categories.map((c, index) => {
+              const count = counts[c._id] || 0;
+              const tint = hoverColors[index % hoverColors.length];
+              const fallback = fallbackGradients[index % fallbackGradients.length];
+
+              return (
+                <li
+                  key={c._id}
+                  className={c.featured ? "cat-li featured" : "cat-li"}
                 >
-                  <img
-                    src={
-                      categoryImages[c.name] ||
-                      "https://via.placeholder.com/400x300?text=Category"
-                    }
-                    alt={c.name}
-                    loading="lazy"
-                  />
-                  <div className="cat-content">
-                    <h3 className="cat-name">{c.name}</h3>
-                    <span className="cat-go">&#8599;</span>
-                  </div>
-                </Link>
-              </li>
-            ))}
+                  <Link
+                    to={`/category/${c.slug}`}
+                    className="cat-link"
+                    style={{
+                      "--hover-color": tint,
+                      "--fallback-bg": fallback,
+                    }}
+                    onMouseMove={handleTilt}
+                    onMouseLeave={resetTilt}
+                  >
+                    <img
+                      src={photoUrl(c._id)}
+                      alt={c.name}
+                      loading="lazy"
+                      onError={(e) => {
+                        // Category has no uploaded image — hide the broken img
+                        // and let the gradient fallback show through.
+                        e.target.style.display = "none";
+                      }}
+                    />
+                    <div className="cat-content">
+                      <div>
+                        {c.featured && (
+                          <span className="cat-featured-chip">Featured</span>
+                        )}
+                        <h3 className="cat-name">{c.name}</h3>
+                        <span className="cat-count">
+                          {count} item{count !== 1 ? "s" : ""}
+                        </span>
+                      </div>
+                      <span className="cat-go">&#8599;</span>
+                    </div>
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         )}
       </div>

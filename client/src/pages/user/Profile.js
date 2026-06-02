@@ -4,36 +4,35 @@ import Layout from "./../../components/Layout/Layout";
 import { useAuth } from "../../context/auth";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { TbUserEdit } from "react-icons/tb";
+import { useTheme } from "../Themes/ThemeContext";
+import "../../styles/Dashboard.css";
+
 const Profile = () => {
-  //context
   const [auth, setAuth] = useAuth();
-  //state
+  const { darkMode } = useTheme();
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
 
-  //get user data
   useEffect(() => {
-    const { email, name, phone, address } = auth?.user;
-    setName(name);
-    setPhone(phone);
-    setEmail(email);
-    setAddress(address);
+    const { email, name, phone, address } = auth?.user || {};
+    setName(name || "");
+    setPhone(phone || "");
+    setEmail(email || "");
+    setAddress(address || "");
   }, [auth?.user]);
 
-  // form function
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.put(`${process.env.REACT_APP_API}/api/v1/auth/profile`, {
-        name,
-        email,
-        password,
-        phone,
-        address,
-      });
+      const { data } = await axios.put(
+        `${process.env.REACT_APP_API}/api/v1/auth/profile`,
+        { name, email, password, phone, address }
+      );
       if (data?.errro) {
         toast.error(data?.error);
       } else {
@@ -49,76 +48,95 @@ const Profile = () => {
       toast.error("Something went wrong");
     }
   };
+
   return (
     <Layout title={"Your Profile"}>
-      <div className="container-fluid m-3 p-3 dashboard">
-        <div className="row">
-          <div className="col-md-3">
+      <div className={`dashboard-page ${darkMode ? "dark-mode" : ""}`}>
+        <div className="dash-layout">
+          <aside className="dash-sidebar">
             <UserMenu />
-          </div>
-          <div className="col-md-8">
-            <div className="form-container" style={{ marginTop: "-40px" }}>
-              <form onSubmit={handleSubmit}>
-                <h4 className="title">USER PROFILE</h4>
-                <div className="mb-3">
-                  <input
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    className="form-control"
-                    id="exampleInputEmail1"
-                    placeholder="Enter Your Name"
-                    autoFocus
-                  />
-                </div>
-                <div className="mb-3">
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="form-control"
-                    id="exampleInputEmail1"
-                    placeholder="Enter Your Email "
-                    disabled
-                  />
-                </div>
-                <div className="mb-3">
-                  <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="form-control"
-                    id="exampleInputPassword1"
-                    placeholder="Enter Your Password"
-                  />
-                </div>
-                <div className="mb-3">
-                  <input
-                    type="text"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    className="form-control"
-                    id="exampleInputEmail1"
-                    placeholder="Enter Your Phone"
-                  />
-                </div>
-                <div className="mb-3">
-                  <input
-                    type="text"
-                    value={address}
-                    onChange={(e) => setAddress(e.target.value)}
-                    className="form-control"
-                    id="exampleInputEmail1"
-                    placeholder="Enter Your Address"
-                  />
-                </div>
+          </aside>
 
-                <button type="submit" className="btn btn-primary">
-                  UPDATE
-                </button>
+          <main>
+            <h1 className="dash-heading">
+              <TbUserEdit />
+              Edit Profile
+            </h1>
+
+            <div className="dash-form-card" style={{ maxWidth: "100%" }}>
+              <p className="dash-card-sub" style={{ margin: "0 0 18px" }}>
+                Update your account details. Leave the password blank to keep
+                it unchanged.
+              </p>
+
+              <form onSubmit={handleSubmit}>
+                <div className="dash-form-grid">
+                  <div className="dash-field">
+                    <label className="dash-label">Name</label>
+                    <input
+                      type="text"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      className="dash-input"
+                      placeholder="Your full name"
+                      autoFocus
+                    />
+                  </div>
+
+                  <div className="dash-field">
+                    <label className="dash-label">Email</label>
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="dash-input"
+                      placeholder="you@example.com"
+                      disabled
+                    />
+                  </div>
+
+                  <div className="dash-field">
+                    <label className="dash-label">Phone</label>
+                    <input
+                      type="text"
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      className="dash-input"
+                      placeholder="+91 …"
+                    />
+                  </div>
+
+                  <div className="dash-field">
+                    <label className="dash-label">New password</label>
+                    <input
+                      type="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      className="dash-input"
+                      placeholder="Leave blank to keep current"
+                    />
+                  </div>
+
+                  <div className="dash-field full">
+                    <label className="dash-label">Address</label>
+                    <input
+                      type="text"
+                      value={address}
+                      onChange={(e) => setAddress(e.target.value)}
+                      className="dash-input"
+                      placeholder="House no, street, city, postal code"
+                    />
+                  </div>
+
+                  <div className="dash-field full dash-submit-row">
+                    <button type="submit" className="dash-btn-create">
+                      <TbUserEdit /> Update Profile
+                    </button>
+                  </div>
+                </div>
               </form>
             </div>
-          </div>
+          </main>
         </div>
       </div>
     </Layout>

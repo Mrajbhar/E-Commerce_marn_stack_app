@@ -304,3 +304,61 @@
   .dash-order-head{grid-template-columns:1fr 1fr}
   .dash-line-desc{display:none}
 }
+
+/* ============================================================
+   USERS LIST — avatar, email, role pill, themed select
+   ============================================================ */
+
+/* user identity cell: avatar + name stacked with email below */
+.dash-user-cell{display:flex;align-items:center;gap:12px;min-width:0}
+.dash-user-avatar{
+  width:38px;height:38px;flex-shrink:0;border-radius:50%;
+  background:linear-gradient(135deg,var(--accent),#e08a5f);color:#fff;
+  display:grid;place-items:center;font-family:var(--fd);font-weight:600;font-size:1rem;
+}
+.dash-user-name{font-weight:600;color:var(--ink);font-size:.96rem;line-height:1.2;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:220px}
+
+/* role pill */
+.dash-role-pill{display:inline-flex;align-items:center;gap:6px;font-size:.74rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:5px 12px;border-radius:999px;width:fit-content}
+.dash-role-pill.admin{background:var(--accent);color:#fff}
+.dash-role-pill.user{background:var(--accent-soft);color:var(--accent)}
+.dash-role-pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.85}
+
+/* themed native <select> used in the table row */
+.dash-native-select{
+  font-family:var(--fb);font-size:.9rem;padding:8px 32px 8px 14px;border-radius:999px;
+  border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;outline:none;
+  transition:border-color .2s;appearance:none;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b6258' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+  background-repeat:no-repeat;background-position:right 12px center;
+}
+.dash-native-select:focus{border-color:var(--accent)}
+.dark-mode .dash-native-select{
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23a89e90' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+}
+.dash-native-select option{background:var(--surface);color:var(--ink)}
+
+.dash-table .dash-cell-email{color:var(--ink-soft);font-size:.92rem}
+.dash-table .dash-cell-num{color:var(--ink-soft);font-weight:600}
+
+@media(max-width:600px){
+  .dash-table .col-hide-sm{display:none}
+  .dash-user-name{max-width:140px}
+}
+
+/* ============================================================
+   CATEGORY FORM EXTRAS — featured toggle + row thumbnail
+   ============================================================ */
+.cat-featured-toggle{display:flex;align-items:center;gap:14px;cursor:pointer;padding:14px;border:1px solid var(--line);border-radius:14px;background:var(--bg);transition:border-color .2s,background .2s}
+.cat-featured-toggle:hover{border-color:var(--accent)}
+.cat-featured-toggle input{position:absolute;opacity:0;width:0;height:0}
+.cat-featured-box{
+  width:44px;height:44px;flex-shrink:0;border-radius:12px;border:2px solid var(--line);
+  display:grid;place-items:center;color:var(--ink-soft);transition:.2s;font-size:1.1rem;
+}
+.cat-featured-toggle input:checked + .cat-featured-box{background:var(--accent);border-color:var(--accent);color:#fff}
+.cat-featured-title{display:block;font-weight:600;color:var(--ink);font-size:.95rem}
+.cat-featured-hint{display:block;font-size:.78rem;color:var(--ink-soft);margin-top:2px}
+
+.cat-row-thumb{width:54px;height:54px;border-radius:11px;overflow:hidden;background:var(--accent-soft);border:1px solid var(--line)}
+.cat-row-thumb img{width:100%;height:100%;object-fit:cover;display:block}
