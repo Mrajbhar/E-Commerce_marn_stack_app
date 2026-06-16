@@ -11,7 +11,7 @@ import {
   getAllUsersController,
   updateuserrole,
 } from "../controller/authController.js";
-import { googleLoginController } from "../controller/googleauthcontroller.js";
+import { googleLoginController } from "../controller/googleAuthController.js";
 import { RequireSignin, isAdmin } from "../middlewares/authoMiddlerware.js";
 
 const router = express.Router();
