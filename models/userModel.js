@@ -1,45 +1,48 @@
 import mongoose from "mongoose";
 
-const userSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    
+    password: {
+      type: String,
+    },
+    phone: {
+      type: String,
+    },
+    address: {
+      type: {},
+    },
+    answer: {
+      type: String,
+    },
+    role: {
+      type: Number,
+      default: 0,
+    },
+    // Google sign-in metadata
+    authProvider: {
+      type: String,
+      enum: ["local", "google"],
+      default: "local",
+    },
+    googleId: {
+      type: String,
+    },
+    picture: {
+      type: String,
+    },
+  },
+  { timestamps: true }
+);
 
-    name:{
-        type:String,
-        required:true,
-        Trim:true,
-    },
-    email:{
-        type:String,
-        required:true,
-        unique:true,
-
-    },
-    password:{
-        type:String,
-        required:true,
-    },
-    phone:{
-        type:String,
-        required:true,
-    },
-    address:{
-        type:{},
-        required:true,
-    },
-    answer:
-    {
-        type:String,
-        required:true,
-    },
-    role:{
-        type:Number,
-        default:0
-    },
-    buyer: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Buyer' 
-    }
-
-},{timestamps:true})
-
-
-export default mongoose.model('users',userSchema)
+export default mongoose.model("users", userSchema);

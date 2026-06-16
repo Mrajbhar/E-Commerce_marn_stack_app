@@ -8,6 +8,7 @@ import { useAuth } from "../../context/auth";
 import { RiShoppingBag3Fill } from "react-icons/ri";
 import { FiMail, FiLock, FiEye, FiEyeOff } from "react-icons/fi";
 import { useTheme } from "../Themes/ThemeContext";
+import GoogleAuthButton from "../../components/Auth/Googleauthbutton ";
 
 const Login = () => {
   const [email, setEamil] = useState("");
@@ -53,15 +54,9 @@ const Login = () => {
                 Sign in to track orders, save favourites, and check out faster.
               </p>
               <div className="auth-perks">
-                <div>
-                  <span className="pk">⛟</span> Free shipping over ₹999
-                </div>
-                <div>
-                  <span className="pk">↺</span> 30-day easy returns
-                </div>
-                <div>
-                  <span className="pk">★</span> Members-only offers
-                </div>
+                <div><span className="pk">⛟</span> Free shipping over ₹999</div>
+                <div><span className="pk">↺</span> 30-day easy returns</div>
+                <div><span className="pk">★</span> Members-only offers</div>
               </div>
             </div>
           </aside>
@@ -70,14 +65,10 @@ const Login = () => {
             <form onSubmit={handleSubmit}>
               <span className="auth-kicker">Account</span>
               <h4 className="title">Login</h4>
-              <p className="auth-lead">
-                Enter your details to access your account.
-              </p>
+              <p className="auth-lead">Enter your details to access your account.</p>
 
               <div className="auth-field">
-                <span className="ico">
-                  <FiMail />
-                </span>
+                <span className="ico"><FiMail /></span>
                 <input
                   type="email"
                   value={email}
@@ -89,9 +80,7 @@ const Login = () => {
               </div>
 
               <div className="auth-field">
-                <span className="ico">
-                  <FiLock />
-                </span>
+                <span className="ico"><FiLock /></span>
                 <input
                   type={showPw ? "text" : "password"}
                   value={password}
@@ -120,9 +109,10 @@ const Login = () => {
                 </button>
               </div>
 
-              <button type="submit" className="btn-primary">
-                LOGIN
-              </button>
+              <button type="submit" className="btn-primary">LOGIN</button>
+
+              {/* Google sign-in */}
+              <GoogleAuthButton />
 
               <p className="auth-switch">
                 Don't have an account? <Link to="/register">Create one</Link>

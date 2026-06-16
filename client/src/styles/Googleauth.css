@@ -1,0 +1,89 @@
+/* ============================================================
+   GOOGLE AUTH — divider + themed button
+   Append to AuthStyles.css. Self-contained (hard fallbacks) so it
+   looks right even if theme vars aren't in scope here.
+   ============================================================ */
+.google-auth-wrap { margin-top: 16px; }
+
+/* "or" divider */
+.auth-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  gap: 14px;
+  margin: 16px 0;
+  color: #9a9088;
+  font-size: 0.78rem;
+}
+.auth-divider::before,
+.auth-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #e8e1d6;
+}
+.auth-divider span {
+  flex-shrink: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: 600;
+}
+
+/* Google button — clean white card style, full width, pill */
+.btn-google {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-family: "Hanken Grotesk", system-ui, -apple-system, sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  line-height: 1;
+  padding: 14px 24px;
+  border-radius: 12px;
+  border: 1.5px solid #e3ddd3;
+  background: #ffffff;
+  color: #2b2620;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(26, 23, 20, 0.04);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease,
+    transform 0.2s ease, background 0.2s ease;
+}
+.btn-google:hover:not(:disabled) {
+  border-color: #c8bfb1;
+  box-shadow: 0 6px 18px rgba(26, 23, 20, 0.1);
+  transform: translateY(-1px);
+}
+.btn-google:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(26, 23, 20, 0.06);
+}
+.btn-google:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+/* the Google "G" icon sits flush; keep it crisp */
+.btn-google svg {
+  flex-shrink: 0;
+  display: block;
+}
+
+/* DARK MODE */
+.auth-page.dark .auth-divider::before,
+.auth-page.dark .auth-divider::after {
+  background: #322a22;
+}
+.auth-page.dark .auth-divider {
+  color: #8a8076;
+}
+.auth-page.dark .btn-google {
+  background: #1f1a15;
+  color: #f3ede4;
+  border-color: #3a3128;
+  box-shadow: none;
+}
+.auth-page.dark .btn-google:hover:not(:disabled) {
+  border-color: #5a4d3f;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+}

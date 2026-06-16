@@ -16,6 +16,7 @@ import {
   FiEyeOff,
 } from "react-icons/fi";
 import { useTheme } from "../Themes/ThemeContext";
+import GoogleAuthButton from "../../components/Auth/Googleauthbutton ";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -185,6 +186,9 @@ const Register = () => {
               <button type="submit" className="btn-primary">
                 REGISTER
               </button>
+
+              {/* Google sign-up — same button; backend find-or-creates the account */}
+              <GoogleAuthButton />
 
               <p className="auth-switch">
                 Already have an account? <Link to="/login">Sign in</Link>
