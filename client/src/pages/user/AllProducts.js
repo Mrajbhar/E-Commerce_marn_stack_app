@@ -5,9 +5,8 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import Layout from "../../components/Layout/Layout";
 import { AiOutlineReload } from "react-icons/ai";
+import { FiSliders, FiX } from "react-icons/fi";
 import "../../styles/Homepage.css";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import { useTheme } from "../Themes/ThemeContext";
 import ProductCard from "../../components/Product/ProductCard";
 
@@ -21,7 +20,7 @@ const AllProducts = () => {
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [activeCategory, setActiveCategory] = useState(null);
+  const [sort, setSort] = useState("featured");
   const [priceOpen, setPriceOpen] = useState(true);
   const [categoryOpen, setCategoryOpen] = useState(true);
   const [filtersOpen, setFiltersOpen] = useState(false);
@@ -30,9 +29,9 @@ const AllProducts = () => {
   const getAllCategory = useCallback(async () => {
     try {
       const { data } = await axios.get(
-        `${process.env.REACT_APP_API}/api/v1/category/get-category`
+        `${process.env.REACT_APP_API}/api/v1/category/get-category`,
       );
-      if (data?.success) setCategories(data?.category);
+      if (data?.success) setCategories(data?.category || []);
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong in getting category");
@@ -43,9 +42,9 @@ const AllProducts = () => {
     try {
       setLoading(true);
       const { data } = await axios.get(
-        `${process.env.REACT_APP_API}/api/v1/product/product-list/${page}`
+        `${process.env.REACT_APP_API}/api/v1/product/product-list/${page}`,
       );
-      setProducts(data.products);
+      setProducts(data.products || []);
     } catch (error) {
       console.log(error);
     } finally {
@@ -56,7 +55,7 @@ const AllProducts = () => {
   const getTotal = useCallback(async () => {
     try {
       const { data } = await axios.get(
-        `${process.env.REACT_APP_API}/api/v1/product/product-count`
+        `${process.env.REACT_APP_API}/api/v1/product/product-count`,
       );
       setTotal(data?.total || 0);
     } catch (error) {
@@ -69,9 +68,9 @@ const AllProducts = () => {
     try {
       setLoading(true);
       const { data } = await axios.get(
-        `${process.env.REACT_APP_API}/api/v1/product/product-list/${page}`
+        `${process.env.REACT_APP_API}/api/v1/product/product-list/${page}`,
       );
-      setProducts((prev) => [...prev, ...data.products]);
+      setProducts((prev) => [...prev, ...(data.products || [])]);
     } catch (error) {
       console.log(error);
     } finally {
@@ -81,13 +80,16 @@ const AllProducts = () => {
 
   const filterProducts = useCallback(async () => {
     try {
+      setLoading(true);
       const { data } = await axios.post(
         `${process.env.REACT_APP_API}/api/v1/product/product-filters`,
-        { checked, radio }
+        { checked, radio },
       );
-      setProducts(data?.products);
+      setProducts(data?.products || []);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   }, [checked, radio]);
 
@@ -112,15 +114,23 @@ const AllProducts = () => {
     if (value) all.push(id);
     else all = all.filter((c) => c !== id);
     setChecked(all);
-    setActiveCategory(id);
   };
 
   const clearFilters = () => {
     setChecked([]);
     setRadio([]);
-    setActiveCategory(null);
     getAllProducts();
   };
+
+  const activeFilterCount = checked.length + (radio.length ? 1 : 0);
+
+  // client-side sort of whatever is currently loaded
+  const sortedProducts = [...(products || [])].sort((a, b) => {
+    if (sort === "price-low") return (a.price || 0) - (b.price || 0);
+    if (sort === "price-high") return (b.price || 0) - (a.price || 0);
+    if (sort === "name") return (a.name || "").localeCompare(b.name || "");
+    return 0; // featured = API order
+  });
 
   return (
     <Layout title={"All Products - Best Offers"}>
@@ -130,14 +140,35 @@ const AllProducts = () => {
           <h1 className="shop-title">All Products</h1>
           <div className="shop-toolbar">
             <span className="shop-results">
-              <b>{total}</b> items found
+              <b>{total}</b> item{total !== 1 ? "s" : ""} found
+              {activeFilterCount > 0 && (
+                <span className="shop-active-filters">
+                  · {activeFilterCount} filter
+                  {activeFilterCount !== 1 ? "s" : ""} active
+                </span>
+              )}
             </span>
             <div className="shop-toolbar-right">
+              <select
+                className="shop-sort"
+                value={sort}
+                onChange={(e) => setSort(e.target.value)}
+              >
+                <option value="featured">Sort: Featured</option>
+                <option value="price-low">Price: Low to High</option>
+                <option value="price-high">Price: High to Low</option>
+                <option value="name">Name: A–Z</option>
+              </select>
               <button
                 className="btn btn-outline btn-sm mobile-filter-btn"
                 onClick={() => setFiltersOpen(true)}
               >
-                ☰ Filters
+                <FiSliders /> Filters
+                {activeFilterCount > 0 && (
+                  <span className="filter-count-badge">
+                    {activeFilterCount}
+                  </span>
+                )}
               </button>
             </div>
           </div>
@@ -147,19 +178,38 @@ const AllProducts = () => {
           <aside className={`filters ${filtersOpen ? "open" : ""}`}>
             <div className="filters-head">
               <h3>Filters</h3>
-              <button className="filter-reset" onClick={clearFilters}>
-                <AiOutlineReload /> Reset
-              </button>
+              <div className="filters-head-actions">
+                <button className="filter-reset" onClick={clearFilters}>
+                  <AiOutlineReload /> Reset
+                </button>
+                <button
+                  className="filters-close"
+                  onClick={() => setFiltersOpen(false)}
+                  aria-label="Close filters"
+                >
+                  <FiX />
+                </button>
+              </div>
             </div>
 
-            <Collapse ghost activeKey={categoryOpen ? "category" : []}
-              onChange={() => setCategoryOpen(!categoryOpen)}>
+            <Collapse
+              ghost
+              activeKey={categoryOpen ? "category" : []}
+              onChange={() => setCategoryOpen(!categoryOpen)}
+            >
               <Panel header="Category" key="category" showArrow={false}>
                 <div className="d-flex flex-column">
                   {categories?.map((c) => (
-                    <Checkbox key={c._id}
-                      onChange={(e) => handleCategoryFilter(e.target.checked, c._id)}
-                      className={activeCategory === c._id ? "active-category" : ""}>
+                    <Checkbox
+                      key={c._id}
+                      checked={checked.includes(c._id)}
+                      onChange={(e) =>
+                        handleCategoryFilter(e.target.checked, c._id)
+                      }
+                      className={
+                        checked.includes(c._id) ? "active-category" : ""
+                      }
+                    >
                       {c.name}
                     </Checkbox>
                   ))}
@@ -167,18 +217,34 @@ const AllProducts = () => {
               </Panel>
             </Collapse>
 
-            <Collapse ghost activeKey={priceOpen ? "price" : []}
-              onChange={() => setPriceOpen(!priceOpen)}>
+            <Collapse
+              ghost
+              activeKey={priceOpen ? "price" : []}
+              onChange={() => setPriceOpen(!priceOpen)}
+            >
               <Panel header="Price" key="price" showArrow={false}>
                 <div className="d-flex flex-column">
-                  <Radio.Group onChange={(e) => setRadio(e.target.value)}>
+                  <Radio.Group
+                    value={radio}
+                    onChange={(e) => setRadio(e.target.value)}
+                  >
                     {Prices?.map((p) => (
-                      <div key={p._id}><Radio value={p.array}>{p.name}</Radio></div>
+                      <div key={p._id}>
+                        <Radio value={p.array}>{p.name}</Radio>
+                      </div>
                     ))}
                   </Radio.Group>
                 </div>
               </Panel>
             </Collapse>
+
+            {/* apply button on mobile drawer */}
+            <button
+              className="btn btn-primary btn-block filters-apply"
+              onClick={() => setFiltersOpen(false)}
+            >
+              Show {total} results
+            </button>
           </aside>
 
           <div
@@ -187,20 +253,49 @@ const AllProducts = () => {
           />
 
           <main className="shop-main">
-            {products?.length === 0 && !loading ? (
-              <div className="shop-empty">No products match your filters.</div>
+            {loading && products.length === 0 ? (
+              <div className="product-grid">
+                {Array.from({ length: 8 }).map((_, i) => (
+                  <div className="product-skeleton" key={i}>
+                    <div className="sk-media" />
+                    <div className="sk-line sk-line-sm" />
+                    <div className="sk-line" />
+                    <div className="sk-line sk-line-price" />
+                  </div>
+                ))}
+              </div>
+            ) : sortedProducts.length === 0 ? (
+              <div className="shop-empty">
+                <p>No products match your filters.</p>
+                {activeFilterCount > 0 && (
+                  <button
+                    className="btn btn-outline btn-sm"
+                    onClick={clearFilters}
+                  >
+                    Clear filters
+                  </button>
+                )}
+              </div>
             ) : (
               <div className="product-grid">
-                {products?.map((p) => <ProductCard key={p._id} p={p} />)}
+                {sortedProducts.map((p) => (
+                  <ProductCard key={p._id} p={p} />
+                ))}
               </div>
             )}
 
             <div className="shop-loadmore">
-              {products && products.length < total && (
-                <button className="btn btn-primary" onClick={() => setPage(page + 1)}>
-                  {loading ? "Loading..." : "Load more"}
-                </button>
-              )}
+              {products &&
+                products.length < total &&
+                !checked.length &&
+                !radio.length && (
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => setPage(page + 1)}
+                  >
+                    {loading ? "Loading…" : "Load more"}
+                  </button>
+                )}
             </div>
           </main>
         </div>

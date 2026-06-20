@@ -1,48 +1,47 @@
 /* ============================================================
-   AuthStyles.css — Login / Register / Forgot Password
-   Split-card design matching the store. Scoped under .auth-page.
-   Light + dark via .dark class.
+   AuthStyles.css — COBALT. Login / Register / Forgot Password.
+   Split-card, scoped under .auth-page. Light + dark via .dark.
    ============================================================ */
-
-@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");
 
 .auth-page {
-  --bg: #faf7f2;
-  --surface: #fff;
-  --ink: #1a1714;
-  --ink-soft: #6b6258;
-  --line: #e8e1d6;
-  --accent: #c2562f;
-  --accent-soft: #f3e3da;
-  --shadow-lg: 0 30px 70px rgba(26, 23, 20, 0.18);
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --ink: #0e1726;
+  --ink-soft: #5b6680;
+  --line: #e3e6ee;
+  --accent: #1d4ed8;
+  --accent-soft: #e7edfd;
+  --navy: #0a1f44;
+  --shadow-lg: 0 30px 70px rgba(10, 31, 68, 0.18);
   --fd: "Fraunces", Georgia, serif;
-  --fb: "Hanken Grotesk", system-ui, sans-serif;
-
+  --fb: "Plus Jakarta Sans", system-ui, sans-serif;
   min-height: 100vh;
   display: grid;
   place-items: center;
   padding: 40px 20px;
   background:
     radial-gradient(circle at 18% 20%, var(--accent-soft), transparent 45%),
-    radial-gradient(circle at 85% 80%, #e9dcd0, transparent 45%), var(--bg);
+    radial-gradient(circle at 85% 80%, #eef2fe, transparent 45%), var(--bg);
   font-family: var(--fb);
   transition: background 0.4s;
 }
 .auth-page.dark {
-  --bg: #16130f;
-  --surface: #1d1813;
-  --ink: #f3ede4;
-  --ink-soft: #a89e90;
-  --line: #322a22;
-  --accent: #e0784f;
-  --accent-soft: #3a261c;
+  --bg: #0a0f1c;
+  --surface: #111a2e;
+  --ink: #eaf0fb;
+  --ink-soft: #9aa6c0;
+  --line: #213049;
+  --accent: #5b8cf5;
+  --accent-soft: #16233f;
+  --navy: #060d1c;
   --shadow-lg: 0 30px 70px rgba(0, 0, 0, 0.6);
   background:
-    radial-gradient(circle at 18% 20%, #241a14, transparent 45%),
-    radial-gradient(circle at 85% 80%, #1e1812, transparent 45%), var(--bg);
+    radial-gradient(circle at 18% 20%, #16233f, transparent 45%),
+    radial-gradient(circle at 85% 80%, #0f1830, transparent 45%), var(--bg);
 }
 
-/* ----- Card ----- */
+/* Card */
 .auth-page .auth-card {
   width: 100%;
   max-width: 920px;
@@ -66,7 +65,7 @@
   }
 }
 
-/* ----- Brand aside ----- */
+/* Brand aside */
 .auth-page .auth-aside {
   position: relative;
   padding: 48px 40px;
@@ -74,8 +73,8 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background: linear-gradient(150deg, #241b16, #6e3a26 55%, #c2562f);
   overflow: hidden;
+  background: linear-gradient(150deg, #0a1f44, #123a7a 55%, #1d4ed8);
 }
 .auth-page .auth-aside::after {
   content: "";
@@ -137,7 +136,7 @@
   flex-shrink: 0;
 }
 
-/* ----- Form side ----- */
+/* Form side */
 .auth-page .auth-form-side {
   padding: 48px 44px;
   display: flex;
@@ -151,7 +150,7 @@
   font-size: 0.72rem;
   letter-spacing: 0.24em;
   text-transform: uppercase;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--accent);
   margin-bottom: 8px;
   display: block;
@@ -160,10 +159,13 @@
   font-family: var(--fd);
   font-weight: 500;
   font-size: 2rem;
-  color: var(--ink);
+  color: var(--navy);
   margin-bottom: 6px;
   text-align: left;
   text-shadow: none;
+}
+.auth-page.dark .title {
+  color: var(--ink);
 }
 .auth-page .auth-lead {
   color: var(--ink-soft);
@@ -171,7 +173,7 @@
   margin-bottom: 26px;
 }
 
-/* ----- Fields ----- */
+/* Fields */
 .auth-page .auth-field {
   position: relative;
   margin-bottom: 16px;
@@ -226,8 +228,6 @@
 .auth-page .pw-toggle:hover {
   color: var(--accent);
 }
-
-/* two-up rows for longer forms (register) */
 .auth-page .auth-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -239,7 +239,64 @@
   }
 }
 
-/* ----- Forgot link row ----- */
+/* caps-lock warning (NEW) */
+.auth-page .caps-warn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  color: #b7791f;
+  margin: -8px 0 14px;
+}
+.auth-page.dark .caps-warn {
+  color: #e6b45a;
+}
+
+/* password strength meter (NEW) */
+.auth-page .pw-meter {
+  margin: -6px 0 16px;
+}
+.auth-page .pw-meter-track {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  overflow: hidden;
+}
+.auth-page .pw-meter-fill {
+  height: 100%;
+  border-radius: 999px;
+  transition:
+    width 0.3s,
+    background 0.3s;
+}
+.auth-page .pw-meter-label {
+  font-size: 0.76rem;
+  font-weight: 600;
+  margin-top: 5px;
+}
+.auth-page .pw-weak .pw-meter-fill {
+  width: 33%;
+  background: #e0564f;
+}
+.auth-page .pw-medium .pw-meter-fill {
+  width: 66%;
+  background: #d9a441;
+}
+.auth-page .pw-strong .pw-meter-fill {
+  width: 100%;
+  background: #2f855a;
+}
+.auth-page .pw-weak .pw-meter-label {
+  color: #e0564f;
+}
+.auth-page .pw-medium .pw-meter-label {
+  color: #b7791f;
+}
+.auth-page .pw-strong .pw-meter-label {
+  color: #2f855a;
+}
+
+/* Forgot link */
 .auth-page .auth-row {
   display: flex;
   justify-content: flex-end;
@@ -260,15 +317,15 @@
   background: none !important;
 }
 
-/* ----- Primary button ----- */
+/* Primary button */
 .auth-page .btn-primary {
   width: 100%;
   border: none;
   border-radius: 999px;
-  background: var(--ink);
-  color: var(--bg);
+  background: var(--accent);
+  color: #fff;
   font-family: var(--fb);
-  font-weight: 600;
+  font-weight: 700;
   font-size: 0.98rem;
   padding: 14px;
   cursor: pointer;
@@ -279,13 +336,30 @@
   letter-spacing: 0.02em;
 }
 .auth-page .btn-primary:hover {
-  background: var(--accent);
+  background: var(--navy);
   color: #fff;
   transform: translateY(-2px);
-  box-shadow: 0 12px 26px rgba(194, 86, 47, 0.35);
+  box-shadow: 0 12px 26px rgba(29, 78, 216, 0.35);
 }
 
-/* ----- Switch link ----- */
+/* divider before Google (NEW) */
+.auth-page .auth-or {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 18px 0;
+  color: var(--ink-soft);
+  font-size: 0.8rem;
+}
+.auth-page .auth-or::before,
+.auth-page .auth-or::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+
+/* Switch link */
 .auth-page .auth-switch {
   text-align: center;
   margin-top: 20px;
@@ -302,7 +376,7 @@
   text-decoration: underline;
 }
 
-/* ----- Responsive ----- */
+/* Responsive */
 @media (max-width: 760px) {
   .auth-page .auth-card {
     grid-template-columns: 1fr;

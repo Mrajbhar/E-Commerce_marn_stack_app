@@ -14,9 +14,28 @@ import {
   FiHelpCircle,
   FiEye,
   FiEyeOff,
+  FiAlertTriangle,
 } from "react-icons/fi";
 import { useTheme } from "../Themes/ThemeContext";
-import GoogleAuthButton from "../../components/Auth/Googleauthbutton ";
+import GoogleAuthButton from "../../components/Auth/Googleauthbutton";
+
+// Simple password strength: length + variety of character classes.
+const scorePassword = (pw) => {
+  let s = 0;
+  if (!pw) return 0;
+  if (pw.length >= 8) s++;
+  if (/[A-Z]/.test(pw) && /[a-z]/.test(pw)) s++;
+  if (/\d/.test(pw)) s++;
+  if (/[^A-Za-z0-9]/.test(pw)) s++;
+  return Math.min(3, s); // 0..3
+};
+const strengthMeta = ["", "weak", "medium", "strong"];
+const strengthLabel = [
+  "",
+  "Weak password",
+  "Medium strength",
+  "Strong password",
+];
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -26,8 +45,11 @@ const Register = () => {
   const [address, setAddress] = useState("");
   const [answer, setAnswer] = useState("");
   const [showPw, setShowPw] = useState(false);
+  const [capsOn, setCapsOn] = useState(false);
   const navigate = useNavigate();
   const { darkMode } = useTheme();
+
+  const strength = scorePassword(password);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -125,6 +147,11 @@ const Register = () => {
                   type={showPw ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  onKeyUp={(e) =>
+                    setCapsOn(
+                      e.getModifierState && e.getModifierState("CapsLock"),
+                    )
+                  }
                   className="form-control"
                   placeholder="Password"
                   required
@@ -138,6 +165,23 @@ const Register = () => {
                   {showPw ? <FiEyeOff /> : <FiEye />}
                 </button>
               </div>
+
+              {capsOn && (
+                <div className="caps-warn">
+                  <FiAlertTriangle /> Caps Lock is on
+                </div>
+              )}
+
+              {password && (
+                <div className={`pw-meter pw-${strengthMeta[strength]}`}>
+                  <div className="pw-meter-track">
+                    <div className="pw-meter-fill" />
+                  </div>
+                  <div className="pw-meter-label">
+                    {strengthLabel[strength]}
+                  </div>
+                </div>
+              )}
 
               <div className="auth-grid">
                 <div className="auth-field">
@@ -187,7 +231,8 @@ const Register = () => {
                 REGISTER
               </button>
 
-              {/* Google sign-up — same button; backend find-or-creates the account */}
+              <div className="auth-or">or</div>
+
               <GoogleAuthButton />
 
               <p className="auth-switch">

@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 import SearchInput from "../Form/SearchInput";
 import useCategory from "../../hooks/useCategory";
 import { useCart } from "../../context/cart";
-import { FaCartArrowDown } from "react-icons/fa";
+import { FiUser, FiHeart, FiShoppingCart, FiChevronDown } from "react-icons/fi";
 import { Badge } from "antd";
 import "../../styles/Header.css";
 import { useTheme } from "../../pages/Themes/ThemeContext";
@@ -15,9 +15,10 @@ const Header = () => {
   const [auth, setAuth] = useAuth();
   const [cart] = useCart();
   const categories = useCategory();
-  const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
-  const [isProductSubMenuOpen, setIsProductSubMenuOpen] = useState(false);
   const { darkMode } = useTheme();
+  const [userOpen, setUserOpen] = useState(false);
+  const [catOpen, setCatOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleLogout = () => {
     setAuth({ ...auth, user: null, token: "" });
@@ -26,156 +27,131 @@ const Header = () => {
   };
 
   return (
-    <nav className={`navbar navbar-expand-lg site-header ${darkMode ? "dark" : ""}`}>
-      <div className="container-fluid">
-        <Link to="/" className="navbar-brand">
-          <RiShoppingBag3Fill /> MarketHub
+    <header className={`site-header ${darkMode ? "dark" : ""}`}>
+      {/* announcement strip */}
+      <div className="hd-strip">
+        Free express shipping this weekend on orders over &#8377;999
+      </div>
+
+      {/* tier 1 — logo / search / actions */}
+      <div className="hd-top">
+        <Link to="/" className="hd-logo">
+          <RiShoppingBag3Fill className="bag" /> MarketHub
         </Link>
 
+        <div className="hd-search">
+          <SearchInput />
+        </div>
+
+        <div className="hd-acts">
+          {!auth?.user ? (
+            <>
+              <NavLink to="/login" className="hd-act">
+                <FiUser className="big" />
+                <span>Login</span>
+              </NavLink>
+              <NavLink to="/register" className="hd-act hd-act-cta">
+                <span>Register</span>
+              </NavLink>
+            </>
+          ) : (
+            <div
+              className="hd-user"
+              onMouseEnter={() => setUserOpen(true)}
+              onMouseLeave={() => setUserOpen(false)}
+            >
+              <button className="hd-act hd-user-btn">
+                <span className="hd-avatar">
+                  {auth?.user?.name?.charAt(0)?.toUpperCase()}
+                </span>
+                <span className="hd-user-name">
+                  {auth?.user?.name?.split(" ")[0]}
+                </span>
+                <FiChevronDown size={14} />
+              </button>
+              <ul className={`hd-dropdown ${userOpen ? "show" : ""}`}>
+                <li>
+                  <NavLink
+                    to={`/dashboard/${auth?.user?.role === 1 ? "admin" : "user"}`}
+                  >
+                    Dashboard
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to="/dashboard/user/orders">Orders</NavLink>
+                </li>
+                <li>
+                  <NavLink onClick={handleLogout} to="/login">
+                    Logout
+                  </NavLink>
+                </li>
+              </ul>
+            </div>
+          )}
+
+          <NavLink to="/cart" className="hd-act">
+            <Badge count={cart?.length} showZero size="small" color="#1d4ed8">
+              <FiShoppingCart className="big" />
+            </Badge>
+            <span>Cart</span>
+          </NavLink>
+        </div>
+
+        {/* mobile toggle */}
         <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarTogglerDemo01"
-          aria-controls="navbarTogglerDemo01"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
+          className="hd-burger"
+          onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label="Toggle menu"
         >
-          <span className="navbar-toggler-icon"></span>
+          <span />
+          <span />
+          <span />
         </button>
+      </div>
 
-        <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
-          {/* Search */}
-          <div className="header-search">
-            <SearchInput />
-          </div>
+      {/* tier 2 — category ribbon */}
+      <nav className={`hd-ribbon ${mobileOpen ? "open" : ""}`}>
+        <NavLink to="/" className="rb-link">
+          Home
+        </NavLink>
 
-          <ul className="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
-            <li className="nav-item">
-              <NavLink to="/" className="nav-link">
-                Home
-              </NavLink>
+        <div
+          className="rb-cat"
+          onMouseEnter={() => setCatOpen(true)}
+          onMouseLeave={() => setCatOpen(false)}
+        >
+          <Link to="/categories" className="rb-link">
+            All Categories <FiChevronDown size={13} />
+          </Link>
+          <ul className={`rb-dropdown ${catOpen ? "show" : ""}`}>
+            <li>
+              <Link to="/categories">All Categories</Link>
             </li>
-
-            {/* Categories */}
-            <li
-              className="nav-item dropdown"
-              onMouseEnter={() => setIsSubMenuOpen(true)}
-              onMouseLeave={() => setIsSubMenuOpen(false)}
-            >
-              <Link className="nav-link dropdown-toggle" to={"/categories"} data-bs-toggle="dropdown">
-                Categories
-              </Link>
-              <ul
-                className={`dropdown-menu ${isSubMenuOpen ? "show" : ""}`}
-                onMouseEnter={() => setIsSubMenuOpen(true)}
-                onMouseLeave={() => setIsSubMenuOpen(false)}
-              >
-                <li>
-                  <Link className="dropdown-item" to={"/categories"}>
-                    All Categories
-                  </Link>
-                </li>
-                {categories?.map((c) => (
-                  <li key={c._id}>
-                    <Link className="dropdown-item" to={`/category/${c.slug}`}>
-                      {c.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </li>
-
-            {/* Products */}
-            <li
-              className="nav-item dropdown"
-              onMouseEnter={() => setIsProductSubMenuOpen(true)}
-              onMouseLeave={() => setIsProductSubMenuOpen(false)}
-            >
-              <Link className="nav-link dropdown-toggle" to={"/products"} data-bs-toggle="dropdown">
-                Products
-              </Link>
-              <ul
-                className={`dropdown-menu ${isProductSubMenuOpen ? "show" : ""}`}
-                onMouseEnter={() => setIsProductSubMenuOpen(true)}
-                onMouseLeave={() => setIsProductSubMenuOpen(false)}
-              >
-                <li>
-                  <Link className="dropdown-item" to={"/allproduct"}>
-                    All Products
-                  </Link>
-                </li>
-                <li>
-                  <Link className="dropdown-item" to={"/newarrivals"}>
-                    New Arrivals
-                  </Link>
-                </li>
-                <li>
-                  <Link className="dropdown-item" to={"/bestsellers"}>
-                    Best Sellers
-                  </Link>
-                </li>
-              </ul>
-            </li>
-
-            {/* Auth */}
-            {!auth?.user ? (
-              <>
-                <li className="nav-item">
-                  <NavLink to="/login" className="btn-auth">
-                    Login
-                  </NavLink>
-                </li>
-                <li className="nav-item">
-                  <NavLink to="/register" className="btn-auth-primary">
-                    Register
-                  </NavLink>
-                </li>
-              </>
-            ) : (
-              <li className="nav-item dropdown">
-                <NavLink
-                  className="nav-link dropdown-toggle user-toggle"
-                  to="#"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  <span className="user-avatar">
-                    {auth?.user?.name?.charAt(0)?.toUpperCase()}
-                  </span>
-                  {auth?.user?.name}
-                </NavLink>
-                <ul className="dropdown-menu dropdown-menu-end">
-                  <li>
-                    <NavLink
-                      to={`/dashboard/${auth?.user?.role === 1 ? "admin" : "user"}`}
-                      className="dropdown-item"
-                    >
-                      Dashboard
-                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink onClick={handleLogout} to="/login" className="dropdown-item">
-                      Logout
-                    </NavLink>
-                  </li>
-                </ul>
+            {categories?.map((c) => (
+              <li key={c._id}>
+                <Link to={`/category/${c.slug}`}>{c.name}</Link>
               </li>
-            )}
-
-            {/* Cart */}
-            <li className="nav-item cart-item">
-              <NavLink to="/cart" className="nav-link cart-link">
-                <Badge count={cart?.length} showZero size="small">
-                  <FaCartArrowDown />
-                </Badge>
-              </NavLink>
-            </li>
+            ))}
           </ul>
         </div>
-      </div>
-    </nav>
+
+        {categories?.slice(0, 5).map((c) => (
+          <NavLink key={c._id} to={`/category/${c.slug}`} className="rb-link">
+            {c.name}
+          </NavLink>
+        ))}
+
+        <NavLink to="/allproduct" className="rb-link">
+          All Products
+        </NavLink>
+        <NavLink to="/newarrivals" className="rb-link">
+          New Arrivals
+        </NavLink>
+        <NavLink to="/bestsellers" className="rb-link rb-sale">
+          Best Sellers
+        </NavLink>
+      </nav>
+    </header>
   );
 };
 

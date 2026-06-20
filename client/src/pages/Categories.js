@@ -6,24 +6,24 @@ import Layout from "../components/Layout/Layout";
 import { useTheme } from "../pages/Themes/ThemeContext";
 import "../styles/Categories.css";
 
-// Six warm gradients used as fallbacks when a category has no uploaded image.
+// Cobalt/navy gradient fallbacks when a category has no uploaded image.
 const fallbackGradients = [
-  "linear-gradient(140deg, #7a4a30, #c2562f)",
-  "linear-gradient(140deg, #34514f, #5f8f7d)",
-  "linear-gradient(140deg, #574766, #8b6aa0)",
-  "linear-gradient(140deg, #6a5734, #bda158)",
-  "linear-gradient(140deg, #3c3a4f, #6f6a86)",
-  "linear-gradient(140deg, #7a4435, #b07258)",
+  "linear-gradient(140deg, #0a1f44, #1d4ed8)",
+  "linear-gradient(140deg, #123a7a, #3b82f6)",
+  "linear-gradient(140deg, #1e293b, #475569)",
+  "linear-gradient(140deg, #0c4a6e, #0ea5e9)",
+  "linear-gradient(140deg, #1e1b4b, #4f46e5)",
+  "linear-gradient(140deg, #0a1f44, #2563eb)",
 ];
 
-// Soft hover-overlay tints (used as the bottom-fade color on hover).
+// Cobalt-family hover tints (bottom fade on hover).
 const hoverColors = [
-  "rgba(194,86,47,.85)",
-  "rgba(52,81,79,.85)",
-  "rgba(87,71,102,.85)",
-  "rgba(106,87,52,.85)",
-  "rgba(60,58,79,.85)",
-  "rgba(122,74,48,.85)",
+  "rgba(29,78,216,.88)",
+  "rgba(59,130,246,.88)",
+  "rgba(71,85,105,.88)",
+  "rgba(14,165,233,.88)",
+  "rgba(79,70,229,.88)",
+  "rgba(37,99,235,.88)",
 ];
 
 const Categories = () => {
@@ -32,13 +32,12 @@ const Categories = () => {
   const [counts, setCounts] = useState({});
   const [loading, setLoading] = useState(true);
 
-  // Fetch product counts per category once.
   useEffect(() => {
     let active = true;
     (async () => {
       try {
         const { data } = await axios.get(
-          `${process.env.REACT_APP_API}/api/v1/category/category-counts`
+          `${process.env.REACT_APP_API}/api/v1/category/category-counts`,
         );
         if (active && data?.success) setCounts(data.counts || {});
       } catch (err) {
@@ -50,7 +49,6 @@ const Categories = () => {
     };
   }, []);
 
-  // Show skeleton briefly so the page doesn't flicker on fast networks.
   useEffect(() => {
     if (categories && categories.length >= 0) {
       const t = setTimeout(() => setLoading(false), 250);
@@ -61,7 +59,6 @@ const Categories = () => {
   const photoUrl = (id) =>
     `${process.env.REACT_APP_API}/api/v1/category/category-photo/${id}`;
 
-  // Parallax tilt — uses pointer position to rotate the card slightly.
   const handleTilt = (e) => {
     const el = e.currentTarget;
     const r = el.getBoundingClientRect();
@@ -99,7 +96,8 @@ const Categories = () => {
             {categories.map((c, index) => {
               const count = counts[c._id] || 0;
               const tint = hoverColors[index % hoverColors.length];
-              const fallback = fallbackGradients[index % fallbackGradients.length];
+              const fallback =
+                fallbackGradients[index % fallbackGradients.length];
 
               return (
                 <li
@@ -121,8 +119,6 @@ const Categories = () => {
                       alt={c.name}
                       loading="lazy"
                       onError={(e) => {
-                        // Category has no uploaded image — hide the broken img
-                        // and let the gradient fallback show through.
                         e.target.style.display = "none";
                       }}
                     />

@@ -1,0 +1,76 @@
+/* ============================================================
+   cobalt-theme.css — ONE FILE that recolors the whole site cobalt.
+   Import this LAST (after all other CSS) so it overrides the
+   per-page terracotta tokens.
+
+   In src/index.js (or App.js) add, AFTER your other imports:
+     import "./styles/cobalt-theme.css";
+
+   It re-defines the scoped color variables that each page already
+   uses (--accent, --bg, --ink, etc.), so every page picks up cobalt
+   automatically. No need to edit the individual page CSS files.
+   ============================================================ */
+
+/* ---- LIGHT palette applied to every page wrapper ---- */
+.cart-page,
+.category-page,
+.pd-page,
+.search-page,
+.dashboard-page,
+.auth-page,
+.categories-page,
+.shop-page {
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --ink: #0e1726;
+  --ink-soft: #5b6680;
+  --line: #e3e6ee;
+  --accent: #1d4ed8; /* cobalt */
+  --accent-soft: #e7edfd; /* cobalt tint */
+  --navy: #0a1f44;
+  --gold: #c9a24b;
+  --danger: #c0392b;
+  --success: #2f855a;
+}
+
+/* ---- DARK palette ---- */
+.cart-page.dark-mode,
+.category-page.dark-mode,
+.pd-page.dark-mode,
+.search-page.dark-mode,
+.dashboard-page.dark-mode,
+.auth-page.dark,
+.categories-page.dark-mode,
+.shop-page.dark-mode,
+.dark-mode .cart-page,
+.dark-mode .category-page,
+.dark-mode .pd-page,
+.dark-mode .search-page,
+.dark-mode .dashboard-page,
+.dark-mode .categories-page {
+  --bg: #0a0f1c;
+  --surface: #111a2e;
+  --ink: #eaf0fb;
+  --ink-soft: #9aa6c0;
+  --line: #213049;
+  --accent: #5b8cf5;
+  --accent-soft: #16233f;
+  --navy: #060d1c;
+  --danger: #e07a6f;
+  --success: #6bbd92;
+}
+
+/* ---- A few pages reference --accent for serif headings; make sure
+        the warm "gold" star color stays readable on cobalt cards ---- */
+.pd-rating .stars,
+.card-rating {
+  color: var(--gold);
+}
+
+/* ---- Auth page uses .auth-page.dark (not .dark-mode); keep its
+        accent buttons cobalt too ---- */
+.auth-page .btn-primary,
+.auth-page .title,
+.auth-page .auth-kicker {
+  /* inherits via --accent; nothing else needed */
+}

@@ -13,6 +13,8 @@ import { GrDocumentUpdate } from "react-icons/gr";
 import { BiSolidLogInCircle } from "react-icons/bi";
 import { useTheme } from "../pages/Themes/ThemeContext";
 
+const FREE_SHIP_THRESHOLD = 999;
+
 const CartPage = () => {
   const [auth] = useAuth();
   const [cart, setCart] = useCart();
@@ -29,11 +31,9 @@ const CartPage = () => {
       maximumFractionDigits: 0,
     });
 
-  // ---- Totals (now also tracking discount savings) ----
   const subtotal = () =>
     cart?.reduce((s, i) => s + (i.price || 0) * (i.quantity || 0), 0) || 0;
 
-  // Savings = sum of (originalPrice - price) * qty across items with a discount
   const savings = () =>
     cart?.reduce((s, i) => {
       if (i.originalPrice && i.originalPrice > i.price) {
@@ -43,51 +43,46 @@ const CartPage = () => {
     }, 0) || 0;
 
   const shippingFee = () =>
-    subtotal() >= 999 || subtotal() === 0 ? 0 : 49;
+    subtotal() >= FREE_SHIP_THRESHOLD || subtotal() === 0 ? 0 : 49;
 
   const grandTotal = () => subtotal() + shippingFee();
-
   const itemCount = () => cart?.reduce((n, i) => n + (i.quantity || 0), 0) || 0;
-
-  // Cart contains any sold-out item? blocks checkout if true
   const hasSoldOut = () =>
     cart?.some((i) => i.stockStatus === "out_of_stock") || false;
 
-  // ---- Item actions ----
+  // free-shipping progress (NEW)
+  const shipRemaining = Math.max(0, FREE_SHIP_THRESHOLD - subtotal());
+  const shipPct = Math.min(100, (subtotal() / FREE_SHIP_THRESHOLD) * 100);
+
   const updateCart = (next) => {
     setCart(next);
     localStorage.setItem("cart", JSON.stringify(next));
   };
-
   const removeCartItem = (pid) =>
     updateCart(cart.filter((item) => item._id !== pid));
-
   const increaseQuantity = (pid) =>
     updateCart(
       cart.map((item) =>
-        item._id === pid ? { ...item, quantity: item.quantity + 1 } : item
-      )
+        item._id === pid ? { ...item, quantity: item.quantity + 1 } : item,
+      ),
     );
-
   const decreaseQuantity = (pid) =>
     updateCart(
       cart.map((item) =>
         item._id === pid && item.quantity > 1
           ? { ...item, quantity: item.quantity - 1 }
-          : item
-      )
+          : item,
+      ),
     );
-
   const removeSoldOutItems = () => {
     updateCart(cart.filter((i) => i.stockStatus !== "out_of_stock"));
     toast.success("Sold-out items removed");
   };
 
-  // ---- Payment ----
   const getToken = async () => {
     try {
       const { data } = await axios.get(
-        `${process.env.REACT_APP_API}/api/v1/product/braintree/token`
+        `${process.env.REACT_APP_API}/api/v1/product/braintree/token`,
       );
       setClientToken(data?.clientToken);
     } catch (error) {
@@ -109,7 +104,7 @@ const CartPage = () => {
       const { nonce } = await instance.requestPaymentMethod();
       await axios.post(
         `${process.env.REACT_APP_API}/api/v1/product/braintree/payment`,
-        { nonce, cart }
+        { nonce, cart },
       );
       setLoading(false);
       localStorage.removeItem("cart");
@@ -125,7 +120,6 @@ const CartPage = () => {
   return (
     <Layout>
       <div className={`cart-page ${darkMode ? "dark-mode" : ""}`}>
-        {/* Header */}
         <header className="cart-head">
           <h1 className="cart-greeting">
             {!auth?.user
@@ -135,7 +129,8 @@ const CartPage = () => {
           <p className="cart-sub">
             {cart?.length ? (
               <>
-                You have <b>{itemCount()}</b> item{itemCount() > 1 ? "s" : ""} in your cart
+                You have <b>{itemCount()}</b> item{itemCount() > 1 ? "s" : ""}{" "}
+                in your cart
               </>
             ) : (
               "Your cart is waiting to be filled"
@@ -143,10 +138,33 @@ const CartPage = () => {
           </p>
         </header>
 
-        {/* Sold-out warning banner */}
+        {/* Free-shipping progress bar (NEW) */}
+        {cart?.length > 0 && (
+          <div className="cart-ship-progress">
+            {shipRemaining > 0 ? (
+              <p>
+                Add <b>{inr(shipRemaining)}</b> more to unlock{" "}
+                <b>FREE shipping</b>
+              </p>
+            ) : (
+              <p className="cart-ship-done">
+                🎉 You've unlocked free shipping!
+              </p>
+            )}
+            <div className="cart-ship-bar">
+              <div
+                className="cart-ship-fill"
+                style={{ width: `${shipPct}%` }}
+              />
+            </div>
+          </div>
+        )}
+
         {hasSoldOut() && (
           <div className="cart-soldout-banner">
-            <span>Some items in your cart are sold out and can't be ordered.</span>
+            <span>
+              Some items in your cart are sold out and can't be ordered.
+            </span>
             <button
               className="cart-soldout-action"
               onClick={removeSoldOutItems}
@@ -156,10 +174,11 @@ const CartPage = () => {
           </div>
         )}
 
-        {/* Empty state */}
         {!cart?.length ? (
           <div className="cart-empty">
-            <div className="ico"><IoMdCart /></div>
+            <div className="ico">
+              <IoMdCart />
+            </div>
             <h3>Your cart is empty</h3>
             <p>Looks like you haven't added anything yet.</p>
             <button
@@ -171,7 +190,6 @@ const CartPage = () => {
           </div>
         ) : (
           <div className="cart-layout">
-            {/* Items */}
             <div className="cart-items">
               {cart?.map((item) => {
                 const isSoldOut = item.stockStatus === "out_of_stock";
@@ -192,7 +210,9 @@ const CartPage = () => {
                         onClick={() => navigate(`/product/${item.slug}`)}
                       />
                       {isSoldOut && (
-                        <div className="cart-item-soldout-overlay">Sold out</div>
+                        <div className="cart-item-soldout-overlay">
+                          Sold out
+                        </div>
                       )}
                     </div>
 
@@ -210,20 +230,22 @@ const CartPage = () => {
                         {item.description?.substring(0, 40)}
                       </p>
 
-                      {/* Stock pill */}
                       {item.stockStatus && (
-                        <span className={`cart-stock-chip cart-stock-${item.stockStatus}`}>
+                        <span
+                          className={`cart-stock-chip cart-stock-${item.stockStatus}`}
+                        >
                           {isSoldOut
                             ? "Sold out"
                             : isLowStock
-                            ? "Low stock"
-                            : "In stock"}
+                              ? "Low stock"
+                              : "In stock"}
                         </span>
                       )}
 
-                      {/* Price + (struck) original */}
                       <div className="cart-price-row">
-                        <span className="cart-item-price">{inr(item.price)}</span>
+                        <span className="cart-item-price">
+                          {inr(item.price)}
+                        </span>
                         {hasDiscount && (
                           <span className="cart-item-original">
                             {inr(item.originalPrice)}
@@ -236,13 +258,17 @@ const CartPage = () => {
                           onClick={() => decreaseQuantity(item._id)}
                           aria-label="Decrease"
                           disabled={isSoldOut}
-                        >−</button>
+                        >
+                          −
+                        </button>
                         <span>{item.quantity}</span>
                         <button
                           onClick={() => increaseQuantity(item._id)}
                           aria-label="Increase"
                           disabled={isSoldOut}
-                        >+</button>
+                        >
+                          +
+                        </button>
                       </div>
                     </div>
 
@@ -260,12 +286,13 @@ const CartPage = () => {
               })}
             </div>
 
-            {/* Summary */}
             <aside className="cart-summary">
               <h2>Order Summary</h2>
 
               <div className="summary-row">
-                <span>Subtotal ({itemCount()} item{itemCount() !== 1 ? "s" : ""})</span>
+                <span>
+                  Subtotal ({itemCount()} item{itemCount() !== 1 ? "s" : ""})
+                </span>
                 <span>{inr(subtotal())}</span>
               </div>
 
@@ -283,7 +310,8 @@ const CartPage = () => {
 
               {shippingFee() > 0 && (
                 <p className="summary-shipping-hint">
-                  Add {inr(999 - subtotal())} more to get free shipping
+                  Add {inr(FREE_SHIP_THRESHOLD - subtotal())} more to get free
+                  shipping
                 </p>
               )}
 
@@ -295,7 +323,6 @@ const CartPage = () => {
               </div>
               <p className="summary-note">Taxes calculated at checkout.</p>
 
-              {/* Address */}
               {auth?.user?.address ? (
                 <div className="cart-address">
                   <h4>Deliver to</h4>
@@ -320,7 +347,7 @@ const CartPage = () => {
                     onClick={() =>
                       navigate(
                         auth?.token ? "/dashboard/user/profile" : "/login",
-                        { state: "/cart" }
+                        { state: "/cart" },
                       )
                     }
                   >
@@ -330,7 +357,6 @@ const CartPage = () => {
                 </div>
               )}
 
-              {/* Payment */}
               {!clientToken || !auth?.token || !cart?.length ? null : (
                 <>
                   <DropIn
@@ -354,8 +380,8 @@ const CartPage = () => {
                     {loading
                       ? "Processing…"
                       : hasSoldOut()
-                      ? "Remove sold-out items first"
-                      : "Make payment"}
+                        ? "Remove sold-out items first"
+                        : "Make payment"}
                   </button>
                 </>
               )}

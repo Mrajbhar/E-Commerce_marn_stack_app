@@ -1,63 +1,66 @@
 /* ============================================================
-   ProductDetailsStyles.css — matches the store design system.
-   Scoped under .pd-page. Light + dark via .dark-mode class.
+   ProductDetailsStyles.css — COBALT. Scoped under .pd-page.
    ============================================================ */
-
-@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");
 
 .pd-page {
-  --bg: #faf7f2;
-  --surface: #fff;
-  --ink: #1a1714;
-  --ink-soft: #6b6258;
-  --line: #e8e1d6;
-  --accent: #c2562f;
-  --accent-soft: #f3e3da;
-  --gold: #d9a441;
-  --shadow: 0 1px 2px rgba(26,23,20,.04), 0 10px 30px rgba(26,23,20,.07);
-  --shadow-lg: 0 18px 50px rgba(26,23,20,.16);
-  --radius: 18px;
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --ink: #0e1726;
+  --ink-soft: #5b6680;
+  --line: #e3e6ee;
+  --accent: #1d4ed8;
+  --accent-soft: #e7edfd;
+  --navy: #0a1f44;
+  --gold: #c9a24b;
+  --shadow:
+    0 1px 2px rgba(10, 31, 68, 0.04), 0 10px 30px rgba(10, 31, 68, 0.07);
+  --shadow-lg: 0 18px 50px rgba(10, 31, 68, 0.16);
+  --radius: 16px;
   --fd: "Fraunces", Georgia, serif;
-  --fb: "Hanken Grotesk", system-ui, sans-serif;
-
+  --fb: "Plus Jakarta Sans", system-ui, sans-serif;
   background: var(--bg);
   color: var(--ink);
   font-family: var(--fb);
   min-height: 70vh;
   padding: 36px 24px 80px;
-  transition: background .4s, color .4s;
+  transition:
+    background 0.4s,
+    color 0.4s;
 }
 .pd-page.dark-mode {
-  --bg: #16130f;
-  --surface: #211c17;
-  --ink: #f3ede4;
-  --ink-soft: #a89e90;
-  --line: #322a22;
-  --accent: #e0784f;
-  --accent-soft: #3a261c;
-  --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
-  --shadow-lg: 0 18px 50px rgba(0,0,0,.55);
+  --bg: #0a0f1c;
+  --surface: #111a2e;
+  --ink: #eaf0fb;
+  --ink-soft: #9aa6c0;
+  --line: #213049;
+  --accent: #5b8cf5;
+  --accent-soft: #16233f;
+  --navy: #060d1c;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 10px 30px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 18px 50px rgba(0, 0, 0, 0.55);
 }
 
-/* ============================================================
-   BREADCRUMB
-   ============================================================ */
+/* breadcrumb */
 .pd-breadcrumb {
   max-width: 1200px;
   margin: 0 auto 24px;
-  font-size: .85rem;
+  font-size: 0.85rem;
   color: var(--ink-soft);
 }
 .pd-breadcrumb span {
   cursor: pointer;
-  transition: color .2s;
+  transition: color 0.2s;
 }
-.pd-breadcrumb span:hover { color: var(--accent); }
-.pd-breadcrumb .sep { margin: 0 8px; opacity: .5; }
+.pd-breadcrumb span:hover {
+  color: var(--accent);
+}
+.pd-breadcrumb .sep {
+  margin: 0 8px;
+  opacity: 0.5;
+}
 
-/* ============================================================
-   MAIN LAYOUT — gallery (left) + info (right)
-   ============================================================ */
+/* main layout */
 .pd-main {
   max-width: 1200px;
   margin: 0 auto;
@@ -67,22 +70,16 @@
   align-items: start;
 }
 
-/* ============================================================
-   GALLERY — wrapper column holding main image + thumbnail strip
-   ============================================================ */
+/* gallery */
 .pd-gallery {
-  /* Plain column container: NOT a fixed square, NOT clipped.
-     The square is on the inner .pd-gallery-main instead. */
   position: relative;
   display: flex;
   flex-direction: column;
   gap: 14px;
 }
-
-/* main image area — this is the 1:1 square */
 .pd-gallery-main {
   position: relative;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 1/1;
   overflow: hidden;
   border-radius: var(--radius);
   background: var(--accent-soft);
@@ -93,12 +90,12 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform .6s cubic-bezier(.22,1,.36,1);
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
   display: block;
 }
-.pd-gallery-main:hover img { transform: scale(1.04); }
-
-/* sale badge over the main image */
+.pd-gallery-main:hover img {
+  transform: scale(1.04);
+}
 .pd-sale-badge {
   position: absolute;
   top: 14px;
@@ -108,13 +105,11 @@
   color: #fff;
   font-family: var(--fb);
   font-weight: 700;
-  font-size: .78rem;
-  letter-spacing: .1em;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
   padding: 7px 14px;
   border-radius: 999px;
 }
-
-/* thumbnail strip — only renders when there are 2+ photos */
 .pd-thumbs {
   display: flex;
   gap: 10px;
@@ -131,7 +126,9 @@
   background: var(--surface);
   cursor: pointer;
   padding: 0;
-  transition: border-color .2s, transform .2s;
+  transition:
+    border-color 0.2s,
+    transform 0.2s;
 }
 .pd-thumb img {
   width: 100%;
@@ -139,20 +136,23 @@
   object-fit: cover;
   display: block;
 }
-.pd-thumb:hover { transform: translateY(-2px); }
-.pd-thumb.active { border-color: var(--accent); }
+.pd-thumb:hover {
+  transform: translateY(-2px);
+}
+.pd-thumb.active {
+  border-color: var(--accent);
+}
 
-/* ============================================================
-   INFO COLUMN
-   ============================================================ */
-.pd-info { padding-top: 6px; }
-
+/* info */
+.pd-info {
+  padding-top: 6px;
+}
 .pd-cat {
   display: inline-block;
-  font-size: .72rem;
-  letter-spacing: .2em;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--accent);
   margin-bottom: 12px;
 }
@@ -161,13 +161,17 @@
   font-weight: 500;
   font-size: clamp(1.9rem, 4vw, 3rem);
   line-height: 1.05;
-  letter-spacing: -.015em;
+  letter-spacing: -0.015em;
   margin: 0 0 8px;
+  color: var(--navy);
+}
+.pd-page.dark-mode .pd-name {
+  color: var(--ink);
 }
 .pd-sku {
-  font-size: .78rem;
+  font-size: 0.78rem;
   color: var(--ink-soft);
-  letter-spacing: .1em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   font-weight: 600;
   margin-bottom: 12px;
@@ -177,12 +181,13 @@
   align-items: center;
   gap: 8px;
   margin-bottom: 18px;
-  font-size: .9rem;
+  font-size: 0.9rem;
   color: var(--ink-soft);
 }
-.pd-rating .stars { color: var(--gold); letter-spacing: 2px; }
-
-/* price row: current price + struck original + savings chip */
+.pd-rating .stars {
+  color: var(--gold);
+  letter-spacing: 2px;
+}
 .pd-price-row {
   display: flex;
   align-items: baseline;
@@ -193,8 +198,11 @@
   font-family: var(--fd);
   font-weight: 600;
   font-size: clamp(1.8rem, 3vw, 2.4rem);
-  color: var(--ink);
+  color: var(--navy);
   margin: 0;
+}
+.pd-page.dark-mode .pd-price {
+  color: var(--ink);
 }
 .pd-price-original {
   font-family: var(--fb);
@@ -206,28 +214,28 @@
 }
 .pd-discount-chip {
   font-family: var(--fb);
-  font-size: .78rem;
+  font-size: 0.78rem;
   font-weight: 700;
-  letter-spacing: .05em;
+  letter-spacing: 0.05em;
   background: var(--accent-soft);
   color: var(--accent);
   padding: 5px 12px;
   border-radius: 999px;
 }
 .pd-price-note {
-  font-size: .85rem;
+  font-size: 0.85rem;
   color: var(--ink-soft);
   margin: 6px 0 14px;
 }
 
-/* stock pill */
+/* stock */
 .pd-stock {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   font-family: var(--fb);
   font-weight: 600;
-  font-size: .86rem;
+  font-size: 0.86rem;
   padding: 7px 14px;
   border-radius: 999px;
   margin-bottom: 4px;
@@ -238,22 +246,40 @@
   border-radius: 50%;
   background: currentColor;
 }
-.pd-stock-in_stock    { background: rgba(60,125,90,.15);  color: #3c7d5a; }
-.pd-stock-low_stock   { background: rgba(217,164,65,.18); color: #a07a1f; }
-.pd-stock-out_of_stock{ background: rgba(192,57,43,.15);  color: #c0392b; }
-.pd-page.dark-mode .pd-stock-in_stock    { background: rgba(80,170,120,.18); color: #6fcf97; }
-.pd-page.dark-mode .pd-stock-low_stock   { background: rgba(230,180,90,.18); color: #e6b45a; }
-.pd-page.dark-mode .pd-stock-out_of_stock{ background: rgba(255,122,107,.18); color: #ff7a6b; }
+.pd-stock-in_stock {
+  background: rgba(47, 133, 90, 0.15);
+  color: #2f855a;
+}
+.pd-stock-low_stock {
+  background: rgba(201, 162, 75, 0.18);
+  color: #9a7b1f;
+}
+.pd-stock-out_of_stock {
+  background: rgba(192, 57, 43, 0.15);
+  color: #c0392b;
+}
+.pd-page.dark-mode .pd-stock-in_stock {
+  background: rgba(80, 170, 120, 0.18);
+  color: #6bbd92;
+}
+.pd-page.dark-mode .pd-stock-low_stock {
+  background: rgba(230, 180, 90, 0.18);
+  color: #e6b45a;
+}
+.pd-page.dark-mode .pd-stock-out_of_stock {
+  background: rgba(255, 122, 107, 0.18);
+  color: #ff7a6b;
+}
 
-/* divider + description */
+/* desc + specs */
 .pd-divider {
   border: none;
   border-top: 1px solid var(--line);
   margin: 22px 0;
 }
 .pd-desc-label {
-  font-size: .74rem;
-  letter-spacing: .14em;
+  font-size: 0.74rem;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--ink-soft);
   font-weight: 600;
@@ -265,8 +291,6 @@
   color: var(--ink-soft);
   margin: 0 0 26px;
 }
-
-/* specifications */
 .pd-specs-title {
   font-family: var(--fd);
   font-weight: 500;
@@ -279,7 +303,7 @@
   grid-template-columns: auto 1fr;
   gap: 6px 18px;
   margin: 0 0 22px;
-  font-size: .92rem;
+  font-size: 0.92rem;
 }
 .pd-specs dt {
   color: var(--ink-soft);
@@ -300,14 +324,17 @@
   margin-bottom: 22px;
 }
 .pd-tag {
-  font-size: .78rem;
+  font-size: 0.78rem;
   font-weight: 500;
   color: var(--ink-soft);
   background: var(--bg);
   border: 1px solid var(--line);
   padding: 5px 11px;
   border-radius: 999px;
-  transition: border-color .2s, color .2s, background .2s;
+  transition:
+    border-color 0.2s,
+    color 0.2s,
+    background 0.2s;
   cursor: default;
 }
 .pd-tag:hover {
@@ -316,9 +343,7 @@
   background: var(--accent-soft);
 }
 
-/* ============================================================
-   BUY ROW — quantity stepper + add to cart button
-   ============================================================ */
+/* buy row */
 .pd-buy-row {
   display: flex;
   align-items: center;
@@ -342,7 +367,9 @@
   color: var(--ink);
   font-size: 1.2rem;
   cursor: pointer;
-  transition: background .2s, color .2s;
+  transition:
+    background 0.2s,
+    color 0.2s;
   display: grid;
   place-items: center;
 }
@@ -351,7 +378,7 @@
   color: #fff;
 }
 .pd-qty button:disabled {
-  opacity: .4;
+  opacity: 0.4;
   cursor: not-allowed;
 }
 .pd-qty span {
@@ -359,12 +386,11 @@
   text-align: center;
   font-weight: 600;
 }
-
 .pd-btn {
   font-family: var(--fb);
-  font-weight: 600;
+  font-weight: 700;
   font-size: 1rem;
-  border: 1px solid transparent;
+  border: 1.5px solid transparent;
   border-radius: 999px;
   cursor: pointer;
   padding: 15px 32px;
@@ -372,29 +398,31 @@
   align-items: center;
   justify-content: center;
   gap: 9px;
-  transition: transform .2s, background .2s, color .2s, box-shadow .2s;
+  transition:
+    transform 0.2s,
+    background 0.2s,
+    color 0.2s,
+    box-shadow 0.2s;
   flex: 1;
   min-width: 180px;
 }
 .pd-btn-add {
-  background: var(--ink);
-  color: var(--bg);
-}
-.pd-btn-add:hover {
   background: var(--accent);
   color: #fff;
-  box-shadow: 0 12px 28px rgba(194,86,47,.35);
+}
+.pd-btn-add:hover {
+  background: var(--navy);
+  color: #fff;
+  box-shadow: 0 12px 28px rgba(29, 78, 216, 0.35);
 }
 .pd-btn-go {
-  background: var(--accent);
+  background: var(--navy);
   color: #fff;
 }
 .pd-btn-go:hover {
-  box-shadow: 0 12px 28px rgba(194,86,47,.4);
+  box-shadow: 0 12px 28px rgba(29, 78, 216, 0.4);
   filter: brightness(1.05);
 }
-
-/* disabled state for sold-out */
 .pd-btn.is-disabled,
 .pd-btn:disabled {
   background: var(--ink-soft) !important;
@@ -406,9 +434,7 @@
   box-shadow: none;
 }
 
-/* ============================================================
-   TRUST STRIP
-   ============================================================ */
+/* trust */
 .pd-trust {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -420,7 +446,7 @@
   display: flex;
   align-items: center;
   gap: 9px;
-  font-size: .84rem;
+  font-size: 0.84rem;
   color: var(--ink-soft);
 }
 .pd-trust .ti {
@@ -435,9 +461,7 @@
   flex-shrink: 0;
 }
 
-/* ============================================================
-   SIMILAR PRODUCTS
-   ============================================================ */
+/* similar */
 .pd-similar {
   max-width: 1200px;
   margin: 72px auto 0;
@@ -454,12 +478,16 @@
   font-weight: 500;
   font-size: clamp(1.6rem, 3vw, 2.2rem);
   margin: 0;
+  color: var(--navy);
+}
+.pd-page.dark-mode .pd-similar-head h4 {
+  color: var(--ink);
 }
 .pd-similar-kicker {
-  font-size: .72rem;
-  letter-spacing: .24em;
+  font-size: 0.72rem;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--accent);
   display: block;
   margin-bottom: 8px;
@@ -470,7 +498,6 @@
   text-align: center;
   width: 100%;
 }
-
 .pd-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -485,14 +512,16 @@
   display: flex;
   flex-direction: column;
   cursor: pointer;
-  transition: transform .35s cubic-bezier(.22,1,.36,1), box-shadow .35s;
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.35s;
 }
 .pd-card:hover {
   box-shadow: var(--shadow-lg);
 }
 .pd-card-media {
   position: relative;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 1/1;
   overflow: hidden;
   background: var(--accent-soft);
 }
@@ -500,10 +529,11 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform .6s cubic-bezier(.22,1,.36,1);
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.pd-card:hover .pd-card-media img { transform: scale(1.07); }
-
+.pd-card:hover .pd-card-media img {
+  transform: scale(1.07);
+}
 .pd-card-sale {
   position: absolute;
   top: 10px;
@@ -511,14 +541,13 @@
   z-index: 2;
   background: var(--accent);
   color: #fff;
-  font-size: .66rem;
+  font-size: 0.66rem;
   font-weight: 700;
-  letter-spacing: .08em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   padding: 4px 10px;
   border-radius: 999px;
 }
-
 .pd-card-body {
   padding: 16px;
   display: flex;
@@ -527,8 +556,8 @@
   flex: 1;
 }
 .pd-card-brand {
-  font-size: .62rem;
-  letter-spacing: .18em;
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   font-weight: 700;
   color: var(--ink-soft);
@@ -547,7 +576,7 @@
   overflow: hidden;
 }
 .pd-card-text {
-  font-size: .83rem;
+  font-size: 0.83rem;
   color: var(--ink-soft);
   margin: 0;
   line-height: 1.45;
@@ -574,17 +603,20 @@
   font-family: var(--fd);
   font-weight: 600;
   font-size: 1.2rem;
+  color: var(--navy);
+}
+.pd-page.dark-mode .pd-card-price {
   color: var(--ink);
 }
 .pd-card-original {
-  font-size: .82rem;
+  font-size: 0.82rem;
   color: var(--ink-soft);
   text-decoration: line-through;
 }
 .pd-card-btn {
   font-family: var(--fb);
   font-weight: 600;
-  font-size: .82rem;
+  font-size: 0.82rem;
   border: 1px solid var(--line);
   background: transparent;
   color: var(--ink);
@@ -594,7 +626,10 @@
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  transition: background .2s, color .2s, border-color .2s;
+  transition:
+    background 0.2s,
+    color 0.2s,
+    border-color 0.2s;
   white-space: nowrap;
 }
 .pd-card-btn:hover {
@@ -603,9 +638,7 @@
   border-color: var(--accent);
 }
 
-/* ============================================================
-   RESPONSIVE
-   ============================================================ */
+/* responsive */
 @media (max-width: 860px) {
   .pd-main {
     grid-template-columns: 1fr;
@@ -627,18 +660,30 @@
     grid-template-columns: 1fr;
     gap: 2px 0;
   }
-  .pd-specs dt { margin-top: 8px; }
-  .pd-price-row { gap: 10px; }
-  .pd-price-original { font-size: 1rem; }
+  .pd-specs dt {
+    margin-top: 8px;
+  }
+  .pd-price-row {
+    gap: 10px;
+  }
+  .pd-price-original {
+    font-size: 1rem;
+  }
 }
 @media (max-width: 560px) {
-  .pd-page { padding: 24px 16px 64px; }
+  .pd-page {
+    padding: 24px 16px 64px;
+  }
   .pd-buy-row {
     flex-direction: column;
     align-items: stretch;
   }
-  .pd-qty { justify-content: center; }
-  .pd-btn { width: 100%; }
+  .pd-qty {
+    justify-content: center;
+  }
+  .pd-btn {
+    width: 100%;
+  }
   .pd-trust {
     grid-template-columns: 1fr;
     gap: 10px;

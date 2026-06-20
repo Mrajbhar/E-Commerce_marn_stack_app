@@ -29,6 +29,7 @@ import AllProducts from "./pages/user/AllProducts";
 import { ThemeProvider } from "./pages/Themes/ThemeContext";
 import BestSellers from "./pages/BestSellers";
 import NewArrivals from "./pages/NewArrivals";
+import "./styles/cobalt-theme.css";
 
 function App() {
   return (
