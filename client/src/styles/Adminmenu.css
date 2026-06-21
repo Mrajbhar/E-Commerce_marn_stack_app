@@ -1,70 +1,131 @@
-/* ============================================================
-   Adminmenu.css — sidebar menu, matches the store design.
-   Scoped under .admin-menu-container. Light + dark.
-   ============================================================ */
-
-@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap");
-
-.admin-menu-container{
-  --surface:#fff; --ink:#1a1714; --ink-soft:#6b6258; --line:#e8e1d6;
-  --accent:#c2562f; --accent-soft:#f3e3da; --bg:#faf7f2;
-  --shadow:0 1px 2px rgba(26,23,20,.04),0 10px 30px rgba(26,23,20,.07);
-  --radius:18px; --fd:"Fraunces",Georgia,serif; --fb:"Hanken Grotesk",system-ui,sans-serif;
-
-  width:100%;background:var(--surface);border:1px solid var(--line);
-  border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);
-  font-family:var(--fb);
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");
+.admin-menu-container {
+  --surface: #fff;
+  --ink: #0e1726;
+  --ink-soft: #5b6680;
+  --line: #e3e6ee;
+  --accent: #1d4ed8;
+  --accent-soft: #e7edfd;
+  --bg: #ffffff;
+  --shadow:
+    0 1px 2px rgba(10, 31, 68, 0.04), 0 10px 30px rgba(10, 31, 68, 0.07);
+  --radius: 18px;
+  --fd: "Fraunces", Georgia, serif;
+  --fb: "Plus Jakarta Sans", system-ui, sans-serif;
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  font-family: var(--fb);
 }
-/* dark mode — works whether .dark-mode is on the menu or an ancestor */
 .dark-mode .admin-menu-container,
-.admin-menu-container.dark-mode{
-  --surface:#211c17; --ink:#f3ede4; --ink-soft:#a89e90; --line:#322a22;
-  --accent:#e0784f; --accent-soft:#3a261c; --bg:#16130f;
-  --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.4);
+.admin-menu-container.dark-mode {
+  --surface: #111a2e;
+  --ink: #eaf0fb;
+  --ink-soft: #9aa6c0;
+  --line: #213049;
+  --accent: #5b8cf5;
+  --accent-soft: #16233f;
+  --bg: #0a0f1c;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 10px 30px rgba(0, 0, 0, 0.4);
 }
-
-/* ---------- Header ---------- */
-.admin-menu-header{
-  padding:20px;border-bottom:1px solid var(--line);
-  display:flex;align-items:center;justify-content:center;
+.admin-menu-header {
+  padding: 20px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.admin-menu-header h4{
-  display:flex;align-items:center;gap:9px;margin:0;
-  font-family:var(--fd);font-weight:600;font-size:1.15rem;color:var(--ink);
+.admin-menu-header h4 {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0;
+  font-family: var(--fd);
+  font-weight: 600;
+  font-size: 1.15rem;
+  color: var(--ink);
 }
-.admin-menu-header h4 svg{color:var(--accent);font-size:1.3rem}
-
-/* ---------- Items ---------- */
-.admin-menu-items{padding:8px}
-.admin-menu-item{
-  display:flex;align-items:center;gap:11px;
-  padding:12px 16px;margin:2px 0;border-radius:11px;
-  color:var(--ink);font-size:.95rem;font-weight:500;text-decoration:none;
-  transition:background .2s,color .2s,padding-left .2s;
-  opacity:0;animation:adminSlideIn .45s cubic-bezier(.22,1,.36,1) forwards;
+.admin-menu-header h4 svg {
+  color: var(--accent);
+  font-size: 1.3rem;
 }
-.admin-menu-ico{
-  width:32px;height:32px;flex-shrink:0;border-radius:9px;
-  background:var(--accent-soft);color:var(--accent);
-  display:grid;place-items:center;font-size:16px;transition:background .2s,color .2s;
+.admin-menu-items {
+  padding: 8px;
 }
-.admin-menu-item:hover{background:var(--accent-soft);color:var(--accent);padding-left:20px}
-
-/* active route (NavLink adds .active automatically) */
-.admin-menu-item.active{
-  background:var(--accent);color:#fff;font-weight:600;
+.admin-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 12px 16px;
+  margin: 2px 0;
+  border-radius: 11px;
+  color: var(--ink);
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition:
+    background 0.2s,
+    color 0.2s,
+    padding-left 0.2s;
+  opacity: 0;
+  animation: adminSlideIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
-.admin-menu-item.active .admin-menu-ico{background:rgba(255,255,255,.22);color:#fff}
-
-/* staggered entrance */
-.admin-menu-item:nth-child(1){animation-delay:.04s}
-.admin-menu-item:nth-child(2){animation-delay:.09s}
-.admin-menu-item:nth-child(3){animation-delay:.14s}
-.admin-menu-item:nth-child(4){animation-delay:.19s}
-.admin-menu-item:nth-child(5){animation-delay:.24s}
-.admin-menu-item:nth-child(6){animation-delay:.29s}
-
-@keyframes adminSlideIn{
-  from{transform:translateX(-14px);opacity:0}
-  to{transform:translateX(0);opacity:1}
+.admin-menu-ico {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  border-radius: 9px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  display: grid;
+  place-items: center;
+  font-size: 16px;
+  transition:
+    background 0.2s,
+    color 0.2s;
+}
+.admin-menu-item:hover {
+  background: var(--accent-soft);
+  color: var(--accent);
+  padding-left: 20px;
+}
+.admin-menu-item.active {
+  background: var(--accent);
+  color: #fff;
+  font-weight: 600;
+}
+.admin-menu-item.active .admin-menu-ico {
+  background: rgba(255, 255, 255, 0.22);
+  color: #fff;
+}
+.admin-menu-item:nth-child(1) {
+  animation-delay: 0.04s;
+}
+.admin-menu-item:nth-child(2) {
+  animation-delay: 0.09s;
+}
+.admin-menu-item:nth-child(3) {
+  animation-delay: 0.14s;
+}
+.admin-menu-item:nth-child(4) {
+  animation-delay: 0.19s;
+}
+.admin-menu-item:nth-child(5) {
+  animation-delay: 0.24s;
+}
+.admin-menu-item:nth-child(6) {
+  animation-delay: 0.29s;
+}
+@keyframes adminSlideIn {
+  from {
+    transform: translateX(-14px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }

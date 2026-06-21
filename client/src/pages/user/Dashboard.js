@@ -41,7 +41,9 @@ const Dashboard = () => {
             {/* Details */}
             <div className="dash-card">
               <h2 className="dash-card-title">Account Details</h2>
-              <p className="dash-card-sub">Your customer profile information.</p>
+              <p className="dash-card-sub">
+                Your customer profile information.
+              </p>
               <div className="dash-grid">
                 {details.map((d, i) => (
                   <div className="dash-tile" key={i}>

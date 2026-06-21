@@ -2,9 +2,10 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { CgDetailsMore } from "react-icons/cg";
-import { PiShoppingCartFill, PiHeartBold } from "react-icons/pi";
+import { PiShoppingCartFill, PiHeartBold, PiHeartFill } from "react-icons/pi";
 import { FaCartArrowDown } from "react-icons/fa";
 import { useCart } from "../../context/cart";
+import { useWishlist } from "../../context/wishlist";
 
 const formatPrice = (price) =>
   Number(price || 0).toLocaleString("en-IN", {
@@ -21,17 +22,30 @@ const formatPrice = (price) =>
  * It reads the enriched fields (originalPrice, stockStatus, brand,
  * ratings.average/count) when they exist and degrades gracefully when they
  * don't. Cards can be reused in any page — Homepage, NewArrivals, BestSellers,
- * AllProducts, Category — just by changing CSS class prefixes on the wrapper.
+ * AllProducts, Category.
  *
  * Props:
  *  - p:        product object from the API
  *  - badge:    optional override badge text (e.g. "New", "Top rated").
- *              If omitted we auto-derive from product flags.
  */
 const ProductCard = ({ p, badge: badgeOverride }) => {
   const navigate = useNavigate();
   const [cart, setCart] = useCart();
   const [added, setAdded] = React.useState(false);
+
+  // ---- wishlist ----
+  const [wishlist, setWishlist] = useWishlist();
+  const inWishlist = (wishlist || []).some((x) => x._id === p._id);
+
+  const toggleWishlist = (e) => {
+    e.stopPropagation();
+    const next = inWishlist
+      ? wishlist.filter((x) => x._id !== p._id)
+      : [...(wishlist || []), p];
+    setWishlist(next);
+    localStorage.setItem("wishlist", JSON.stringify(next));
+    toast.success(inWishlist ? "Removed from wishlist" : "Added to wishlist");
+  };
 
   const isSoldOut = p?.stockStatus === "out_of_stock";
   const isLowStock = p?.stockStatus === "low_stock";
@@ -40,13 +54,17 @@ const ProductCard = ({ p, badge: badgeOverride }) => {
       ? Math.round(((p.originalPrice - p.price) / p.originalPrice) * 100)
       : 0;
 
-  // Choose the badge to show (caller can override). Discount wins, then
-  // explicit override, then low-stock, then nothing.
   let badge = null;
   let badgeKind = "default";
-  if (discountPct > 0) { badge = `${discountPct}% off`; badgeKind = "sale"; }
-  else if (badgeOverride) { badge = badgeOverride; }
-  else if (isLowStock) { badge = "Low stock"; badgeKind = "lowstock"; }
+  if (discountPct > 0) {
+    badge = `${discountPct}% off`;
+    badgeKind = "sale";
+  } else if (badgeOverride) {
+    badge = badgeOverride;
+  } else if (isLowStock) {
+    badge = "Low stock";
+    badgeKind = "lowstock";
+  }
 
   const rating = p?.ratings?.average || 0;
   const reviewCount = p?.ratings?.count || 0;
@@ -60,7 +78,7 @@ const ProductCard = ({ p, badge: badgeOverride }) => {
       const existing = prev.find((i) => i._id === p._id);
       const next = existing
         ? prev.map((i) =>
-            i._id === existing._id ? { ...i, quantity: i.quantity + 1 } : i
+            i._id === existing._id ? { ...i, quantity: i.quantity + 1 } : i,
           )
         : [...prev, { ...p, quantity: 1 }];
       localStorage.setItem("cart", JSON.stringify(next));
@@ -73,11 +91,19 @@ const ProductCard = ({ p, badge: badgeOverride }) => {
   return (
     <article className={`product-card ${isSoldOut ? "is-sold-out" : ""}`}>
       <div className="product-media">
-        {badge && <span className={`product-badge product-badge-${badgeKind}`}>{badge}</span>}
+        {badge && (
+          <span className={`product-badge product-badge-${badgeKind}`}>
+            {badge}
+          </span>
+        )}
         {isSoldOut && <div className="product-soldout-overlay">Sold out</div>}
 
-        <button className="wish-btn" aria-label="Add to wishlist">
-          <PiHeartBold size={16} />
+        <button
+          className={`wish-btn ${inWishlist ? "active" : ""}`}
+          onClick={toggleWishlist}
+          aria-label={inWishlist ? "Remove from wishlist" : "Add to wishlist"}
+        >
+          {inWishlist ? <PiHeartFill size={16} /> : <PiHeartBold size={16} />}
         </button>
 
         <img
@@ -102,7 +128,8 @@ const ProductCard = ({ p, badge: badgeOverride }) => {
               disabled={isSoldOut}
               aria-label="Add to cart"
             >
-              <FaCartArrowDown size={16} /> {isSoldOut ? "Sold out" : "Add to cart"}
+              <FaCartArrowDown size={16} />{" "}
+              {isSoldOut ? "Sold out" : "Add to cart"}
             </button>
           )}
           <button
@@ -137,7 +164,9 @@ const ProductCard = ({ p, badge: badgeOverride }) => {
         <div className="card-footer-row">
           <span className="card-price">{formatPrice(p?.price)}</span>
           {discountPct > 0 && (
-            <span className="card-original-price">{formatPrice(p.originalPrice)}</span>
+            <span className="card-original-price">
+              {formatPrice(p.originalPrice)}
+            </span>
           )}
         </div>
       </div>

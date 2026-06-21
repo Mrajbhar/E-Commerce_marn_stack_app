@@ -30,6 +30,7 @@ import { ThemeProvider } from "./pages/Themes/ThemeContext";
 import BestSellers from "./pages/BestSellers";
 import NewArrivals from "./pages/NewArrivals";
 import "./styles/cobalt-theme.css";
+import Wishlist from "./pages/Wishlist";
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
           <Route path="/product/:slug" element={<ProductDetails />} />
           <Route path="/categories" element={<Categories />} />
           <Route path="/cart" element={<CartPage />} />
+          <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/category/:slug" element={<CategoryProduct />} />
           <Route path="/search" element={<Search />} />
 

@@ -24,7 +24,7 @@ const Layout = ({
         <meta name="description" content={description} />
         <meta name="keywords" content={keywords} />
         <meta name="author" content={author} />
-        <meta name="theme-color" content={darkMode ? "#16130f" : "#faf7f2"} />
+        <meta name="theme-color" content={darkMode ? "#0a0f1c" : "#ffffff"} />
         <title>{title}</title>
 
         {/* Open Graph (Facebook, WhatsApp, LinkedIn, etc.) */}
@@ -47,23 +47,21 @@ const Layout = ({
 
       <Footer />
 
-      {/* Toasts live at the root so they sit above sticky/fixed UI, and they
-          pick up the current theme tokens automatically. */}
       <Toaster
         position="top-center"
         toastOptions={{
           duration: 3000,
           style: {
-            background: "var(--surface, #fff)",
-            color: "var(--ink, #1a1714)",
-            border: "1px solid var(--line, #e8e1d6)",
+            background: "var(--surface, #ffffff)",
+            color: "var(--ink, #0e1726)",
+            border: "1px solid var(--line, #e3e6ee)",
             borderRadius: "12px",
             padding: "12px 16px",
-            fontFamily: '"Hanken Grotesk", system-ui, sans-serif',
+            fontFamily: '"Plus Jakarta Sans", system-ui, sans-serif',
             fontSize: "0.92rem",
-            boxShadow: "0 10px 30px rgba(0,0,0,0.12)",
+            boxShadow: "0 10px 30px rgba(10,31,68,0.12)",
           },
-          success: { iconTheme: { primary: "#c2562f", secondary: "#fff" } },
+          success: { iconTheme: { primary: "#1d4ed8", secondary: "#fff" } },
           error: { iconTheme: { primary: "#c0392b", secondary: "#fff" } },
         }}
       />
